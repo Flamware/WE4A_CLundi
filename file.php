@@ -20,7 +20,7 @@
                 Profil
             </div>
         </a>
-        <a href="newpost.php">
+        <a href="new.php">
             <div class="new post">
                 New Post
             </div>
@@ -31,10 +31,17 @@
     <div class="file">
         <?php
     if(isset($_COOKIE['login'])){
-        ?> connecter <?php
-
-    }else{
-        ?> pas connecter <?php
+        include "function.php";
+        $bdd = connect_to_db();
+        $sql = "SELECT * FROM message where writer = '".$_COOKIE['login']."'";
+        $stmt = $bdd->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        foreach ($result as $row){
+            echo "<div class='post'>";
+            echo "<div class='text'>".$row['text']."</div>";
+            echo "</div>";
+        }
     }
         ?>
 
