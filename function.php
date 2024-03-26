@@ -2,7 +2,7 @@
 function connect_to_db(){
     //global $bdd;
     try {
-        $bdd = new PDO('mysql:host=localhost;dbname=login_user;charset=utf8', 'root', '', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $bdd = new PDO('mysql:host=localhost;dbname=we4;charset=utf8', 'root', '', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         echo "connected to db";
     }
     catch (Exception $e) {

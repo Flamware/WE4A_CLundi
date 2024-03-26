@@ -16,6 +16,11 @@ if(isset($_POST['submit'])) {
             'secure' => true,
             'httponly' => true,
         ]);
+        setcookie("user",$result['username'],[
+            'expires' => time() + 365*24*3600,
+            'secure' => true,
+            'httponly' => true,
+        ]);
         ?>Bonjour <?php echo $_POST['username']; ?> !<br />
         <?php echo $_POST['password']; ?><br />
         <?php

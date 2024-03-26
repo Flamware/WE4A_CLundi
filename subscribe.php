@@ -21,6 +21,11 @@
                 'secure' => true,
                 'httponly' => true,
             ]);
+            setcookie("user",$_POST['user'],[
+                'expires' => time() + 365*24*3600,
+                'secure' => true,
+                'httponly' => true,
+            ]);
             header("Location: file.php");
         }
         else{

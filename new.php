@@ -1,15 +1,18 @@
 
 <?php
 
-if (isset($_POST['submit']) and isset($_COOKIE['login'])) {
+if (isset($_POST['submit']) and isset($_COOKIE['user'])) {
     include "function.php";
     $bdd = connect_to_db();
     try {
         // Prepared statement for secure execution
-        $sql = "INSERT INTO message(date,text,writer) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO post(date,text,writer) VALUES (?, ?, ?)";
         $stmt = $bdd->prepare($sql);
-        $stmt->execute([time(), $_POST['content'], $_COOKIE['login']]);
+        date_default_timezone_set('Europe/Paris');
+        $date = date('y-m-d h:i:s');
+        $stmt->execute([$date, $_POST['content'], $_COOKIE['user']]);
         echo "Post added!";
+        header("Location: file.php");
     } catch (PDOException $e) {
         die('Error: ' . $e->getMessage());
     }
