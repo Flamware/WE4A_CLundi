@@ -1,16 +1,5 @@
 <?php
-$url = 'http://localhost:8080/api/v1/connexion';
-$username = $_POST['username'];
-$password = $_POST['password'];
-$data = array('username' => $username, 'password' => $password);
-$options = array(
-    'http' => array(
-        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-        'method'  => 'POST',
-        'content' => http_build_query($data)
-    )
-);
-
+include "../scripts/login.php"
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +32,7 @@ $options = array(
 
                 <div class="button-container">
                     <button type="submit">Se connecter</button>
-                    <button type="button" onclick="window.location.href='signup.php'">S'inscrire</button> <!-- Link to signup page -->
+                    <button type="button" onclick="window.location.href='register.php'">S'inscrire</button> <!-- Link to signup page -->
                 </div>
             </form>
         </section>
