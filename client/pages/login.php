@@ -1,7 +1,3 @@
-<?php
-include "../scripts/login.php"
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,9 +12,12 @@ include "../scripts/login.php"
     <main>
         <section id="login-form">
             <h2>Connexion</h2>
-            <?php if (!empty($error)) { ?>
-                <div id="error-message"><?php echo $error; ?></div>
-            <?php } ?>
+            <?php
+            // Check if the form is submitted and display response message
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                include "../scripts/login.php"; // Include login script to handle form submission
+            }
+            ?>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                 <div class="form-group">
                     <label for="username">Nom d'utilisateur :</label>

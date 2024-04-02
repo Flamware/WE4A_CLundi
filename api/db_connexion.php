@@ -4,7 +4,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "clundidb";
-
+global $conn;
 try {
     // Create a PDO connection with persistent option enabled
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password, array(PDO::ATTR_PERSISTENT => true));

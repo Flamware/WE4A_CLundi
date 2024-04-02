@@ -24,7 +24,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" ) {
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
         if ($result) {
             echo json_encode(array('success' => false, 'message' => 'Username or email already exists'));
             exit;

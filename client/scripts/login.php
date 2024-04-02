@@ -15,8 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = array('action' => 'login', 'username' => $username, 'password' => $password);
         $options = array(
             'http' => array(
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method'  => 'POST',
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
                 'content' => http_build_query($data)
             )
         );
@@ -33,17 +33,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Request successful, handle response
             // You can parse the response JSON and perform further actions based on it
             $response = json_decode($result, true);
-            if ($response['success']) {
-                // Successful login, set cookies and redirect to main page
-                setcookie('username', $username, time() + (86400 * 30), "/"); // Set username cookie to expire in 30 days
-                header('Location: main.php');
-                exit;
+            if (is_array($response) && isset($response['success'])) {
+                if ($response['success']) {
+                    // Successful login, set cookies and redirect to main page
+                    setcookie('username', $username, time() + (86400 * 30), "/"); // Set username cookie to expire in 30 days
+                    //show response message
+                    echo $response['message'];
+                    exit;
+                } else {
+                    // Login failed, display error message
+                    $error = 'Login failed: ' . $response['message'];
+                    echo $error;
+                }
             } else {
-                // Login failed, display error message
-                $error = 'Login failed: ' . $response['message'];
+                // Handle invalid response format
+                $error = 'Invalid response from server';
+                echo $result;
             }
         }
     }
 }
-?>
-<?php
+
