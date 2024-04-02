@@ -1,36 +1,6 @@
     <?php
-    // Define classes for Story and Comment
-    class Story {
-        public $id; // Define id property
-        public $content;
-        public $author;
-        public $date;
-
-        // Updated constructor to set id property
-        public function __construct($id, $content, $author, $date) {
-            $this->id = $id;
-            $this->content = $content;
-            $this->author = $author;
-            $this->date = $date;
-        }
-    }
-    class Comment {
-        public $id;
-        public $storyId;
-        public $parentCommentId;
-        public $content;
-        public $author;
-        public $date;
-        public function __construct($id, $content, $author, $date, $storyId, $parentCommentId) {
-            $this->id = $id;
-            $this->content = $content;
-            $this->author = $author;
-            $this->date = $date;
-            $this->storyId = $storyId;
-            $this->parentCommentId = $parentCommentId;
-        }
-    }
-
+    include '../component/story.php';
+    include '../component/comment.php';
     // Load stories from the server
     function submitStory($story) {
         // post request to the server
@@ -79,13 +49,6 @@
         return json_decode($result);
     }
 
-    // Get comments by story ID
-    function getCommentsByStoryId($comments, $storyId) {
-        $filteredComments = array_filter($comments, function($comment) use ($storyId) {
-            return $comment->storyId == $storyId;
-        });
-        return array_values($filteredComments); // Reset array keys
-    }
 
     // Handle story submission
     function loadStories() {
@@ -117,7 +80,6 @@
 
     ?>
 
-    <!-- HTML template -->
     <div>
         <header>
             <link rel="stylesheet" href="../css/main.css"> <!-- Link to styles.css -->
@@ -126,20 +88,29 @@
 
         <section id="stories-container">
             <?php foreach ($stories as $story): ?>
+                <?php
+                // Create a Story object
+                $storyObj = new Story($story->id, $story->content, $story->author, $story->date);
+                ?>
                 <div class="story">
                     <!-- Display story content -->
-                    <p><?= $story->content ?></p>
+                    <p><?= $storyObj->content ?></p>
                     <!-- Display comments -->
-                    <?php $storyComments = getCommentsByStoryId($comments, $story->id); ?>
-                    <?php foreach ($storyComments as $comment): ?>
-                        <div class="comment">
-                            <p><?= $comment->content ?></p>
-                        </div>
-                    <?php endforeach; ?>
+                    <?php
+                    // Get comments for this story
+                    $storyComments = getCommentsByStoryId($comments, $story->id);
+                    foreach ($storyComme5nts as $comment) {
+                        // Create a Comment object
+                        $commentObj = new Comment($comment->id, $comment->storyId, $comment->parentCommentId, $comment->content, $comment->author, $comment->date);
+                        // Display comment content
+                        echo '<div class="comment">';
+                        echo '<p>' . $commentObj->content . '</p>';
+                        echo '</div>';
+                    }
+                    ?>
                 </div>
             <?php endforeach; ?>
         </section>
-
         <section id="submit-story">
             <form action="" method="post">
                 <label for="story">Votre post :</label>
@@ -149,7 +120,7 @@
         </section>
 
         <footer>
-        <?php include '../component/footer.php'; ?>
+            <?php include '../component/footer.php'; ?>
         </footer>
     </div>
 
