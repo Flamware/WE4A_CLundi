@@ -39,6 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     setcookie('username', $username, time() + (86400 * 30), "/"); // Set username cookie to expire in 30 days
                     //show response message
                     echo $response['message'];
+                    // Redirect to main page
+                    header('Location: /index.php');
                     exit;
                 } else {
                     // Login failed, display error message

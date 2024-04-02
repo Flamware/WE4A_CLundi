@@ -1,0 +1,72 @@
+main {
+    max-width: 800px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+body {
+    background-image: url("../assets/Karaï.jpg");
+}
+
+main h2 {
+    font-size: 24px;
+}
+
+#stories-container {
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 20px auto 80px; /* Add bottom margin to avoid overlapping with the footer */
+}
+
+/* Fixed position for submit story section */
+#submit-story {
+    position: sticky;
+    bottom: 46px; /* Stick to the bottom of #stories-container */
+    background-color: #cac4ce;
+    color: black;
+    padding: 10px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#submit-story h2 {
+    font-size: 20px;
+}
+
+#submit-story-form label {
+    display: block;
+}
+
+#submit-story-form textarea {
+    width: 90%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#submit-button {
+    background-color: #0c2d57;
+    position: absolute;
+
+    color: #fff;
+    margin-top: 12px;
+    margin-left: 3px;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#submit-button:hover {
+    background-color: #242038;
+}
+@media (max-width: 768px) {
+    #stories-container {
+        width: 100%; /* Set width to 100% for smaller screens */
+    }
+    #submit-story-form textarea {
+        width: 80%; /* Adjust the width to 100% for smaller screens */
+    }
+}
