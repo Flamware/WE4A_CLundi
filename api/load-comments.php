@@ -10,12 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
     $formattedComments = [];
     foreach ($comments as $comment) {
         $formattedComments[] = array(
-            'id' => $comment['id'],
-            'storyId' => $comment['storyId'],
-            'parentCommentId' => $comment['parentCommentId'],
+            'id' => $comment['comment_id'],
+            'story_id' => $comment['story_id'],
+            'parent_comment_id' => $comment['parent_comment_id'],
             'content' => $comment['content'],
             'author' => $comment['author'],
-            'date' => $comment['created_at']
+            'created_at' => $comment['created_at']
         );
     }
 

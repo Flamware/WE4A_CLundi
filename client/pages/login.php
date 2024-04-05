@@ -8,7 +8,10 @@
 </head>
 <body>
 <div class="login">
-    <?php include '../component/header.php'; ?>
+    <?php
+    include '../component/header.php';
+    ?>
+
     <main>
         <section id="login-form">
             <h2>Connexion</h2>

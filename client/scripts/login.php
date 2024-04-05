@@ -35,12 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $response = json_decode($result, true);
             if (is_array($response) && isset($response['success'])) {
                 if ($response['success']) {
-                    // Successful login, set cookies and redirect to main page
+                    session_start(); // Start the session at the beginning of the file
+                    $_SESSION['username'] = $username; // Store username in session
                     setcookie('username', $username, time() + (86400 * 30), "/"); // Set username cookie to expire in 30 days
-                    //show response message
-                    echo $response['message'];
                     // Redirect to main page
-                    header('Location: /index.php');
+                    header('Location: main.php');
                     exit;
                 } else {
                     // Login failed, display error message
@@ -50,9 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 // Handle invalid response format
                 $error = 'Invalid response from server';
-                echo $result;
+                echo $error;
             }
         }
     }
 }
-
+?>
