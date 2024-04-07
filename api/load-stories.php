@@ -17,10 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
             'date' => $story['created_at']
         );
     }
-
+    //response code
+    http_response_code(200);
     echo json_encode($formattedStories);
     exit;
 } else {
+    http_response_code(400);
     echo json_encode(array('success' => false, 'message' => 'Invalid action'));
     exit;
 }

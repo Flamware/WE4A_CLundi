@@ -3,14 +3,17 @@ session_start();
 include "db_connexion.php";
 global $conn;
 
-// Check if the 'username' cookie is set and retrieve its value
-if(isset($_COOKIE['username'])) {
-    $username = $_COOKIE['username'];
-} else {
-    // If the cookie is not set, return an error
-    echo json_encode(array('success' => false, 'message' => 'User not logged in'));
+if (!isset($_SESSION['username'])) {
+    // If the user is not logged in, return an error
+    http_response_code(401);
+    echo json_encode(array('success' => false, 'message' => 'Unauthorized'));
     exit;
 }
+else {
+    $username = $_SESSION['username'];
+    echo $_SESSION['username'];
+}
+
 
 // Now you have the username from the cookie, you can use it to retrieve the session
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

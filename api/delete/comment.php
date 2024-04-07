@@ -1,8 +1,9 @@
 <?php
 session_start();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-include 'db_connexion.php'; // Assuming this file establishes the PDO connection
+include "../db_connexion.php";
 global $conn;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_SESSION['username'])) {
 
 $comment_id = $_POST['comment_id'];
 $sql = "DELETE FROM comments WHERE comment_id = :comment_id";

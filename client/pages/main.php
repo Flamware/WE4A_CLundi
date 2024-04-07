@@ -66,13 +66,20 @@ $stories = loadStories();
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $story = $_POST['story'];
+    // Retrieve cookies
+    $cookies = $_COOKIE;
+    $cookieHeader = '';
+    foreach ($cookies as $name => $value) {
+        $cookieHeader .= "$name=$value; ";
+    }
+
     // post request to the server
     $url = 'http://localhost/submit-story.php';
     $data = array('story' => $story);
     $options = array(
         'http' => array(
             'header' => "Content-type: application/x-www-form-urlencoded\r\n" .
-                "Cookie: " . session_name() . "=" . session_id() . "\r\n", // Include session cookie
+                "Cookie: $cookieHeader\r\n", // Include retrieved cookies in the request headers
             'method' => 'POST',
             'content' => http_build_query($data)
         )
@@ -87,9 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = 'Impossible de partager votre post, veuillez réessayer.';
         echo $error;
     }
-    echo $result;
+    else {
+        // Redirect to main.php after successful submission
+        header('Location: main.php');
+        exit(); // Ensure that no further code is executed after redirection
+    }
 
 }
+
 ?>
 
 <div>
@@ -101,10 +113,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <section id="stories-container">
         <?php
+        require '../component/displayStory.php';
         foreach ($stories as $story){
             $storyObj = new Story($story->id, $story->content, $story->author, $story->date);
             $comments = getCommentsByStoryId($story->id);
-            include '../component/displayStory.php';
+            renderStory($storyObj, $comments);
         }
         ?>
     </section>
@@ -115,8 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Partager</button>
         </form>
     </section>
-
     <footer>
-        <?php include '../component/footer.php'; ?>
+        <?php include '../component/footer.php'; ?>zz
     </footer>
 </div>

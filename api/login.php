@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connexion.php'; // Assuming this file includes database connection
+include 'db_connexion.php';
 global $conn;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     if (empty($username) || empty($password)) {
-        echo json_encode(array('success' => false, 'message' => 'Username and password are required'));
+        echo json_encode(array('success' => false, 'message' => 'All fields are required'));
         exit;
     }
 
@@ -16,28 +16,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->bindParam(':username', $username);
         $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user !== false) {
-            if (password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['username'] = $user['username'];
-                echo json_encode(array('success' => true, 'message' => 'Login successful', 'username' => $user['username']));
-                exit;
-            } else {
-                echo json_encode(array('success' => false, 'message' => 'Incorrect password'));
-                exit;
-            }
-        } else {
-            echo json_encode(array('success' => false, 'message' => 'User not found'));
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) {
+            echo json_encode(array('success' => false, 'message' => 'Invalid username or password'));
             exit;
         }
-    } catch(PDOException $e) {
+
+        if (password_verify($password, $result['password'])) {
+            $_SESSION['user_id'] = $result['user_id'];
+            $_SESSION['username'] = $result['username'];
+            setcookie('user_id', $result['user_id'], time() + 3600, '/');
+            // Return the entire cookie in the JSON response
+            echo json_encode(array('success' => true, 'username' => $result['username'], 'cookie' => $_COOKIE));
+            exit;
+
+        } else {
+            echo json_encode(array('success' => false, 'message' => 'Invalid username or password'));
+            exit;
+        }
+    } catch (PDOException $e) {
         echo json_encode(array('success' => false, 'message' => 'Error: ' . $e->getMessage()));
         exit;
     }
 } else {
-    header('Location: login.php');
+    echo json_encode(array('success' => false, 'message' => 'Invalid action'));
     exit;
 }
 ?>

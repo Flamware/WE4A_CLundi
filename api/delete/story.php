@@ -1,10 +1,10 @@
 <?php
 session_start();
-include 'db_connexion.php';
+include "../db_connexion.php";
 global $conn;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check if the request contains the required parameters
+if ($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_SESSION['username'])) {
+   // Check if the request contains the required parameters
     if (!isset($_POST['story_id'])) {
         http_response_code(400);
         echo json_encode(array('error' => 'Story ID is required'));

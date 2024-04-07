@@ -1,0 +1,43 @@
+/* Style the story display section */
+.story {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #b6bbc4;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+/* Style the button */
+.toggle-comments-button {
+    background-color: #0c2d57;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toggle-comments-button:hover {
+    background-color: #1b1730;
+}
+
+.delete-button {
+    background-color: red;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reply-form {
+    margin-top: 10px;
+}
+
+.reply-form textarea {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+    margin-bottom: 10px;
+}

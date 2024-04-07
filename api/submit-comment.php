@@ -1,15 +1,27 @@
 <?php
+
 session_start();
 include "db_connexion.php";
 global $conn;
-// Check if the request method is POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Include database connection
+
+if (!isset($_SESSION['username'])) {
+    // If the user is not logged in, return an error
+    http_response_code(401);
+    echo json_encode(array('success' => false, 'message' => 'Unauthorized'));
+    exit;
+}
+else {
+    $username = $_SESSION['username'];
+    echo $_SESSION['username'];
+}
+// Check if the request method is POST and session is active
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['username'])) {
+
     // Retrieve data from POST request
     $parent_comment_id = isset($_POST['parent_comment_id']) ? $_POST['parent_comment_id'] : null;
     $content = isset($_POST['content']) ? $_POST['content'] : null;
-    $author = isset($_POST['author']) ? $_POST['author'] : null;
     $story_id = isset($_POST['story_id']) ? $_POST['story_id'] : null;
+    $author = $_SESSION['username'];
 
     // Construct SQL statement based on the presence of parent_comment_id
     if ($parent_comment_id == 0 || $parent_comment_id === 'null') {
@@ -31,13 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute([$story_id, $author, $content, $parent_comment_id]);
         }
         // Return JSON response indicating success
+        http_response_code(200); // OK
         echo json_encode(array('success' => true));
     } catch (PDOException $e) {
         // Return JSON response indicating failure and error message
+        http_response_code(500); // Internal Server Error
         echo json_encode(array('success' => false, 'message' => $e->getMessage()));
     }
 } else {
-    // Return JSON response indicating invalid action
-    echo json_encode(array('success' => false, 'message' => 'Invalid action'));
+    // Return JSON response indicating invalid action or unauthorized access
+    http_response_code(401); // Unauthorized
+    echo json_encode(array('success' => false, 'message' => 'Unauthorized access or invalid action'));
 }
 ?>
