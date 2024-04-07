@@ -6,18 +6,12 @@
         <span class="date"><?php echo htmlspecialchars($story->date); ?></span>
         <?php
         // Pass necessary data as props to the reply form
-        include '../component/reply_form.php';
-        ?>
-        <?php
-        // Include comment section component
+        include '../component/button/replyButton.php';
+        include '../component/button/deleteButton.php';
         include '../component/parent_comment.php';
+        renderReplyForm($story->id, $story->author, 0);
+        renderDeleteButton($story->id, true);
         ?>
-        <!-- Use a hidden iframe to submit the form asynchronously -->
-        <iframe id="deleteFrame" name="deleteFrame" style="display:none;"></iframe>
-        <form id="deleteForm" method="post" action="http://localhost/delete-story.php" target="deleteFrame">
-            <input type="hidden" name="story_id" value="<?php echo htmlspecialchars($story->id); ?>">
-            <button type="button" onclick="submitDeleteForm()" class="delete-button">Supprimer post</button>
-        </form>
     </div>
 </div>
 

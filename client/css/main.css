@@ -20,7 +20,7 @@ main h2 {
     margin: 20px auto 80px; /* Add bottom margin to avoid overlapping with the footer */
 }
 
-/* Fixed position for submit story_display.php section */
+/* Fixed position for submit displayStory.php section */
 #submit-story {
     position: sticky;
     bottom: 46px; /* Stick to the bottom of #stories-container */

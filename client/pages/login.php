@@ -8,20 +8,21 @@
 </head>
 <body>
 <div class="login">
-    <?php
-    include '../component/header.php';
-    ?>
+    <?php include '../component/header.php'; ?>
 
     <main>
         <section id="login-form">
             <h2>Connexion</h2>
-            <?php
-            // Check if the form is submitted and display response message
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                include "../scripts/login.php"; // Include login script to handle form submission
-            }
-            ?>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <div id="error-message" class="error-message">
+                <?php
+                // Display error message if any
+                if (!empty($_SESSION['login_error'])) {
+                    echo $_SESSION['login_error'];
+                    unset($_SESSION['login_error']); // Clear the error message after displaying it
+                }
+                ?>
+            </div> <!-- Error message container -->
+            <form action="http://localhost/login.php" method="post">
                 <div class="form-group">
                     <label for="username">Nom d'utilisateur :</label>
                     <input type="text" id="username" name="username" required>
@@ -33,8 +34,9 @@
                 </div>
 
                 <div class="button-container">
-                    <button type="submit">Se connecter</button>
-                    <button type="button" onclick="window.location.href='register.php'">S'inscrire</button> <!-- Link to signup page -->
+                    <button id="submit-btn" type="submit">Se connecter</button>
+                    <button type="button" onclick="window.location.href='register.php'">S'inscrire</button>
+                    <!-- Link to signup page -->
                 </div>
             </form>
         </section>

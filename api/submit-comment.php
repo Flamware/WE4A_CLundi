@@ -1,10 +1,10 @@
 <?php
+session_start();
+include "db_connexion.php";
+global $conn;
 // Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Include database connection
-    include "db_connexion.php";
-    global $conn;
-
     // Retrieve data from POST request
     $parent_comment_id = isset($_POST['parent_comment_id']) ? $_POST['parent_comment_id'] : null;
     $content = isset($_POST['content']) ? $_POST['content'] : null;
@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $story_id = isset($_POST['story_id']) ? $_POST['story_id'] : null;
 
     // Construct SQL statement based on the presence of parent_comment_id
-    if ($parent_comment_id === 'null') {
+    if ($parent_comment_id == 0 || $parent_comment_id === 'null') {
         // If parent_comment_id is null, it's a comment on a story
         $sql = "INSERT INTO comments (story_id, author, content) VALUES (?, ?, ?)";
     } else {
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Bind parameters and execute the statement
     try {
-        if ($parent_comment_id === 'null') {
+        if ($parent_comment_id === 'null' || $parent_comment_id == 0) {
             $stmt->execute([$story_id, $author, $content]);
         } else {
             $stmt->execute([$story_id, $author, $content, $parent_comment_id]);
