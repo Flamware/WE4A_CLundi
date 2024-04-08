@@ -58,7 +58,6 @@ function loadStories()
     $context = stream_context_create($options);
     // Make the request and get the response
     $result = file_get_contents($url, false, $context);
-
     return json_decode($result);
 }
 ?>
@@ -95,7 +94,7 @@ function loadStories()
         require '../component/displayStory.php';
         $stories = loadStories();
         foreach ($stories as $story){
-            $storyObj = new Story($story->id, $story->content, $story->author, $story->date);
+            $storyObj = new Story($story->id, $story->content, $story->author, $story->date, $story->like_count);
             $comments = getCommentsByStoryId($story->id);
             renderStory($storyObj, $comments);
         }

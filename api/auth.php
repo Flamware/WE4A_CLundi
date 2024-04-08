@@ -5,7 +5,6 @@ session_start();
 if (isset($_SESSION['username'])) {
     // User is authenticated, return OK response
     http_response_code(200);
-    echo json_encode(array('authenticated' => true));
 } else {
     // User is not authenticated, return Unauthorized response
     http_response_code(401);

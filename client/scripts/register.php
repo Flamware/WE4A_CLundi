@@ -6,7 +6,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" ) {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm-password'];
     // post request to the server
-    $url = 'http://localhost/register.php';
+    $url = 'http://localhost/api/register.php';
     $data = array('action' => 'register', 'username' => $username, 'email' => $email, 'password' => $password, 'confirm-password' => $confirmPassword);
     $options = array(
         'http' => array(

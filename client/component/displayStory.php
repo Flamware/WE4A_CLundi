@@ -1,4 +1,3 @@
-<!-- render_story.php -->
 <?php
 include 'parent_comment.php';
 include 'button/deleteButton.php';
@@ -15,7 +14,7 @@ function renderStory($story, $comments) {
             <p class="content"><?= htmlspecialchars($story->content) ?></p>
             <span class="date"><?= htmlspecialchars($story->date) ?></span>
             <?php
-            renderLikeButton($story->id, true);
+            renderLikeButton($story->id, true, $story->like_count);
             renderReplyForm($story->id, 0);
             renderDeleteButton($story->id, true);
             renderParentComments($comments);
@@ -45,7 +44,9 @@ function renderStory($story, $comments) {
             cursor: pointer;
             margin-top: 5px;
         }
-
+        .author {
+            font-weight: bold;
+        }
         .delete-button:hover {
             background-color: #d80000;
         }

@@ -1,18 +1,18 @@
 <?php
 /*
  * This file contains the like button component
- * a post request is sent to like-comment.php to like a comment or to like-story.php to like a story
+ * a post request is sent to like-comment.php to like a comment or to like.php to like a story
  * The like button is displayed with a click event listener that sends a post request to the server
  */
 ?>
-<?php
-function renderLikeButton($id, $isStory)
+<?php function renderLikeButton($id, $isStory, $likeCount)
 {
     $likeType = $isStory ? 'story' : 'comment';
     ?>
     <div class="like-button-container">
         <button class="like-button" data-id="<?php echo $id; ?>" data-type="<?php echo $likeType; ?>">
             Like
+            <span class="like-count" id="num-likes-<?php echo $id; ?>"><?php echo $likeCount; ?></span> <!-- Display the number of likes here -->
         </button>
     </div>
     <?php
@@ -25,20 +25,33 @@ function renderLikeButton($id, $isStory)
             button.addEventListener('click', function () {
                 var id = this.getAttribute('data-id');
                 var type = this.getAttribute('data-type');
-                var url = 'http://localhost/api/like-' + type + '.php';
+                var url = 'http://localhost/api/like.php';
                 var formData = new FormData();
                 formData.append('id', id);
+                formData.append('type', type);
                 fetch(url, {
                     method: 'POST',
                     body: formData
                 })
-                    .then(response => response.json())
+                    .then(response => response.json()) // Parse response as JSON
                     .then(data => {
-                        showError(data.message);
+                        // Check if the submission was successful
+                        if(data.success){
+                            // Show success message
+                            showError(data.message);
+                            // Update the number of likes displayed
+                            document.getElementById('num-likes-' + id).textContent = data.total_likes;
+
+                        } else {
+                            // Show error message if submission failed
+                            showError(data.message);
+                        }
                     })
                     .catch(error => {
+                        // Handle fetch errors
                         console.error('Error:', error);
-                        showError(error.message);
+                        // Show error message
+                        showError('An error occurred while submitting the story. Please try again.');
                     });
             });
         });

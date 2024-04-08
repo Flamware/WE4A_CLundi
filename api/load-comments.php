@@ -1,9 +1,13 @@
 <?php
 session_start();
 include "db_connexion.php";
+
 global $conn;
-if ($_SERVER["REQUEST_METHOD"] == "GET"&& isset($_SESSION['username'])){
-    $stmt = $conn->prepare("SELECT * FROM comments");
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['username'])) {
+    $stmt = $conn->prepare("SELECT comments.*, COUNT(likes.like_id) AS like_count 
+                            FROM comments 
+                            LEFT JOIN likes ON comments.comment_id = likes.comment_id 
+                            GROUP BY comments.comment_id");
     $stmt->execute();
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -16,13 +20,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"&& isset($_SESSION['username'])){
             'parent_comment_id' => $comment['parent_comment_id'],
             'content' => $comment['content'],
             'author' => $comment['author'],
-            'created_at' => $comment['created_at']
+            'created_at' => $comment['created_at'],
+            'like_count' => $comment['like_count']
         );
     }
-
+    // Response code
+    http_response_code(200);
     echo json_encode($formattedComments);
     exit;
 } else {
+    http_response_code(400);
     echo json_encode(array('success' => false, 'message' => 'Invalid action'));
     exit;
 }

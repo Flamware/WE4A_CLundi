@@ -11,12 +11,12 @@
         </a>
     </div>
     <div class="utx">
-        <a href="/">
+        <a href="main.php">
             <img src="../assets/utx.png" alt="Logo Principal UTX">
         </a>
     </div>
     <div class="utx_text">
-        <a href="/">
+        <a href="main.php">
             <img src="../assets/utx_text.png" alt="Logo utx">
         </a>
     </div>

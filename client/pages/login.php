@@ -7,10 +7,11 @@
     <script src="../js/error.js"></script>
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/error.css">
+    <?php include '../component/header.php'; ?>
+
 </head>
 <body>
 <div class="login">
-    <?php include '../component/header.php'; ?>
 
     <main>
         <div id="error-message" class="error-message"></div>
@@ -21,12 +22,10 @@
                     <label for="username">Nom d'utilisateur :</label>
                     <input type="text" id="username" name="username" required>
                 </div>
-
                 <div class="form-group">
                     <label for="password">Mot de passe :</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-
                 <div class="button-container">
                     <button id="submit-btn" type="submit">Se connecter</button>
                     <button type="button" onclick="window.location.href='register.php'">S'inscrire</button>
