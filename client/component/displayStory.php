@@ -3,6 +3,7 @@
 include 'parent_comment.php';
 include 'button/deleteButton.php';
 include 'button/replyButton.php';
+include 'button/likeButton.php';
 function renderStory($story, $comments) {
 
     ?>
@@ -14,7 +15,8 @@ function renderStory($story, $comments) {
             <p class="content"><?= htmlspecialchars($story->content) ?></p>
             <span class="date"><?= htmlspecialchars($story->date) ?></span>
             <?php
-            renderReplyForm($story->id, $story->author, 0);
+            renderLikeButton($story->id, true);
+            renderReplyForm($story->id, 0);
             renderDeleteButton($story->id, true);
             renderParentComments($comments);
             ?>

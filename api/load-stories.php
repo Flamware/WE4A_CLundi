@@ -2,7 +2,7 @@
 session_start();
 include "db_connexion.php";
 global $conn;
-if ($_SERVER["REQUEST_METHOD"] == "GET"){
+if ($_SERVER["REQUEST_METHOD"] == "GET"&& isset($_SESSION['username'])){
     $stmt = $conn->prepare("SELECT * FROM stories");
     $stmt->execute();
     $stories = $stmt->fetchAll(PDO::FETCH_ASSOC);

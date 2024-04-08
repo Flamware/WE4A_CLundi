@@ -12,7 +12,6 @@ if (!isset($_SESSION['username'])) {
 }
 else {
     $username = $_SESSION['username'];
-    echo $_SESSION['username'];
 }
 // Check if the request method is POST and session is active
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['username'])) {
@@ -42,17 +41,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['username'])) {
         } else {
             $stmt->execute([$story_id, $author, $content, $parent_comment_id]);
         }
-        // Return JSON response indicating success
-        http_response_code(200); // OK
-        echo json_encode(array('success' => true));
+        // Return JSON response indicating success and redirect to the story page
+        http_response_code(201); // Created
+        echo json_encode(array('success' => true, 'message' => 'Comment submitted successfully'));
+        exit();
     } catch (PDOException $e) {
         // Return JSON response indicating failure and error message
         http_response_code(500); // Internal Server Error
         echo json_encode(array('success' => false, 'message' => $e->getMessage()));
+        exit();
+
     }
 } else {
     // Return JSON response indicating invalid action or unauthorized access
     http_response_code(401); // Unauthorized
     echo json_encode(array('success' => false, 'message' => 'Unauthorized access or invalid action'));
+    exit;
 }
 ?>

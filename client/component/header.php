@@ -1,4 +1,4 @@
-<!-- HeaderView.php -->
+
 <header class="header">
     <div class="ae">
         <a href="https://ae.utbm.fr/">
@@ -21,10 +21,27 @@
         </a>
     </div>
     <div class="logout">
-        <a href="logout.php">Déconnexion</a> <!-- Link to logout PHP script -->
+        <a href="#" onclick="logout()">Déconnexion</a>
         <a href="account.php">Mon Compte</a> <!-- Link to account PHP script -->
     </div>
 </header>
+<script>
+    function logout() {
+        // Send AJAX request to logout.php
+        fetch('http://localhost/api/logout.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "login.php";
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
 
 <style>
     .header {

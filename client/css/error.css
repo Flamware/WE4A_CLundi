@@ -1,0 +1,23 @@
+/* Style the error container */
+.error-container {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Align items horizontally */
+    align-items: center; /* Align items vertically */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #b6bbc4;
+    color: #0c2d57; /* White text color */
+    margin-bottom: 10px;
+    margin-right: 10px; /* Add margin to the right */
+}
+
+/* Style the close button */
+.close-error-btn {
+    background-color: #0c2d57;
+    color: #ffffff;
+    padding: 5px 10px; /* Adjust padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

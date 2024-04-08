@@ -11,10 +11,7 @@ if (!isset($_SESSION['username'])) {
 }
 else {
     $username = $_SESSION['username'];
-    echo $_SESSION['username'];
 }
-
-
 // Now you have the username from the cookie, you can use it to retrieve the session
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Check if the request contains the required parameters
@@ -36,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo json_encode(array('success' => true, 'message' => 'Story submitted successfully'));
     } catch (PDOException $e) {
         // Handle database errors
-        error_log('Error submitting the story: ' . $e->getMessage());
         http_response_code(500);
         echo json_encode(array('success' => false, 'message' => 'Error submitting the story'));
     }

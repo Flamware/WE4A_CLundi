@@ -28,7 +28,7 @@ function renderParentComments($comments) {
                 <p class="comment-content"><?php echo htmlspecialchars($comment->content); ?></p>
                 <span class="comment-date"><?php echo htmlspecialchars($comment->created_at); ?></span>
                 <?php
-                renderReplyForm($comment->story_id, $comment->author, $comment->id);
+                renderReplyForm($comment->story_id, $comment->id);
                 renderDeleteButton($comment->id, false);
                 require_once 'render_replies.php';
                 renderComments(getRepliesByCommentId($comments, $comment->id), $comments);

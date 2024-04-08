@@ -1,26 +1,25 @@
 <?php
-function renderReplyForm($storyId, $author, $parent_comment_id_value)
+function renderReplyForm($storyId, $parent_comment_id_value)
 {
     // Generate a unique ID based on storyId and parent_comment_id_value
     $containerId = "textAreaContainer_" . $storyId . "_" . $parent_comment_id_value;
     ?>
     <div class="reply-form">
+        <div id="error-message" class="error-message" style="display: none;"></div>
         <button class="show-button" data-container-id="<?php echo $containerId; ?>">
             Répondre
         </button>
         <div id="<?php echo $containerId; ?>" class="text-area-container" style="display: none;">
-            <form id="commentForm_<?php echo $containerId; ?>" class="comment-form" method="post"
-                  action="http://localhost/submit-comment.php">
+            <form id="replyForm_<?php echo $containerId; ?>" class="reply-form" action="http://localhost/api/submit-comment" method="post">
                 <textarea name="content" placeholder="Tapez votre réponse" class="reply-textarea"></textarea>
-                <!-- Use props passed from the upper component -->
                 <input type="hidden" name="story_id" value="<?php echo $storyId; ?>">
                 <input type="hidden" name="parent_comment_id" value="<?php echo $parent_comment_id_value; ?>">
-                <!-- Use the converted value -->
+                <input type="hidden" name="action" value="reply">
                 <div class="button-container">
                     <button type="button" class="hide-button" data-container-id="<?php echo $containerId; ?>">
                         Masquer la réponse
                     </button>
-                    <button type="button" class="reply-button" onclick="submitReply(this)">
+                    <button type="submit" class="reply-button">
                         Répondre
                     </button>
                 </div>
@@ -32,11 +31,6 @@ function renderReplyForm($storyId, $author, $parent_comment_id_value)
 ?>
 
 <script>
-    // Function to retrieve stored cookie from localStorage
-    function getStoredCookie() {
-        return localStorage.getItem('authCookie');
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
         // Add event listeners for show/hide buttons
         var showButtons = document.querySelectorAll('.show-button');
@@ -54,22 +48,50 @@ function renderReplyForm($storyId, $author, $parent_comment_id_value)
                 hideTextArea(containerId);
             });
         });
+
+        var replyForms = document.querySelectorAll('.reply-form form');
+        replyForms.forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+                var formData = new FormData(form);
+                var url = 'http://localhost/api/submit-comment.php'; // Your API endpoint
+                fetch(url, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json()) // Parse response as JSON
+                    .then(data => {
+                        // Check if the submission was successful
+                        if(data.success){
+                            // Show success message
+                            showError(data.message);
+                            // Reload the page after a delay (optional)
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            // Show error message if submission failed
+                            showError(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        // Handle fetch errors
+                        console.error('Error:', error);
+                        // Show error message
+                        showError('An error occurred while submitting the story. Please try again.');
+                    });
+            });
+        });
     });
 
     function toggleTextArea(containerId) {
         var container = document.getElementById(containerId);
         container.style.display = container.style.display === "none" ? "block" : "none";
     }
-    function submitReply(button) {
-        var form = button.closest('.comment-form');
-        var formData = new FormData(form);
-        fetch('http://localhost/submit-comment.php', {
-            method: 'POST',
-            body: formData,
-        })
-            .then(response => response.json())
-            .then(data => handleResponse(data))
-            .catch(error => console.error('Error:', error));
+
+    function hideTextArea(containerId) {
+        var container = document.getElementById(containerId);
+        container.style.display = "none";
     }
 </script>
 

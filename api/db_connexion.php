@@ -16,11 +16,4 @@ try {
     // If connection fails, throw an exception
     throw new Exception("Connection failed: " . $e->getMessage());
 }
-
-// Enable CORS
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-
-
 ?>

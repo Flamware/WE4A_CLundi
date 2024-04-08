@@ -1,3 +1,4 @@
+/* Corrected CSS */
 main {
     max-width: 800px;
     padding: 20px;
@@ -5,8 +6,9 @@ main {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 body {
-    background-image: url("../assets/Karaï.jpg");
+    background-image: url("../assets/background.jpg");
 }
 
 main h2 {
@@ -20,7 +22,7 @@ main h2 {
     margin: 20px auto 80px; /* Add bottom margin to avoid overlapping with the footer */
 }
 
-/* Fixed position for submit displayStory.php section */
+/* Fixed position for submit section */
 #submit-story {
     position: sticky;
     bottom: 46px; /* Stick to the bottom of #stories-container */
@@ -36,20 +38,18 @@ main h2 {
     font-size: 20px;
 }
 
-#submit-story-form label {
+#submit-story label {
     display: block;
 }
 
-#submit-story-form textarea {
+#submit-story textarea {
     width: 90%;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
 
-#submit-button {
+#submit-story-btn { /* Corrected: Changed id name */
     background-color: #0c2d57;
-    position: absolute;
-
     color: #fff;
     margin-top: 12px;
     margin-left: 3px;
@@ -59,14 +59,15 @@ main h2 {
     cursor: pointer;
 }
 
-#submit-button:hover {
+#submit-story-btn:hover { /* Corrected: Changed id name */
     background-color: #242038;
 }
+
 @media (max-width: 768px) {
     #stories-container {
         width: 100%; /* Set width to 100% for smaller screens */
     }
-    #submit-story-form textarea {
-        width: 80%; /* Adjust the width to 100% for smaller screens */
+    #submit-story textarea {
+        width: 80%; /* Adjust the width to 80% for smaller screens */
     }
 }
