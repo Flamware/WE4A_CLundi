@@ -4,6 +4,7 @@ include 'button/deleteButton.php';
 include 'form/replyForm.php';
 include 'button/likeButton.php';
 include 'button/renderCommentButton.php'; // Corrected inclusion
+require 'form/reportForm.php';
 function renderStory($story, $comments) {
     ?>
 
@@ -24,7 +25,10 @@ function renderStory($story, $comments) {
             renderLikeButton($story->id, true, $story->like_count);
             renderDeleteButton($story->id, true);
             ?>
-            </span>
+        </span>
+        <!-- The report form section with unique ID -->
+        <?php displayReportForm('story', $story->id); ?>
+
         <?php
         // Use story ID to create a unique ID for the comment section
         $commentSectionId = 'comment-section' . $story->id;
@@ -39,6 +43,7 @@ function renderStory($story, $comments) {
             ?>
         </div>
     </div>
+
 
     <script>
         function toggleVisibility(targetId) {

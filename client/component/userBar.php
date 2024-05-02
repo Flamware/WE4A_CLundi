@@ -1,5 +1,5 @@
 <?php
-function displayUserBar() {
+function displayUserBar($url) {
     ?>
     <div id="user-container">
         <h>Users of Clundi :</h>
@@ -29,18 +29,25 @@ function displayUserBar() {
                             const userElement = document.createElement('div');
                             userElement.classList.add('user'); // Add 'user' class
 
+                            // Create an anchor element for the user
+                            const userLink = document.createElement('a');
+                            userLink.href = '<?php echo $url; ?>' + user.username; // Link to the specified URL with username parameter
+
                             // Add profile picture image
                             const imgElement = document.createElement('img');
                             imgElement.src = 'http://localhost/api/uploads/profile_picture/default_profile_picture.jpg'; // Adjust image source
                             imgElement.alt = 'Profile Picture';
                             imgElement.classList.add('profile-picture');
                             imgElement.setAttribute('data-author-name', user.username); // Adjust data attribute
-                            userElement.appendChild(imgElement); // Append image to user element
+                            userLink.appendChild(imgElement); // Append image to user link
+
                             // Add username text
                             const usernameElement = document.createElement('span');
                             usernameElement.textContent = user.username; // Adjust according to your user data
-                            userElement.appendChild(usernameElement); // Append username to user element
+                            userLink.appendChild(usernameElement); // Append username to user link
                             loadProfilePicture(imgElement);
+
+                            userElement.appendChild(userLink); // Append user link to user element
                             userContainer.appendChild(userElement); // Append user element to user container
                         });
 

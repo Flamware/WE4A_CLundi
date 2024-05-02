@@ -18,10 +18,8 @@ function getComments($comments, $storyId) {
     }
     return $commentsByStoryId;
 }
-
-function loadWall()
+function loadWall($username)
 {
-    $username = $_SESSION['username'] ?? null;
     // Construct the relative URL
     $url = API_PATH . '/load/loadWall.php';
 
@@ -32,6 +30,7 @@ function loadWall()
     if ($username !== null) {
         $url .= '?username=' . urlencode($username);
     }
+    echo $url;
 
     // Headers for the request
     $headers = array(
@@ -56,6 +55,11 @@ function loadWall()
     // Decode the JSON response
     return json_decode($result);
 }
+
+$username = $_GET['username'] ?? $_SESSION['username'];
+echo $username;
+$wall = loadWall($username);
+
 
 ?>
 
@@ -90,7 +94,7 @@ function loadWall()
                         src="../../api/uploads/profile_picture/default_profile_picture.png"
                         alt="Profile Picture"
                         class="profile-picture banner-profile-picture"
-                        data-author-name="<?php echo htmlspecialchars($_SESSION['username']); ?>"
+                        data-author-name="<?php echo htmlspecialchars($username); ?>"
                 >
                 <div class="edit-profile">
                     <a href="account.php">Edit Profile</a>
@@ -98,13 +102,12 @@ function loadWall()
                 <!-- Account Information -->
                 <div class="account-info">
                     <h2>Account Information</h2>
-                    <p><strong>Username:</strong> <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+                    <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
                 </div>
             </div>
         <?php displayStoryForm(); ?>
         <section id="stories-container">
             <?php
-            $wall = loadWall();
             foreach ($wall->stories as $storyData) {
                 // Extract story data
                 $story = $storyData;

@@ -107,7 +107,7 @@ $stories = $storiesData['stories'];
     </div>
     <div class="container">
     <div class="first-section">
-        <?php displayUserBar(); ?>
+        <?php displayUserBar("wall.php?username="); ?>
     </div>
     <div class="second-section">
         <h1>Feed General</h1>
