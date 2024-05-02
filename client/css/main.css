@@ -1,73 +1,50 @@
-/* Corrected CSS */
-main {
-    max-width: 800px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 body {
-    background-image: url("../assets/background.jpg");
+    font-family: Arial, sans-serif; /* Use Arial font */
+    background-image: url(../assets/background.jpg); /* Set background image */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+body, html {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+/* Flexbox layout for the container */
+.container {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space between sections */
+    align-items: flex-start; /* Align items at the start of the cross-axis */
+    margin-top: 10px; /* Adjust the top margin */
 }
 
-main h2 {
-    font-size: 24px;
+/* Individual section styles */
+.first-section {
+    flex-basis: 15%; /* Fixed percentage width for first section */
+    max-width: 15%; /* Prevent the section from growing too much */
 }
 
-#stories-container {
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-    margin: 20px auto 80px; /* Add bottom margin to avoid overlapping with the footer */
+.second-section {
+    flex-grow: 1; /* Allow this section to grow to fill available space */
+    flex-basis: 70%; /* Set base width to 70% */
+    max-width: 70%; /* Ensure it doesn't grow beyond 70% */
 }
 
-/* Fixed position for submit section */
-#submit-story {
-    position: sticky;
-    bottom: 46px; /* Stick to the bottom of #stories-container */
-    background-color: #cac4ce;
-    color: black;
-    padding: 10px;
-    border: 1px solid #000000;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.third-section {
+    flex-basis: 15%; /* Fixed percentage width for third section */
+    max-width: 15%; /* Prevent the section from growing too much */
 }
 
-#submit-story h2 {
-    font-size: 20px;
-}
-
-#submit-story label {
-    display: block;
-}
-
-#submit-story textarea {
-    width: 90%;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-#submit-story-btn { /* Corrected: Changed id name */
-    background-color: #0c2d57;
-    color: #fff;
-    margin-top: 12px;
-    margin-left: 3px;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#submit-story-btn:hover { /* Corrected: Changed id name */
-    background-color: #242038;
-}
-
+/* Adjustments for smaller screens */
 @media (max-width: 768px) {
-    #stories-container {
-        width: 100%; /* Set width to 100% for smaller screens */
+    .container {
+        flex-direction: column; /* Stack sections vertically on smaller screens */
     }
-    #submit-story textarea {
-        width: 80%; /* Adjust the width to 80% for smaller screens */
+
+    .first-section,
+    .second-section,
+    .third-section {
+        flex-basis: auto; /* Allow sections to take natural widths */
+        max-width: 100%; /* Sections can grow to full width */
+        width: 100%; /* Set sections to full width on smaller screens */
     }
 }

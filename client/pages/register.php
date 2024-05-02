@@ -27,9 +27,6 @@
 
                 <button type="submit" name="register" value="true" id="create-account-button">Créer un Compte</button>
             </form>
-            <?php
-            include '../scripts/register.php';
-            ?>
             <p>Déjà un compte ? <a href="login.php">Connexion</a></p>
         </section>
     </main>
@@ -37,3 +34,24 @@
 </div>
 </body>
 </html>
+<script>
+    // Add event listener to the form
+    document.querySelector('form').addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent default form submission
+        const form = event.target;
+        const formData = new FormData(form);
+        const url = '../../api/session/register.php'; // API endpoint
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+        const result = await response.json();
+        if (result.success) {
+            // Registration successful, redirect to login page
+            window.location.href = 'login.php';
+        } else {
+            // Registration failed, display error message
+            alert(result.message);
+        }
+    });
+</script>

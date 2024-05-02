@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['username'])) {
         'email' => $user['email'],
         'first_name' => $user['first_name'],
         'last_name' => $user['last_name'],
-        'profile_picture' => $user['profile_picture'] ? $user['profile_picture'] : 'assets/default_profile_picture.jpg'
+        'profile_picture' => $user['profile_picture'] ? $user['profile_picture'] : 'assets/default_profile_picture.png'
     );
     http_response_code(200);
     echo json_encode(array('success' => true, 'user' => $user));

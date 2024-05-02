@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/error.css">
     <?php include '../component/header.php'; ?>
-
 </head>
 <body>
 <div class="login">
@@ -16,8 +15,8 @@
     <main>
         <div id="error-message" class="error-message"></div>
         <section id="login-form-section">
-            <h2>Connexion</h2>
             <form id="login-form" method="post" action="http://localhost/api/login.php">
+                <h2>Connexion</h2>
                 <div class="form-group">
                     <label for="username">Nom d'utilisateur :</label>
                     <input type="text" id="username" name="username" required>
@@ -34,7 +33,6 @@
             </form>
         </section>
     </main>
-
     <?php include '../component/footer.php'; ?> <!-- Include footer view -->
 </div>
 
@@ -44,7 +42,7 @@
             event.preventDefault(); // Prevent form submission
 
             // Fetch API to submit login form data
-            fetch('http://localhost/api/login.php', {
+            fetch('../../api/session/login.php', {
                 method: 'POST',
                 body: new FormData(this)
             })

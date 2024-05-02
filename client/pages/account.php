@@ -5,25 +5,30 @@
  * You can customize this page to include additional account management options, such as password change or account deletion.
  * source: https://github.com/Flamware/CLundi
  */
+session_start();
+include '../component/navbar.php'; // Include the navbar component
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../js/error.js"></script>
+    <script src="../js/fetchProfilePicture.js"></script>
     <link rel="stylesheet" href="../css/error.css">
     <title>Account</title>
     <?php include '../component/header.php'; ?>
 </head>
 <body>
+<?php displayNavBar(); ?>
 <!-- Error message container -->
 <div id="error-message" class="error-message"></div>
 <div class="container">
     <h2>Account Information</h2>
     <div class="info">
         <div class="profile-picture">
-            <img id="profile-pic" class="profile-pic" src="../assets/default_profile_picture.jpg" alt="Profile Picture">
+            <img id="profile-pic" class="profile-pic" src="http://localhost/api/profile_picture/default_profile_picture.jpg" alt="Profile Picture" data-author-name="<?php echo $_SESSION['username']; ?>">
                 <form id="update-profile-picture-form" method="post" action="" enctype="multipart/form-data">
                     <div class="form-group">
                         <input type="file" id="profile_picture" name="profile_picture">
@@ -33,8 +38,7 @@
                     </div>
                 </form>
         </div>
-        <!-- Account Information -->
-        <div class="account-details">
+            <div class="account-details">
             <p><strong>Username:</strong> </p>
             <p><strong>Email:</strong> </p>
             <p><strong>First Name:</strong></p>
@@ -80,7 +84,10 @@
                     document.querySelector('.info p:nth-child(3)').innerHTML = "<strong>First Name:</strong> " + data.user.first_name;
                     document.querySelector('.info p:nth-child(4)').innerHTML = "<strong>Last Name:</strong> " + data.user.last_name;
                     // Update the profile picture
-                    document.getElementById('profile-pic').src = "http://localhost/api/" + data.user.profile_picture;
+                    document.getElementById('profile-pic').src = "http://localhost/api/uploads/profile_picture/" + data.user.profile_picture;
+                    // put in local storage the profile picture
+                    const authorName = document.getElementById('profile-pic').getAttribute('data-author-name');
+                    const profilePicturePath = data.user.profile_picture;
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -96,7 +103,7 @@
             const formData = new FormData(this);
 
             // Send POST request to update account information
-            fetch('http://localhost/api/update_account.php', {
+            fetch('../../api/update/update_account.php', {
                 method: 'POST',
                 body: formData
             })
@@ -130,7 +137,7 @@
             const formData = new FormData(this);
 
             // Send POST request to update profile picture
-            fetch('http://localhost/api/update_profile_picture.php', {
+            fetch('../../api/update/update_profile_picture.php', {
                 method: 'POST',
                 body: formData
             })

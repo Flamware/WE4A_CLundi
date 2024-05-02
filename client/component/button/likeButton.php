@@ -71,5 +71,9 @@
         border: none;
         border-radius: 4px;
     }
+    .option {
+        display: flex;
+        justify-content: space-between;
+    }
 </style>
 

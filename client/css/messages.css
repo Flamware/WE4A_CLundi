@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif; /* Use Arial font */
+    background-image: url(../assets/background.jpg); /* Set background image */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+body, html {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.message-thread.hidden {
+    display: none;
+}
+
+.thread-container{
+    margin: 20px auto;
+    width: 80%;
+    background-color: #b6bbc4;
+}
+
+
+.message-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.profile-picture {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.toggle-thread-button {
+    background-color: #0c2d57;
+    color: #b6bbc4;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+/* Style for the textarea */
+textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style for the submit button */
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+

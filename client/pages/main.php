@@ -1,9 +1,17 @@
 <?php
 include '../obj/comment.php';
 include '../obj/story.php';
+include '../component/dm_thread.php';
+include '../../api/conf.php';
+include '../component/navbar.php';
+include '../component/form/messageForm.php';
+include '../component/form/storyForm.php';
+require '../component/displayStory.php';
+include '../component/userBar.php';
+
 function loadComments() {
     // get request to the server
-    $url = 'http://localhost/api/load-comments.php';
+    $url = API_PATH . '/load/loadComments.php';
     $data = array('action' => 'loadComments');
     $headers = array(
         'Content-type: application/x-www-form-urlencoded',
@@ -37,49 +45,58 @@ function getCommentsByStoryId($storyId) {
     }
     return $commentsByStoryId;
 }
-
-function loadStories()
-{
-    // get request to the server
-    $url = 'http://localhost/api/load-stories.php';
-    $data = array('action' => 'loadStories');
+function loadStories($page) {
+    // Construct the relative URL with GET parameters
+    $url = API_PATH . '/load/loadStories.php?page=' . urlencode($page);
+    // Headers for the request
     $headers = array(
         'Content-type: application/x-www-form-urlencoded',
         'Cookie: ' . http_build_query($_COOKIE, '', ';')
     );
+    // Options for the HTTP request
     $options = array(
         'http' => array(
             'header' => $headers,
             'method' => 'GET',
-            'content' => http_build_query($data)
         )
     );
     // Create a stream context
     $context = stream_context_create($options);
     // Make the request and get the response
     $result = file_get_contents($url, false, $context);
-    return json_decode($result);
+    // Decode the JSON response
+    return json_decode($result, true); // true to return as associative array
 }
+
+// Get the current page number
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+// Load stories for the given page
+$storiesData = loadStories($page);
+$stories = $storiesData['stories'];
+
 ?>
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C Wall </title>
     <script src="../js/error.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/dmSuggestion.js"></script>
+    <script src="../js/fetchProfilePicture.js"></script>
+    <script src="../js/submitStory.js"></script>
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/messageForm.css">
     <link rel="stylesheet" href="../css/error.css">
-    <?php include '../component/header.php'; ?> <!-- Include header view -->
-
 </head>
+<?php include '../component/header.php'; ?>
+<?php displayNavBar(); ?>
 <body>
     <div id="error-message" class="error-message">
         <?php
-        $stories = loadStories();
         //if not string, show error message
         if (!is_array($stories)) {
-            echo $stories->message;
+            echo $stories;
         } else {
             $comments = loadComments();
             if (!is_array($comments)) {
@@ -88,87 +105,42 @@ function loadStories()
         }
         ?>
     </div>
-
+    <div class="container">
+    <div class="first-section">
+        <?php displayUserBar(); ?>
+    </div>
+    <div class="second-section">
+        <h1>Feed General</h1>
+        <?php displayStoryForm(); ?>
     <section id="stories-container">
         <?php
-        require '../component/displayStory.php';
-        $stories = loadStories();
-        foreach ($stories as $story){
-            $storyObj = new Story($story->id, $story->content, $story->author, $story->date, $story->like_count);
-            $comments = getCommentsByStoryId($story->id);
+        foreach ($stories as $story) {
+            $storyObj = new Story($story['id'], $story['content'], $story['author'], $story['date'], $story['like_count']);
+            $comments = getCommentsByStoryId($story['id']);
             renderStory($storyObj, $comments);
         }
         ?>
+        <div class="pagination">
+            <?php
+            // Previous page link
+            if ($page > 1) {
+                echo "<a href='?page=" . ($page - 1) . "'>&laquo; Previous</a>";
+            }
+            // Next page link
+            if (count($stories) == 10) {
+                echo "<a href='?page=" . ($page + 1) . "'>Next &raquo;</a>";
+            }
+            ?>
+        </div>
     </section>
-    <section id="submit-story">
-        <label for="story">Votre post :</label>
-        <textarea id="story" rows="4" required></textarea>
-        <button id="submit-story-btn">Partager</button>
-    </section>
+    </div>
+    <div class="third-section">
+            <div id="dm-threads">
+                <?php displayMessageForm(); ?>
+            </div>
+    </div>
+    </div>
+    <?php include '../component/footer.php'; ?>
 
-    <footer>
-        <?php include '../component/footer.php'; ?>
-    </footer>
+</body>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Send an asynchronous request to check authentication status
-        fetch('http://localhost/api/auth.php', {
-            method: 'GET',
-            credentials: 'include'
-        })
-            .then(response => {
-                if (response.ok) {
-                } else {
-                    // User is not authenticated, prevent loading resources
-                    showError('You are not authenticated. Please log in to continue.');
-                    // Redirect to login page after a delay
-                    setTimeout(function () {
-                        window.location.href = 'login.php';
-                    }, 1000);
-                }
-            })
-            .catch(error => {
-                // Handle fetch errors
-                console.error('Error checking authentication:', error);
-                showError('An error occurred while checking authentication. Please try again.');
-            });
-
-        // Add event listener for submit button
-        document.getElementById('submit-story-btn').addEventListener('click', function () {
-            // Retrieve story content
-            var storyContent = document.getElementById('story').value;
-
-            // Send POST request to the server
-            fetch('http://localhost/api/submit-story.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'story=' + encodeURIComponent(storyContent) + '&action=submit_story'
-            })
-                .then(response => response.json()) // Parse response as JSON
-                .then(data => {
-                    // Check if the submission was successful
-                    if(data.success){
-                        // Show success message
-                        showError(data.message);
-                        // Reload the page after a delay (optional)
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1000);
-                    } else {
-                        // Show error message if submission failed
-                        showError(data.message);
-                    }
-                })
-                .catch(error => {
-                    // Handle fetch errors
-                    console.error('Error:', error);
-                    // Show error message
-                    showError('An error occurred while submitting the story. Please try again.');
-                });
-        });
-    });
-
-</script>

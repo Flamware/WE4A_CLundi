@@ -2,7 +2,13 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/web/lib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/lib/guzzlehttp/guzzle/src" isTestSource="false" packagePrefix="GuzzleHttp" />
+      <sourceFolder url="file://$MODULE_DIR$/web/lib/nikic/php-parser/lib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/lib/psr/log" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/lib/twig/twig/src" isTestSource="false" packagePrefix="Twig" />
+    </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

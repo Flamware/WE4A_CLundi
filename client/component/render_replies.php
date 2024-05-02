@@ -4,15 +4,32 @@ function renderComments( $replies = [],$comments) {
         foreach ($replies as $reply) {
             ?>
             <div class="comment">
-                <span class="comment-author"><?php echo htmlspecialchars($reply->author); ?></span>
+                <a href="../pages/wall.php?username=<?= urlencode($reply->author) ?>">
+                    <img src="http://localhost/api/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?= htmlspecialchars($reply->author) ?>">
+                </a>
+                <a href="../pages/wall.php?username=<?= urlencode($reply->author) ?>" class="comment-author">
+                    <?php echo htmlspecialchars($reply->author); ?>
+                </a>
                 <p class="comment-content"><?php echo htmlspecialchars($reply->content); ?></p>
                 <span class="comment-date"><?php echo htmlspecialchars($reply->created_at); ?></span>
+                <span class="option">
+        <?php
+        renderReplyForm($reply->story_id, $reply->id);
+        renderLikeButton($reply->id, false, $reply->like_count);
+        renderDeleteButton($reply->id, false);
+        ?>
+    </span>
                 <?php
-                renderReplyForm($reply->story_id, $reply->author, $reply->id);
-                renderDeleteButton($reply->id, false);
-                renderComments(getRepliesByCommentId($comments, $reply->id), $comments);
+                $toggleButtonId = 'replies-' . $reply->id;
+                renderCommentButton($toggleButtonId, 'Voir les réponses');
                 ?>
+                <div class="replies" id="<?php echo $toggleButtonId; ?>" style="display: none;">
+                    <?php
+                    renderComments(getRepliesByCommentId($comments, $reply->id), $comments);
+                    ?>
+                </div>
             </div>
+
             <?php
         }
     }
