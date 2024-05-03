@@ -1,4 +1,13 @@
 <?php
+session_start();
+// Check if the user is authenticated
+if (!isset($_SESSION['username'])) {
+    // Redirect to the login page
+    header('Location: /client');
+    exit();
+}
+session_write_close();
+
 include '../obj/comment.php';
 include '../obj/story.php';
 include '../component/dm_thread.php';
@@ -8,7 +17,6 @@ include '../component/form/messageForm.php';
 include '../component/form/storyForm.php';
 require '../component/displayStory.php';
 include '../component/userBar.php';
-
 function loadComments() {
     // get request to the server
     $url = API_PATH . '/load/loadComments.php';
@@ -81,7 +89,6 @@ $stories = $storiesData['stories'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C Wall </title>
     <script src="../js/error.js"></script>
-    <script src="../js/auth.js"></script>
     <script src="../js/dmSuggestion.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/submitStory.js"></script>

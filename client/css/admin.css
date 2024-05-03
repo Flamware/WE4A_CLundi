@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif; /* Use Arial font */
+    background-image: url(../assets/background.jpg); /* Set background image */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+body, html {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.main-container {
+    display: flex; /* Use flexbox to split the layout into two sections */
+    flex-direction: row; /* Horizontal layout */
+    height: 100vh; /* Full viewport height */
+}
+
+.left-section {
+    flex-basis: 25%; /* Occupies about 25% of the width */
+    padding: 10px; /* Padding for content inside */
+    border-right: 3px solid #b6bbc4; /* Separator line */
+}
+
+.right-section {
+    flex-basis: 75%; /* Occupies about 75% of the width */
+    flex-grow: 1; /* Expand to fill the remaining space */
+    padding: 20px; /* Padding for content inside */
+}
+
+.page-content {
+    border: 1px solid #ccc; /* Border for visual separation */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #ffffff; /* White background */
+    padding: 20px; /* Padding for content */
+}
+/* Modal base styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal content styles */
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px; /* Maximum width for the modal */
+    position: relative;
+}
+
+/* Close button styling */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+}

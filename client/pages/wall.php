@@ -1,5 +1,5 @@
 <?php
-session_start();
+include '../../api/auth.php';
 include '../component/displayStory.php';
 include '../component/form/storyForm.php';
 include '../obj/comment.php';
@@ -132,7 +132,6 @@ $wall = loadWall($username);
 </div>
 
 </body>
-<script src="../js/submitStory.js"></script>
 <style>
     /* CSS for the banner and profile picture to mimic Twitter */
     .banner-container {

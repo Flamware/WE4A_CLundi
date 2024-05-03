@@ -2,10 +2,11 @@
 session_start();
 include '../db_connexion.php'; // Assuming this file contains the database connection
 global $conn;
+
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['username']) || !$_SESSION['admin']) {
     http_response_code(403);
-    echo json_encode(array('message' => 'You are not an admin. Please login as an admin to access this page.'));
+    echo json_encode(array('message' => 'You are not an admin. Please log in as an admin to access this page.'));
     exit;
 }
 
@@ -27,6 +28,7 @@ if (isset($_POST['type']) && isset($_POST['id']) && isset($_POST['report_content
     try {
         // Prepare the SQL statement using prepared statements to prevent SQL injection
         $stmt = $conn->prepare("INSERT INTO $report_db ({$type}_id, content, `from`) VALUES (:id, :content, :from)");
+
         if ($stmt) {
             // Bind parameters
             $stmt->bindParam(':id', $id);
@@ -34,18 +36,19 @@ if (isset($_POST['type']) && isset($_POST['id']) && isset($_POST['report_content
             $stmt->bindParam(':from', $_SESSION['user_id']);
 
             // Execute the statement
-            if ($stmt->execute()) {
-                echo json_encode(array('message' => 'Report submitted successfully'));
-            } else {
-                echo json_encode(array('message' => 'Error: Unable to execute statement.'));
-            }
+            $stmt->execute();
+            echo json_encode(array('message' => 'Report submitted successfully'));
         } else {
             echo json_encode(array('message' => 'Error: Unable to prepare statement.'));
         }
     } catch (PDOException $e) {
-        echo json_encode(array('message' => 'Error: ' . $e->getMessage()));
+        // Check if it's a duplicate entry error
+        if ($e->getCode() === '23000') {
+            echo json_encode(array('message' => 'Error: The report has already been submitted.'));
+        } else {
+            echo json_encode(array('message' => 'Error: ' . $e->getMessage()));
+        }
     }
 } else {
-    echo json_encode(array('message' => 'Error: Missing parameters'));
+    echo json_encode(array('message' => 'Error: Missing parameters.'));
 }
-?>

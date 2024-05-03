@@ -23,7 +23,7 @@ include '../api/conf.php';
             <li><a href="pages/main.php">Accueil</a></li>
             <li><a href="pages/messages.php">Messages</a></li>
             <li><a href="pages/account.php">Mon Compte</a></li>
-            <li><a href="pages/login.php">A Propos</a></li>
+            <li><a href="pages/login.php">Se Connecter</a></li>
         </ul>
     </nav>
     <div id="content">

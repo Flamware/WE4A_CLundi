@@ -26,40 +26,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if user exists
         if (!$result) {
-            // User not found
             http_response_code(401); // Unauthorized
             echo json_encode(array('success' => false, 'message' => 'Invalid username or password'));
             exit;
         }
 
-        // Verify password
+        // Check if user is banned
+        if ($result['is_banned'] == 1) {
+            $banStart = strtotime($result['ban_start']);
+            $banEnd = strtotime($result['ban_end']);
+            $now = time();
+
+            if ($banEnd > 0) {
+                $remainingTime = $banEnd - $now;
+
+                if ($remainingTime > 0) {
+                    // User is still banned, calculate remaining time
+                    $hoursLeft = floor($remainingTime / 3600);
+                    $minutesLeft = floor(($remainingTime % 3600) / 60);
+                    $secondsLeft = $remainingTime % 60;
+
+                    http_response_code(403); // Forbidden
+                    echo json_encode(array(
+                        'success' => false,
+                        'message' => "You are banned. Remaining time: {$hoursLeft}h {$minutesLeft}m {$secondsLeft}s."
+                    ));
+                    exit;
+                }
+            } else {
+                // Permanent ban
+                http_response_code(403); // Forbidden
+                echo json_encode(array('success' => false, 'message' => 'You are permanently banned.'));
+                exit;
+            }
+        }
+
+        // If the user is not banned or the ban has expired, verify the password
         if (password_verify($password, $result['password'])) {
-            // Set session variables
             $_SESSION['user_id'] = $result['user_id'];
             $_SESSION['username'] = $result['username'];
             $_SESSION['admin'] = $result['is_admin'];
-            // Set cookie
-            setcookie('user_id', $result['user_id'], time() + 3600, '/');
-            // Return JSON response with success and user information
+            $_SESSION['banned'] = 0;
+
+            // If the ban expired, lift it
+            if ($result['is_banned'] == 1 && $banEnd <= $now) {
+                $stmt = $conn->prepare("UPDATE users SET is_banned = 0, ban_start = NULL, ban_end = NULL WHERE user_id = :user_id");
+                $stmt->bindParam(':user_id', $result['user_id']);
+                $stmt->execute();
+            }
+
+            // Return successful login response
             http_response_code(201); // Created
             echo json_encode(array('success' => true, 'message' => 'Login successful'));
             exit;
         } else {
-            // Invalid password
             http_response_code(401); // Unauthorized
             echo json_encode(array('success' => false, 'message' => 'Invalid username or password'));
             exit;
         }
     } catch (PDOException $e) {
-        // Database error
         http_response_code(500); // Internal server error
         echo json_encode(array('success' => false, 'message' => 'Database error'));
         exit;
     }
 } else {
-    // Invalid request method
     http_response_code(405); // Method Not Allowed
     echo json_encode(array('success' => false, 'message' => 'Method Not Allowed'));
     exit;
 }
-?>

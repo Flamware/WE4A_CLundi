@@ -7,7 +7,6 @@ include 'button/renderCommentButton.php'; // Corrected inclusion
 require 'form/reportForm.php';
 function renderStory($story, $comments) {
     ?>
-
     <div class="story">
         <div class="story-content">
             <a href="../pages/wall.php?username=<?= urlencode($story->author) ?>">
@@ -35,6 +34,7 @@ function renderStory($story, $comments) {
         // Pass the comment section ID and comments data to render the comment button
         renderCommentButton($commentSectionId, "Voir les commentaires");
         ?>
+        <?php if (count($comments) > 0) { ?>
         <!-- The comment section with unique ID -->
         <div id="<?= $commentSectionId ?>" style="display: none;">
             <?php
@@ -42,6 +42,8 @@ function renderStory($story, $comments) {
             renderParentComments($comments);
             ?>
         </div>
+        <?php } ?>
+
     </div>
 
 
