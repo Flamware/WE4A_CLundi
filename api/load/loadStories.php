@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../db_connexion.php';
+include '../db_connexion.php'; // Database connection
 global $conn;
 
 // Function to fetch paginated stories
@@ -37,7 +37,7 @@ function fetchStoryById($storyId) {
          WHERE stories.id = :storyId 
          GROUP BY stories.id"
     );
-    $stmt->bindParam(':storyId', $storyId, PDO::PARAM_INT);
+    $stmt->bindParam(':id', $storyId, PDO::PARAM_INT);
     $stmt->execute();
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,7 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         'content' => $story['content'],
                         'author' => $story['author'],
                         'date' => $story['created_at'],
-                        'like_count' => $story['like_count']
+                        'like_count' => $story['like_count'],
+                        'story_image' => $story['story_image'] ?? null // Optional image filename
                     )
                 );
                 http_response_code(200); // OK status
@@ -85,7 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     'content' => $story['content'],
                     'author' => $story['author'],
                     'date' => $story['created_at'],
-                    'like_count' => $story['like_count']
+                    'like_count' => $story['like_count'],
+                    'story_image' => $story['story_image'] ?? null // Optional image filename
                 );
             }, $stories);
 

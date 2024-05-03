@@ -1,4 +1,3 @@
-User
 <?php
 /*
  * This is the statistics page. It displays the number of stories and comments.
@@ -21,6 +20,7 @@ include "../component/navBar.php";
 <body>
 <?php include '../component/header.php'; ?>
 <?php displayNavBar(); ?>
+<div class="main-container">
 <div class="container">
     <div class="statistics">
         <h1>Statistiques</h1>
@@ -50,6 +50,8 @@ include "../component/navBar.php";
     </div>
     <!-- Add more sections for other statistics as needed -->
 </div>
+</div>
+<?php include '../component/footer.php'; ?>
 </body>
 </html>
 <script>

@@ -63,15 +63,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // If the user is not banned or the ban has expired, verify the password
         if (password_verify($password, $result['password'])) {
-            $_SESSION['user_id'] = $result['user_id'];
+            $_SESSION['user_id'] = $result['id'];
             $_SESSION['username'] = $result['username'];
             $_SESSION['admin'] = $result['is_admin'];
             $_SESSION['banned'] = 0;
 
             // If the ban expired, lift it
             if ($result['is_banned'] == 1 && $banEnd <= $now) {
-                $stmt = $conn->prepare("UPDATE users SET is_banned = 0, ban_start = NULL, ban_end = NULL WHERE user_id = :user_id");
-                $stmt->bindParam(':user_id', $result['user_id']);
+                $stmt = $conn->prepare("UPDATE users SET is_banned = 0, ban_start = NULL, ban_end = NULL WHERE id = :user_id");
+                $stmt->bindParam(':id', $result['user_id']);
                 $stmt->execute();
             }
 

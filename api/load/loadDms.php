@@ -24,7 +24,7 @@ if(isset($_SESSION['user_id'])) {
         foreach ($discussions as &$discussion) {
             if ($discussion['user_id'] == $other_user_id) {
                 $discussion['messages'][] = [
-                    'message_id' => $message['message_id'],
+                    'message_id' => $message['id'],
                     'message_text' => $message['message_text'],
                     'sent_at' => $message['sent_at'],
                     'is_sender' => ($message['sender_id'] == $user_id)
@@ -47,7 +47,7 @@ if(isset($_SESSION['user_id'])) {
                 'sender' => $_SESSION['username'],
                 'messages' => [
                     [
-                        'message_id' => $message['message_id'],
+                        'message_id' => $message['id'],
                         'message_text' => $message['message_text'],
                         'sent_at' => $message['sent_at'],
                         'is_sender' => ($message['sender_id'] == $user_id),

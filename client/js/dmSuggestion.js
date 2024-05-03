@@ -1,56 +1,59 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const receiverInput = document.getElementById("receiver");
-    const suggestionsContainer = document.getElementById("suggestions-container");
+    const inputs = document.querySelectorAll(".fetched-user"); // Get all elements with the class name
+    const suggestionContainers = document.querySelectorAll(".suggestions-container"); // Get corresponding suggestion containers
 
-    receiverInput.addEventListener("input", function () {
-        const query = receiverInput.value.trim(); // Get the value of the input field
+    inputs.forEach((receiverInput, index) => {
+        const suggestionsContainer = suggestionContainers[index]; // Match with corresponding container
 
-        if (query === "") {
-            suggestionsContainer.innerHTML = ""; // Clear suggestions if input is empty
-            return;
-        }
+        receiverInput.addEventListener("input", function () {
+            const query = receiverInput.value.trim(); // Get the value of the input field
 
-        // AJAX request to fetch suggestions
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", `http://localhost/api/suggestion.php?query=${query}`);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                const users = JSON.parse(xhr.responseText);
-                // Create a new suggestion container for scrollability
-                const suggestionContainer = document.createElement("div");
-                suggestionContainer.classList.add("suggestion-container"); // Apply CSS for scrollability
-
-                users.forEach((user) => {
-                    const profilePicture = document.createElement('img');
-                    profilePicture.alt = 'Profile Picture';
-                    profilePicture.classList.add('profile-picture');
-                    profilePicture.setAttribute('data-author-name', user.username);
-
-                    // Fetch and set the profile picture
-                    loadProfilePicture(profilePicture, user.username);
-
-                    const suggestionDiv = document.createElement("div");
-                    suggestionDiv.classList.add("suggestion");
-
-                    const suggestionButton = document.createElement("button");
-                    suggestionButton.classList.add("suggestion-button");
-                    suggestionButton.textContent = user.username;
-
-                    suggestionButton.addEventListener("click", function () {
-                        receiverInput.value = user.username; // Set the receiver input
-                        suggestionsContainer.innerHTML = ""; // Clear suggestions
-                    });
-                    suggestionDiv.appendChild(profilePicture); // Add profile picture to suggestion div
-                    suggestionDiv.appendChild(suggestionButton); // Add to suggestion div
-                    suggestionContainer.appendChild(suggestionDiv); // Add to scrollable container
-                });
-
-                suggestionsContainer.innerHTML = ""; // Clear previous suggestions
-                suggestionsContainer.appendChild(suggestionContainer); // Add the scrollable container
-            } else {
-                console.error("Request failed:", xhr.status);
+            if (query === "") {
+                suggestionsContainer.innerHTML = ""; // Clear suggestions if input is empty
+                return;
             }
-        };
-        xhr.send(); // Send the AJAX request
+
+            // AJAX request to fetch suggestions
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", `http://localhost/api/suggestion.php?query=${query}`);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const users = JSON.parse(xhr.responseText);
+                    const suggestionContainer = document.createElement("div");
+                    suggestionContainer.classList.add("suggestion-container"); // For scrollability
+
+                    users.forEach((user) => {
+                        const profilePicture = document.createElement("img");
+                        profilePicture.alt = "Profile Picture";
+                        profilePicture.classList.add("profile-picture");
+
+                        loadProfilePicture(profilePicture, user.username); // Fetch and set profile picture
+
+                        const suggestionDiv = document.createElement("div");
+                        suggestionDiv.classList.add("suggestion");
+
+                        const suggestionButton = document.createElement("button");
+                        suggestionButton.classList.add("suggestion-button");
+                        suggestionButton.textContent = user.username;
+
+                        suggestionButton.addEventListener("click", function () {
+                            receiverInput.value = user.username; // Set the input field
+                            suggestionsContainer.innerHTML = ""; // Clear suggestions
+                        });
+
+                        suggestionDiv.appendChild(profilePicture); // Add profile picture to suggestion div
+                        suggestionDiv.appendChild(suggestionButton); // Add button to suggestion div
+                        suggestionContainer.appendChild(suggestionDiv); // Add div to container
+                    });
+
+                    suggestionsContainer.innerHTML = ""; // Clear previous suggestions
+                    suggestionsContainer.appendChild(suggestionContainer); // Add new suggestions
+                } else {
+                    console.error("Request failed:", xhr.status);
+                }
+            };
+
+            xhr.send(); // Send the AJAX request
+        });
     });
 });

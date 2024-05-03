@@ -13,7 +13,7 @@ function displayNavBar()
     <button class="expand-button" onclick="showMenu()"><i class="fa fa-bars"></i></button>
     <div id="navbar-content" class="content" style="display: none;">
         <a class="link" href="main.php">Feed</a>
-        <a class="link" href="wall.php">mur</a>
+        <a class="link" href="wall.php">Mur</a>
         <a class="link" href="messages.php">Messages</a>
         <a class="link" href="account.php">Compte</a>
         <a class="link" href="statistics.php">Stats</a>

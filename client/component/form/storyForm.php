@@ -1,88 +1,117 @@
 <?php
-
-function displayStoryForm(){
+function displayStoryForm() {
     ?>
     <section id="submit-story">
-    <label for="story">Votre post :</label>
-    <textarea id="story" rows="4" required></textarea>
-    <button id="submit-story-btn">Partager</button>
-</section>
+        <label for="story">Votre post :</label>
+        <textarea id="story" rows="4" required></textarea>
+        
+        <label for="story-image">Ajouter une image :</label>
+        <input type="file" id="story-image" accept="image/*"> <!-- File input for images -->
 
-<script>
-    // Add event listener for submit button
-    document.getElementById('submit-story-btn').addEventListener('click', function () {
-        // Retrieve story content
-        var storyContent = document.getElementById('story').value;
-        console.log(storyContent);
+        <!-- Image preview section -->
+        <div id="image-preview-container">
+            <img id="image-preview" src="" alt="Image Preview" style="display: none;" /> <!-- Initially hidden -->
+        </div>
+        
+        <button id="submit-story-btn">Partager</button>
+    </section>
 
-        // Send POST request to the server
-        fetch('http://localhost/api/submit/submitStory.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'story=' + encodeURIComponent(storyContent) + '&action=submit_story'
-        })
-            .then(response => response.json()) // Parse response as JSON
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add event listener to the file input to handle image previews
+        document.getElementById('story-image').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('image-preview');
+            
+            if (file) {
+                // Create a URL for the selected file and set it as the image source
+                const fileURL = URL.createObjectURL(file);
+                preview.src = fileURL; // Set the preview image source
+                preview.style.display = 'block'; // Make the preview visible
+            } else {
+                preview.src = ''; // Clear the preview
+                preview.style.display = 'none'; // Hide the preview
+            }
+        });
+
+        document.getElementById('submit-story-btn').addEventListener('click', function () {
+            // Retrieve story content and image
+            var storyContent = document.getElementById('story').value;
+            var storyImage = document.getElementById('story-image').files[0]; // Get the first selected file
+
+            // Create FormData for the POST request
+            var formData = new FormData();
+            formData.append('story', storyContent);
+            formData.append('story_image', storyImage); // Add the image to the form data
+
+            // Send POST request to the server
+            fetch('<?php echo API_PATH; ?>/submit/submitStory.php', {
+                method: 'POST',
+                body: formData // Use FormData for file uploads
+            })
+            .then(response => response.json()) // Parse the JSON response
             .then(data => {
-                // Check if the submission was successful
-                if(data.success){
-                    // Show success message
-                    showError(data.message);
-                    // Reload the page after a delay (optional)
+                if (data.success) {
+                    showError(data.message); // Show success message
                     setTimeout(function () {
-                        window.location.reload();
+                        window.location.reload(); // Reload page after delay
                     }, 1000);
                 } else {
-                    // Show error message if submission failed
-                    showError(data.message);
+                    showError(data.message); // Show error message
                 }
             })
             .catch(error => {
-                // Handle fetch errors
-                console.error('Error:', error);
-                // Show error message
+                console.error('Error:', error); // Handle fetch errors
                 showError('An error occurred while submitting the story. Please try again.');
             });
+        });
     });
-</script>
+    </script>
 
     <style>
-#submit-story {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px;
-        border: 2px solid;
-        border-radius: 10px;
-        background-color: #b6bbc4;
-    }
+        #submit-story {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px;
+            border: 2px solid;
+            border-radius: 10px;
+            background-color: #b6bbc4;
+        }
 
-    #submit-story label {
-        margin-bottom: 10px;
-    }
+        #submit-story label {
+            margin-bottom: 10px;
+        }
 
-    #submit-story textarea {
-        width: 100%;
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
+        #submit-story textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
 
-    #submit-story button {
-        padding: 5px 15px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+        #submit-story button {
+            padding: 5px 15px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    #submit-story button:hover {
-        background-color: #0056b3;
-    }
-</style>
+        #submit-story button:hover {
+            background-color: #0056b3;
+        }
+
+        #image-preview-container {
+            margin-top: 10px;
+        }
+
+        #image-preview {
+            max-width: 200px; // Limit the width of the preview
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
     <?php
 }
-?>

@@ -6,8 +6,8 @@ global $conn;
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['username'])) {
     $stmt = $conn->prepare("SELECT comments.*, COUNT(likes.like_id) AS like_count 
                             FROM comments 
-                            LEFT JOIN likes ON comments.comment_id = likes.comment_id 
-                            GROUP BY comments.comment_id");
+                            LEFT JOIN likes ON comments.id = likes.comment_id 
+                            GROUP BY comments.id");
     $stmt->execute();
     $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['username'])) {
     $formattedComments = [];
     foreach ($comments as $comment) {
         $formattedComments[] = array(
-            'id' => $comment['comment_id'],
+            'id' => $comment['id'],
             'story_id' => $comment['story_id'],
             'parent_comment_id' => $comment['parent_comment_id'],
             'content' => $comment['content'],

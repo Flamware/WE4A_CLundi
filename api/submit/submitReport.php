@@ -25,6 +25,7 @@ if (isset($_POST['type']) && isset($_POST['id']) && isset($_POST['report_content
     }
     $report_db = $type . '_reports';
 
+
     try {
         // Prepare the SQL statement using prepared statements to prevent SQL injection
         $stmt = $conn->prepare("INSERT INTO $report_db ({$type}_id, content, `from`) VALUES (:id, :content, :from)");

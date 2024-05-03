@@ -15,9 +15,9 @@ function loadStoriesFromWall($conn, $author){
 function loadCommentsForStories($conn, $stories){
     $stmt = $conn->prepare("SELECT comments.*, COUNT(likes.like_id) AS like_count 
                             FROM comments 
-                            LEFT JOIN likes ON comments.comment_id = likes.comment_id 
+                            LEFT JOIN likes ON comments.id = likes.comment_id 
                             WHERE comments.story_id = :story_id
-                            GROUP BY comments.comment_id");
+                            GROUP BY comments.id");
     $comments = [];
     foreach ($stories as $story) {
         $stmt->bindParam(':story_id', $story['id']);
@@ -46,7 +46,7 @@ function formatComments($comments){
     foreach ($comments as $comment) {
         foreach ($comment as $c) {
             $formattedComments[] = array(
-                'id' => $c['comment_id'],
+                'id' => $c['id'],
                 'story_id' => $c['story_id'],
                 'parent_comment_id' => $c['parent_comment_id'],
                 'content' => $c['content'],

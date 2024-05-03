@@ -63,8 +63,7 @@ include '../component/navbar.php'; // Include the navbar component
                 <button type="submit">Update</button>
             </div>
         </form>
-
-
+    </div>
 </div>
 <?php include '../component/footer.php'; ?> <!-- Include footer view -->
 </body>

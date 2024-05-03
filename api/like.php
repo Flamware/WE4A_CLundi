@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $liked_item_type = $_POST['type'];
 
     // Check if the user has already liked the post
-    $query_check_like = "SELECT like_id FROM likes WHERE user_id = :user_id AND ";
+    $query_check_like = "SELECT id FROM likes WHERE user_id = :user_id AND ";
     if ($liked_item_type == 'story') {
         $query_check_like .= "story_id = :liked_item_id AND liked_item_type = 'story'";
     } elseif ($liked_item_type == 'comment') {
@@ -26,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($existing_like) {
         // User has already liked the post, delete the like
-        $query_delete_like = "DELETE FROM likes WHERE like_id = :like_id";
+        $query_delete_like = "DELETE FROM likes WHERE id = :id";
         $stmt_delete_like = $conn->prepare($query_delete_like);
-        $stmt_delete_like->bindParam(':like_id', $existing_like['like_id']);
+        $stmt_delete_like->bindParam(':id', $existing_like['id']);
         $stmt_delete_like->execute();
 
         // Return a success response and the new total likes
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 function countLikes($liked_item_id, $liked_item_type) {
     global $conn;
-    $query_count_likes = "SELECT COUNT(like_id) AS total_likes FROM likes WHERE ";
+    $query_count_likes = "SELECT COUNT(id) AS total_likes FROM likes WHERE ";
     if ($liked_item_type == 'story') {
         $query_count_likes .= "story_id = :liked_item_id AND liked_item_type = 'story'";
     } elseif ($liked_item_type == 'comment') {

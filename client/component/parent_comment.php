@@ -42,10 +42,11 @@ function renderParentComments($comments) {
                     ?>
                 </span>
                 <?php
+                displayReportForm('comment', $comment->id);
                 $toggleButtonId = 'replies-' . $comment->id;
                 renderCommentButton($toggleButtonId, 'Voir les réponses');
                 ?>
-                <div class="replies" id="<?php echo $toggleButtonId; ?>" style="display: none;">
+                <div class="replies" id="<?php echo $toggleButtonId; ?>" onload="toggleVisibility(this)" style="display: none;">
                     <?php
                     require_once 'render_replies.php';
                     renderComments(getRepliesByCommentId($comments, $comment->id), $comments);

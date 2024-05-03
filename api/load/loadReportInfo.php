@@ -19,7 +19,7 @@ global $conn;
 $username = $_GET['username'];
 
 // Fetch the user ID using a prepared statement
-$stmt = $conn->prepare("SELECT user_id, reported FROM users WHERE username = ?");
+$stmt = $conn->prepare("SELECT id, reported FROM users WHERE username = ?");
 $stmt->execute([$username]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -29,20 +29,27 @@ if (!$userData) {
     exit;
 }
 
-$user_id = $userData['user_id'];
+$user_id = $userData['id'];
 $reported = $userData['reported'];
 
-// If the user has not been reported, return a message indicating no reports found
-if ($reported == 0) {
-    echo json_encode(['success' => true, 'message' => 'No reports found for this user.']);
-    exit;
-}
+
 // Check ban status in the database
 $stmt = $conn->prepare("SELECT is_banned , ban_start, ban_end FROM users WHERE username = ?");
 $stmt->execute([$username]);
 $banStatus = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
+// If the user has not been reported, and is not banned, return an empty response
+if ($reported == 0 && $banStatus['is_banned'] == 0) {
+    echo json_encode([
+        'success' => true,
+        'message' => 'No reports found.',
+        'banStatus' => $banStatus,
+        'reportedStories' => [],
+        'reportedComments' => [],
+        'reportedMessages' => [],
+    ]);
+    exit;
+}
 // Initialize arrays to store reported stories, comments, and messages
 $reportedStories = [];
 $reportedComments = [];

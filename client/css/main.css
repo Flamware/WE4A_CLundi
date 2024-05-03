@@ -21,6 +21,14 @@ body, html {
 .first-section {
     flex-basis: 15%; /* Fixed percentage width for first section */
     max-width: 15%; /* Prevent the section from growing too much */
+    background-color: #aab8c2; /* Set background color */
+    color: #0c356a; /* Set text color */
+    padding: 10px; /* Add padding */
+    margin-right: 10px; /* Add margin to the right */
+    border-radius: 5px; /* Add border radius */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add box shadow */
+    max-height: 50vh; /* Maximum height to control the section's height */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
 }
 
 .second-section {
@@ -32,6 +40,10 @@ body, html {
 .third-section {
     flex-basis: 15%; /* Fixed percentage width for third section */
     max-width: 15%; /* Prevent the section from growing too much */
+}
+h1 {
+    text-align: center; /* Center the heading */
+    color: #aab8c2; /* Set heading color */
 }
 
 /* Adjustments for smaller screens */

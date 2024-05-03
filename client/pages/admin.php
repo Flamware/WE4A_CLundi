@@ -12,7 +12,6 @@ if (!isset($_SESSION['username']) || $_SESSION['admin'] !== 1) {
 }
 session_write_close();
 
-echo $_SESSION['username'];
 $userFetched = $_GET['username'] ?? $_SESSION['username'];
 
 function loadReportInfo($username)
@@ -42,7 +41,7 @@ function loadReportInfo($username)
     return json_decode($result);
 }
 $reportInfo = loadReportInfo($userFetched);
-print_r($reportInfo);
+
 
 // Function to display report information in a structured manner
 function displayReportInfo($reportInfo)
@@ -124,19 +123,20 @@ function displayReportInfo($reportInfo)
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/submitStory.js"></script>
     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="../css/messageForm.css">
     <link rel="stylesheet" href="../css/error.css">
 </head>
 <?php include '../component/header.php'; ?>
 <body>
+<?php displayNavBar(); ?>
+<h1>Admin Page</h1>
+
 <div class="main-container">
+
     <div class="left-section">
-        <h1>User Bar</h1>
         <?php displayUserBar('admin.php?username='); ?>
     </div>
 
     <div class="right-section">
-        <h1>Admin Page</h1>
         <div id="error-message" class="error-message"></div>
         <div class="page-content"> <!-- Placeholder for fetched content -->
             <?php

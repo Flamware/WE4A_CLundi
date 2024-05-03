@@ -8,6 +8,7 @@ include '../component/dm_thread.php';
 include '../../api/conf.php';
 include '../component/navbar.php';
 include '../component/form/messageForm.php';
+include '../component/userBar.php';
 
 function getComments($comments, $storyId) {
     $commentsByStoryId = [];
@@ -30,7 +31,6 @@ function loadWall($username)
     if ($username !== null) {
         $url .= '?username=' . urlencode($username);
     }
-    echo $url;
 
     // Headers for the request
     $headers = array(
@@ -57,7 +57,6 @@ function loadWall($username)
 }
 
 $username = $_GET['username'] ?? $_SESSION['username'];
-echo $username;
 $wall = loadWall($username);
 
 
@@ -81,10 +80,11 @@ $wall = loadWall($username);
 <div id="error-message" class="error-message">
 
 </div>
+<h1>Votre Mur</h1>
 <div class="container">
 
     <div class="first-section">
-
+        <?php displayUserBar("wall.php?username="); ?>
     </div>
     <div class="second-section">
             <div class="banner-container">

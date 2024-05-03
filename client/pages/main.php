@@ -11,7 +11,7 @@ session_write_close();
 include '../obj/comment.php';
 include '../obj/story.php';
 include '../component/dm_thread.php';
-include '../../api/conf.php';
+include '../../conf.php';
 include '../component/navbar.php';
 include '../component/form/messageForm.php';
 include '../component/form/storyForm.php';
@@ -98,6 +98,7 @@ $stories = $storiesData['stories'];
 </head>
 <?php include '../component/header.php'; ?>
 <?php displayNavBar(); ?>
+<h1>Feed General</h1>
 <body>
     <div id="error-message" class="error-message">
         <?php
@@ -117,12 +118,11 @@ $stories = $storiesData['stories'];
         <?php displayUserBar("wall.php?username="); ?>
     </div>
     <div class="second-section">
-        <h1>Feed General</h1>
         <?php displayStoryForm(); ?>
     <section id="stories-container">
         <?php
         foreach ($stories as $story) {
-            $storyObj = new Story($story['id'], $story['content'], $story['author'], $story['date'], $story['like_count']);
+            $storyObj = new Story($story['id'], $story['content'], $story['author'], $story['date'], $story['like_count'], $story['story_image']);
             $comments = getCommentsByStoryId($story['id']);
             renderStory($storyObj, $comments);
         }

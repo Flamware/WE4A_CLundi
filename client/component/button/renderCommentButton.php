@@ -1,41 +1,51 @@
-<!-- button/toggleButton.php -->
 <?php
 function renderCommentButton($targetId, $buttonText) {
     ?>
     <div class="toggle-button-container">
-        <button class="toggle-button" onclick="toggleVisibility('<?php echo $targetId; ?>')"><?php echo $buttonText; ?></button>
+        <!-- Ensure the button has a unique event -->
+        <button class="toggle-button" onclick="toggleVisibility('<?php echo $targetId; ?>')"><?php echo htmlentities($buttonText); ?></button>
     </div>
+
+    <!-- Ensure scripts are placed at the end of the body -->
     <script>
-        function toggleVisibility(targetId) {
-            var target = document.getElementById(targetId);
-            if (target.style.display === "none") {
-                target.style.display = "block";
-            } else {
-                target.style.display = "none";
+            function toggleVisibility(targetId) {
+                const target = document.getElementById(targetId);
+
+                if (target) {
+                    console.log("Attempting to toggle visibility for ID:", targetId);
+                    // Toggle visibility
+                    if (target.style.display === 'hidden') {
+                        target.style.display = 'visible';
+                    } else {
+                        target.style.display = 'hidden';
+                    }
+                }
             }
-        }
     </script>
-    <?php
-}
-?>
+
+
 
 <style>
-    /* Style for toggle button */
+    /* Style for the toggle button */
     .toggle-button-container {
-        margin-top: 10px;
+        margin-top: 10px; /* Spacing between the button and other elements */
     }
 
     .toggle-button {
-        background-color: #0c2d57;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        padding: 8px 16px;
-        cursor: pointer;
+        background-color: #0c2d57; /* Dark blue background */
+        color: #fff; /* White text color */
+        border: none; /* No border */
+        border-radius: 5px; /* Rounded corners */
+        padding: 8px 16px; /* Padding for the button */
+        cursor: pointer; /* Change cursor on hover */
+        transition: background-color 0.3s; /* Smooth transition */
     }
 
     .toggle-button:hover {
-        background-color: #0056b3;
+        background-color: #0056b3; /* Change background color on hover */
     }
-
 </style>
+
+    <?php
+}
+?>
