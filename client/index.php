@@ -1,7 +1,7 @@
 <?php
 session_start();
 echo $_SESSION['username'];
-include '../api/conf.php';
+include '../conf.php';
 ?>
 
 <!DOCTYPE html>

@@ -12,7 +12,7 @@ function fetchPaginatedStories($page, $storiesPerPage) {
 
     // Prepare SQL statement with pagination and likes count
     $stmt = $conn->prepare(
-        "SELECT stories.*, COUNT(likes.like_id) AS like_count 
+        "SELECT stories.*, COUNT(likes.id) AS like_count 
          FROM stories 
          LEFT JOIN likes ON stories.id = likes.story_id 
          GROUP BY stories.id 
@@ -31,7 +31,7 @@ function fetchStoryById($storyId) {
     global $conn;
 
     $stmt = $conn->prepare(
-        "SELECT stories.*, COUNT(likes.like_id) AS like_count 
+        "SELECT stories.*, COUNT(likes.id) AS like_count 
          FROM stories 
          LEFT JOIN likes ON stories.id = likes.story_id 
          WHERE stories.id = :storyId 

@@ -14,7 +14,5 @@ if (!defined('API_PATH')) {
     define('API_PATH', $protocol . '://' . $host . $basePath);
 }
 
-// Define a client path
-define('CLIENT_PATH', $protocol . '://' . $host . '/client');
 
 ?>

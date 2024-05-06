@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['username'])) {
 
     //Try deleting the comment from the database if it belongs to the user
     try {
-        $stmt = $conn->prepare('DELETE FROM comments WHERE comment_id = ? AND author = ?');
+        $stmt = $conn->prepare('DELETE FROM comments WHERE id = ? AND author = ?');
         $stmt->execute([$_POST['comment_id'], $_SESSION['username']]);
 
         // Check if the comment was deleted successfully

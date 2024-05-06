@@ -85,6 +85,8 @@ include '../component/navbar.php'; // Include the navbar component
                     // Update the profile picture
                     document.getElementById('profile-pic').src = "http://localhost/api/uploads/profile_picture/" + data.user.profile_picture;
                     // put in local storage the profile picture
+                    //update the profile picture in local storage
+                    localStorage.setItem('profile_picture_' + data.user.username, "http://localhost/api/uploads/profile_picture/" + data.user.profile_picture);
                     const authorName = document.getElementById('profile-pic').getAttribute('data-author-name');
                     const profilePicturePath = data.user.profile_picture;
                 })

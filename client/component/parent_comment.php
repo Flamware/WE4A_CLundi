@@ -32,6 +32,9 @@ function renderParentComments($comments) {
                 <span class="comment-author">
                     <a href="../pages/wall.php?username=<?= urlencode($comment->author) ?>"><?php echo htmlspecialchars($comment->author); ?></a>
                 </span>                <p class="comment-content"><?php echo htmlspecialchars($comment->content); ?></p>
+                <?php if (!empty($comment->comment_image)) : ?>
+                    <img src="<?= API_PATH ?>/uploads/comments/<?= htmlspecialchars($comment->comment_image) ?>" alt="Comment Image" class="comment-image">
+                <?php endif; ?>
                 <span class="comment-date"><?php echo htmlspecialchars($comment->created_at); ?></span>
                 <span class="option">
                     <?php

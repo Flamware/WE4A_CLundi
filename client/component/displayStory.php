@@ -5,7 +5,7 @@ include 'form/replyForm.php';
 include 'button/likeButton.php'; // Corrected inclusion
 include 'button/renderCommentButton.php';
 require 'form/reportForm.php';
-
+require '../../conf.php'; // Include API_PATH
 function renderStory($story, $comments) {
     ?>
     <div class="story">

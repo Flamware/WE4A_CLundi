@@ -1,11 +1,15 @@
 <?php
+session_start();
+// prevent writing to session from other requests
+session_write_close();
+
 include '../../api/auth.php';
 include '../component/displayStory.php';
 include '../component/form/storyForm.php';
 include '../obj/comment.php';
 include '../obj/story.php';
 include '../component/dm_thread.php';
-include '../../api/conf.php';
+include '../../conf.php';
 include '../component/navbar.php';
 include '../component/form/messageForm.php';
 include '../component/userBar.php';
@@ -58,8 +62,6 @@ function loadWall($username)
 
 $username = $_GET['username'] ?? $_SESSION['username'];
 $wall = loadWall($username);
-
-
 ?>
 
 <head>
@@ -103,6 +105,14 @@ $wall = loadWall($username);
                 <div class="account-info">
                     <h2>Account Information</h2>
                     <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+                    <!-- Follow/Unfollow Button -->
+                    <?php if ($username !== $_SESSION['username']) : ?>
+                        <button id="follow-button" class="<?php echo $wall->is_followed ? 'unfollow-button' : 'follow-button'; ?>">
+                            <?php echo $wall->is_followed ? 'Unfollow' : 'Follow'; ?>
+                        </button>
+                    <?php endif; ?>
+
+
                 </div>
             </div>
         <?php displayStoryForm(); ?>
@@ -111,7 +121,7 @@ $wall = loadWall($username);
             foreach ($wall->stories as $storyData) {
                 // Extract story data
                 $story = $storyData;
-                $storyObj = new Story($story->id, $story->content, $story->author, $story->created_at, $story->like_count);
+                $storyObj = new Story($story->id, $story->content, $story->author, $story->created_at, $story->like_count, $story->story_image);
 
                 // Get comments for the story
                 $comments = getComments($wall->comments, $storyObj->id);
@@ -132,6 +142,42 @@ $wall = loadWall($username);
 </div>
 
 </body>
+<script>
+    // Function to follow/unfollow a user using POST
+    function toggleFollow() {
+        const followButton = document.getElementById('follow-button');
+        const username = '<?php echo htmlspecialchars($username); ?>';
+
+        fetch('<?php echo API_PATH?>/submit/submitFollow.php', {
+            method: 'POST',  // POST request
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',  // Ensure correct content type
+            },
+            body: `username=${encodeURIComponent(username)}`,  // Send username in the body
+        })
+            .then(response => response.json())  // Parse JSON response
+            .then(data => {
+                if (data.success) {
+                    // Update button text and class based on follow/unfollow
+                    followButton.textContent = data.isFollowing ? 'Unfollow' : 'Follow';
+                    followButton.classList.toggle('unfollow-button', data.isFollowing);
+                    followButton.classList.toggle('follow-button', !data.isFollowing);
+                } else {
+                    console.error(data.message); // Handle error messages
+                }
+            })
+            .catch(error => {
+                console.error('An error occurred:', error); // Handle network or other errors
+            });
+    }
+
+    // Attach event listener to the follow button
+    const followButton = document.getElementById('follow-button');
+    if (followButton) {
+        followButton.addEventListener('click', toggleFollow);  // Attach event listener to the button
+    }
+
+</script>
 <style>
     /* CSS for the banner and profile picture to mimic Twitter */
     .banner-container {
@@ -146,7 +192,7 @@ $wall = loadWall($username);
 
     .banner-profile-picture {
         position: absolute;
-        bottom: 23%; /* Move it to overlap the banner */
+        bottom: 30%; /* Move it to overlap the banner */
         left: 20px; /* Align to the left */
         border-radius: 50%;
         border: 3px solid white; /* Optional border */
@@ -181,6 +227,46 @@ $wall = loadWall($username);
     .account-info p {
         margin-bottom: 5px;
     }
+    /* Default style for follow/unfollow buttons */
+    .follow-button, .unfollow-button {
+        border: none; /* No border */
+        border-radius: 5px; /* Rounded corners */
+        padding: 8px 16px; /* Padding for a comfortable click area */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        font-weight: bold; /* Bold text for emphasis */
+    }
+
+    /* Style for the 'Follow' button */
+    .follow-button {
+        background-color: #0c2d57; /* Green for following */
+        color: white; /* White text for contrast */
+        transition: background-color 0.3s; /* Smooth transition on hover */
+    }
+
+    /* Hover effect for the 'Follow' button */
+    .follow-button:hover {
+        background-color: #0c2d57; /* Darker green on hover */
+    }
+
+    /* Style for the 'Unfollow' button */
+    .unfollow-button {
+        background-color: red; /* Red for unfollowing */
+        color: white; /* White text for contrast */
+        transition: background-color 0.3s; /* Smooth transition on hover */
+    }
+
+    /* Hover effect for the 'Unfollow' button */
+    .unfollow-button:hover {
+        background-color: darkred; /* Darker red on hover */
+    }
+
+    /* Disabled style for when the button shouldn't be clickable */
+    .disabled-button {
+        background-color: gray; /* Gray color for disabled state */
+        color: lightgray; /* Lighter text to indicate disabled */
+        cursor: not-allowed; /* Cursor indicates disabled */
+    }
+
 </style>
 
 

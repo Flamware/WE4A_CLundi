@@ -1,7 +1,7 @@
 <?php
 /*
  * This file contains the like button component
- * a post request is sent to like-comment.php to like a comment or to like.php to like a story
+ * a post request is sent to like-comment.php to like a comment or to submitLike.php to like a story
  * The like button is displayed with a click event listener that sends a post request to the server
  */
 ?>
@@ -25,11 +25,10 @@
             button.addEventListener('click', function () {
                 var id = this.getAttribute('data-id');
                 var type = this.getAttribute('data-type');
-                var url = 'http://localhost/api/like.php';
                 var formData = new FormData();
                 formData.append('id', id);
                 formData.append('type', type);
-                fetch(url, {
+                fetch('../../../api/submit/submitLike.php', {
                     method: 'POST',
                     body: formData
                 })

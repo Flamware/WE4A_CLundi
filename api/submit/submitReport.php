@@ -4,7 +4,7 @@ include '../db_connexion.php'; // Assuming this file contains the database conne
 global $conn;
 
 // Check if the user is logged in and is an admin
-if (!isset($_SESSION['username']) || !$_SESSION['admin']) {
+if (!isset($_SESSION['username'])) {
     http_response_code(403);
     echo json_encode(array('message' => 'You are not an admin. Please log in as an admin to access this page.'));
     exit;

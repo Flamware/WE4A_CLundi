@@ -4,7 +4,7 @@ include "../db_connexion.php";
 
 global $conn;
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['username'])) {
-    $stmt = $conn->prepare("SELECT comments.*, COUNT(likes.like_id) AS like_count 
+    $stmt = $conn->prepare("SELECT comments.*, COUNT(likes.id) AS like_count 
                             FROM comments 
                             LEFT JOIN likes ON comments.id = likes.comment_id 
                             GROUP BY comments.id");

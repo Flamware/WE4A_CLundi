@@ -22,12 +22,11 @@ function renderDeleteButton($id, $isStory)
                     // Request successful, handle success response
                     var response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        // Display success message or perform any action
-                        alert(response.message);
-                        window.location.reload(); // Reload the page
+                        // Remove the deleted element from the DOM
+                        form.closest('.story').remove();
                     } else {
-                        // Display error message or perform any action
-                        alert(response.message);
+                        // Show error message
+                        alert(response.error);
                     }
                 } else {
                     // Request failed, handle error response

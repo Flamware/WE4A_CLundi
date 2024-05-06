@@ -43,6 +43,7 @@ if ($result === FALSE) {
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/dmSuggestion.js"></script>
     <script src="../js/error.js"></script>
+    <script src="../js/navBar.js"></script>
     <link rel="stylesheet" href="../css/messages.css">
     <link rel="stylesheet" href="../css/error.css">
 </head>
@@ -90,45 +91,6 @@ if ($result === FALSE) {
                 const messageThread = threadContainer.querySelector('.message-thread'); // Find the message thread within the container
                 messageThread.classList.toggle('hidden'); // Toggle the visibility of the message thread
             });
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const messageForm = document.getElementById('message-form');
-
-        messageForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            const formData = new FormData(this); // Get form data
-            const xhr = new XMLHttpRequest(); // Create a new XMLHttpRequest object
-
-            // Configure the AJAX request
-            xhr.open('POST', this.action, true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-            // Define the callback function when the request is complete
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    // Parse the JSON response
-                    const response = JSON.parse(xhr.responseText);
-                    // Check if the response contains a message
-                    if (response && response.message) {
-                        // Show the message using showError function
-                        showError(response.message);
-                        // Clear the form fields
-                        messageForm.reset();
-                        window.location.reload();
-                    } else {
-                        console.error('Invalid response format:', xhr.responseText);
-                    }
-                } else {
-                    // Request failed
-                    showError('Request failed:', xhr.status);
-                    console.error('Request failed:', xhr.status);
-                }
-            };
-            // Send the form data
-            xhr.send(formData);
         });
     });
 

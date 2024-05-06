@@ -36,8 +36,8 @@ if(isset($_SESSION['user_id'])) {
 
         // If the discussion doesn't exist, create a new one
         if (!$discussion_exists) {
-            $stmt = $conn->prepare("SELECT username FROM users WHERE user_id = :user_id");
-            $stmt->bindParam(':user_id', $other_user_id);
+            $stmt = $conn->prepare("SELECT username FROM users WHERE id = :id");
+            $stmt->bindParam(':id', $other_user_id);
             $stmt->execute();
             $other_user = $stmt->fetch(PDO::FETCH_ASSOC);
 

@@ -52,13 +52,15 @@ function displayStoryForm() {
             .then(response => response.json()) // Parse the JSON response
             .then(data => {
                 if (data.success) {
-                    showError(data.message); // Show success message
+                    showError(data.message);
                     setTimeout(function () {
-                        window.location.reload(); // Reload page after delay
+                        window.location.reload();
                     }, 1000);
                 } else {
-                    showError(data.message); // Show error message
+                    console.log('Condition is false:', data.success);
+                    showError(data.message);
                 }
+
             })
             .catch(error => {
                 console.error('Error:', error); // Handle fetch errors

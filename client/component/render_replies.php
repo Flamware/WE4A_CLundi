@@ -11,6 +11,9 @@ function renderComments( $replies = [],$comments) {
                     <?php echo htmlspecialchars($reply->author); ?>
                 </a>
                 <p class="comment-content"><?php echo htmlspecialchars($reply->content); ?></p>
+                <?php if (!empty($reply->comment_image)) : ?>
+                    <img src="<?= API_PATH ?>/uploads/comments/<?= htmlspecialchars($reply->comment_image) ?>" alt="Comment Image" class="comment-image">
+                <?php endif; ?>
                 <span class="comment-date"><?php echo htmlspecialchars($reply->created_at); ?></span>
                 <span class="option">
         <?php

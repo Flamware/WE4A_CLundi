@@ -37,9 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
         $userId = $_SESSION['user_id'];
 
         // Fetch the current profile picture from the database
-        $selectQuery = "SELECT profile_picture FROM users WHERE user_id = :user_id";
+        $selectQuery = "SELECT profile_picture FROM users WHERE id = :id";
         $statement = $conn->prepare($selectQuery);
-        $statement->bindParam(":user_id", $userId);
+        $statement->bindParam(":id", $userId);
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
@@ -51,10 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
         }
 
         // Update the user's profile picture in the database
-        $updateQuery = "UPDATE users SET profile_picture = :profile_picture WHERE user_id = :user_id";
+        $updateQuery = "UPDATE users SET profile_picture = :profile_picture WHERE id = :id";
         $statement = $conn->prepare($updateQuery);
         $statement->bindParam(":profile_picture", $targetFileName); // Store only the file name
-        $statement->bindParam(":user_id", $userId);
+        $statement->bindParam(":id", $userId);
 
         if ($statement->execute()) {
             echo json_encode(["success" => true, "message" => "Profile picture updated successfully."]);

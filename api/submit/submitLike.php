@@ -1,6 +1,6 @@
 <?php
-include 'db_connexion.php'; // Assuming this file includes your PDO database connection
-include 'auth.php'; // Include the auth.php file to check if the user is logged in
+session_start();
+include '../db_connexion.php'; // Assuming this file includes your PDO database connection
 global $conn;
 // Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

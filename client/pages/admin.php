@@ -2,7 +2,7 @@
 session_start();
 require '../component/navbar.php';
 require '../component/userBar.php';
-include '../../api/conf.php';
+include '../../conf.php';
 include '../component/button/banButton.php';
 // Check if the user is authenticated
 if (!isset($_SESSION['username']) || $_SESSION['admin'] !== 1) {
@@ -61,7 +61,7 @@ function displayReportInfo($reportInfo)
             echo "<ul>"; // Using an unordered list
             foreach ($reportInfo->reportedStories as $story) {
                 echo "<li>";
-                echo "<strong>Story ID:</strong> <a href='#' onclick='displayStory(" . htmlentities($story->story_id) . ")'>" . htmlentities($story->story_id) . "</a><br>";
+                echo "<strong>Story ID:</strong> <a href='#' onclick='displayStory(" . htmlentities($story->id) . ")'>" . htmlentities($story->id) . "</a><br>";
                 echo "<strong>Content:</strong> " . htmlentities($story->content) . "<br>";
                 echo "<strong>Reported By User ID:</strong> " . htmlentities($story->from) . "<br>";
                 echo "<strong>Reported At:</strong> " . htmlentities($story->reported_at);
@@ -76,7 +76,7 @@ function displayReportInfo($reportInfo)
             echo "<ul>"; // Using an unordered list
             foreach ($reportInfo->reportedComments as $comment) {
                 echo "<li>";
-                echo "<strong>Comment ID:</strong> " . htmlentities($comment->comment_id) . "<br>";
+                echo "<strong>Comment ID:</strong> " . htmlentities($comment->id) . "<br>";
                 echo "<strong>Content:</strong> " . htmlentities($comment->content) . "<br>";
                 echo "<strong>Reported By User ID:</strong> " . htmlentities($comment->from) . "<br>";
                 echo "<strong>Reported At:</strong> " . htmlentities($comment->reported_at);
@@ -91,7 +91,7 @@ function displayReportInfo($reportInfo)
             echo "<ul>"; // Using an unordered list
             foreach ($reportInfo->reportedMessages as $message) {
                 echo "<li>";
-                echo "<strong>Message ID:</strong> " . htmlentities($message->message_id) . "<br>";
+                echo "<strong>Message ID:</strong> " . htmlentities($message->id) . "<br>";
                 echo "<strong>Content:</strong> " . htmlentities($message->content) . "<br>";
                 echo "<strong>Reported By User ID:</strong> " . htmlentities($message->from) . "<br>";
                 echo "<strong>Reported At:</strong> " . htmlentities($message->reported_at);

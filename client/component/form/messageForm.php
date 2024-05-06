@@ -11,7 +11,45 @@ function displayMessageForm() {
     <?php
 }
 ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const messageForm = document.getElementById('message-form');
 
+        messageForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const xhr = new XMLHttpRequest(); // Create a new XMLHttpRequest object
+            const formData = new FormData(); // Create a FormData object to store form data
+
+            // Set the receiver and message data from form inputs
+            const receiver = document.querySelector('.fetched-user').value; // The receiver's identifier
+            const message = document.querySelector('textarea').value; // The message text
+
+            formData.append('receiver', receiver); // Add the receiver field to the form data
+            formData.append('message', message); // Add the message field to the form data
+
+            xhr.open('POST', 'http://localhost/api/submit/submitMessage.php', true); // Initialize the request
+
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    // If the request was successful
+                    alert('Message sent successfully');
+                    window.location.reload(); // Reload the page
+                } else {
+                    // If the request failed
+                    alert('Failed to send message');
+                }
+            };
+
+            // Handle network errors
+            xhr.onerror = function() {
+                alert('An error occurred during the request');
+            };
+
+            xhr.send(formData); // Send the form data via the POST request
+        });
+    });
+</script>
 
 <style>
     #message-form {
