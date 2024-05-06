@@ -1,4 +1,5 @@
 <?php
+
 function displayDMThread($thread){
     $messageAuthor = $thread['sender'];
     $messageRecipient = $thread['receiver'];
@@ -9,7 +10,7 @@ function displayDMThread($thread){
         <?php foreach ($thread['messages'] as $message) :?>
             <div class="message <?php echo $message['is_sender'] ? 'sent' : 'received'; ?>">
                 <div class="message-content">
-                    <img src="http://localhost/api/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?php echo $message['is_sender'] ? $messageAuthor : $messageRecipient; ?>">
+                    <img src="../assets/profile_picture.png" alt="Profile Picture" class="profile-picture" data-author-name="<?php echo $message['is_sender'] ? $messageAuthor : $messageRecipient; ?>">
                     <div class="message-text">
                         <p><?php echo $message['message_text']; ?></p>
                         <span class="timestamp"><?php echo $message['sent_at']; ?></span>
@@ -17,7 +18,7 @@ function displayDMThread($thread){
                 </div>
             </div>
         <?php endforeach; ?>
-        <form class="reply-form" action="http://localhost/api/submit/submitMessage.php" method="post" onsubmit="postMessage(event, '<?php echo $messageRecipient; ?>')">
+        <form class="reply-form" action="http://localhost/api/submit/submitMessage.php" method="post" onsubmit="postMessage(event, '<?php echo $messageRecipient; ?>', '<?php echo $messageAuthor; ?>')">
             <input type="hidden" name="receiver" value="<?php echo $messageRecipient; ?>">
             <textarea name="message" placeholder="Reply to <?php echo $messageRecipient; ?>"></textarea>
             <button type="submit">Reply</button>
@@ -26,7 +27,7 @@ function displayDMThread($thread){
 
 <script>
     //async function postMessage
-    async function postMessage(event, recipient) {
+    async function postMessage(event, recipient, author) {
         event.preventDefault(); // Prevent default form submission
         const form = event.target;
         const formData = new FormData(form);
@@ -44,10 +45,11 @@ function displayDMThread($thread){
             //add dynamic message
             const messages = form.parentElement;
             const message = document.createElement('div');
+            const profilePicture = localStorage.getItem('profile_picture_' + author);
             message.classList.add('message', 'sent');
             message.innerHTML = `
                 <div class="message-content">
-                    <img src="http://localhost/api/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?php echo $messageAuthor; ?>">
+                    <img src="${profilePicture}" alt="Profile Picture" class="profile-picture" data-author-name="${author}">
                     <div class="message-text">
                         <p>${formData.get('message')}</p>
                         <span class="timestamp">${new Date().toLocaleString()}</span>

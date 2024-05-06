@@ -1,7 +1,7 @@
 <?php
 class Comment
 {
-    public $comment_id;
+    public $id;
     public $story_id;
     public $parent_comment_id;
     public $content;
@@ -10,9 +10,9 @@ class Comment
     public $like_count;
     public $comment_image;
 
-    public function __construct($comment_id, $story_id, $parent_comment_id, $content, $author, $created_at, $like_count = 0, $comment_image = null)
+    public function __construct($id, $story_id, $parent_comment_id = null, $content, $author, $created_at, $like_count = 0, $comment_image = null)
     {
-        $this->comment_id = $comment_id;
+        $this->id = $id;
         $this->story_id = $story_id;
         $this->parent_comment_id = $parent_comment_id;
         $this->content = $content;

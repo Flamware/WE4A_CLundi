@@ -5,7 +5,7 @@ function renderComments( $replies = [],$comments) {
             ?>
             <div class="comment">
                 <a href="../pages/wall.php?username=<?= urlencode($reply->author) ?>">
-                    <img src="http://localhost/api/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?= htmlspecialchars($reply->author) ?>">
+                    <img src="../assets/profile_picture.png" alt="Profile Picture" class="profile-picture" data-author-name="<?= htmlspecialchars($reply->author) ?>">
                 </a>
                 <a href="../pages/wall.php?username=<?= urlencode($reply->author) ?>" class="comment-author">
                     <?php echo htmlspecialchars($reply->author); ?>

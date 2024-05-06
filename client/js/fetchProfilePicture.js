@@ -10,13 +10,18 @@ function loadProfilePicture(profilePictureElement) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                profilePicturePath = xhr.responseText;
-                // Set the profile picture source
-                profilePictureElement.setAttribute('src', "http://localhost/api/uploads/profile_picture/" + profilePicturePath);
-                // Store the profile picture URL in localStorage
-                localStorage.setItem('profile_picture_' + authorName, "http://localhost/api/uploads/profile_picture/" + profilePicturePath);
+                var response = JSON.parse(xhr.responseText); // Parse the JSON response
+                var profilePicturePath;
+                if (response.profile_picture === '') {
+                    profilePicturePath = "../assets/profile_picture.png"; // Default
+                } else {
+                    profilePicturePath = "http://localhost/api/uploads/profile_picture/" + response.profile_picture;
+                }
+                profilePictureElement.setAttribute('src', profilePicturePath);
+                localStorage.setItem('profile_picture_' + authorName, profilePicturePath);
             }
         };
+
         // Send the AJAX request to fetch the profile picture
         xhr.open('GET', 'http://localhost/api/load/loadProfilePicture.php?author=' + authorName, true);
         xhr.send();

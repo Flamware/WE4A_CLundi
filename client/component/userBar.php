@@ -22,7 +22,7 @@ function displayUserBar($url) {
 
             // Function to fetch users from the server
             function fetchUsers() {
-                fetch('../../api/load/loadUsers.php?page=' + currentPage)
+                fetch('<?php echo API_PATH ?>/load/loadUsers.php?page=' + currentPage)
                     .then(response => response.json())
                     .then(data => {
                         // Access the 'users' property of the data object
@@ -40,7 +40,7 @@ function displayUserBar($url) {
 
                             // Add profile picture image
                             const imgElement = document.createElement('img');
-                            imgElement.src = 'http://localhost/api/uploads/profile_picture/default_profile_picture.jpg'; // Adjust image source
+                            imgElement.src = '../assets/profile_picture.png'; // Adjust image source
                             imgElement.alt = 'Profile Picture';
                             imgElement.classList.add('profile-picture');
                             imgElement.setAttribute('data-author-name', user.username); // Adjust data attribute

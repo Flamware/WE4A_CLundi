@@ -2,7 +2,6 @@
 /**
  * Display the navigation bar with notification integration
  */
-include '../../conf.php';
 
 function displayNavBar() {
     ?>
@@ -20,8 +19,9 @@ function displayNavBar() {
             <span id="notification-count" class="notification-count">0</span>
         </div>
         <div id="navbar-content" class="content" style="display: none;">
-            <a class="link" href="main.php">Feed</a>
-            <a class="link" href="wall.php">Mur</a>
+            <a class="link" href="main.php">General</a>
+            <a class="link" href="feed.php">Votre Feed</a>
+            <a class="link" href="wall.php">Votre Mur</a>
             <a class="link" href="messages.php">Messages</a>
             <a class="link" href="account.php">Compte</a>
             <a class="link" href="statistics.php">Stats</a>

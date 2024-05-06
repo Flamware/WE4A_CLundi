@@ -40,14 +40,13 @@ function loadComments() {
     if ($result === FALSE) {
         return 'Impossible de charger les commentaires, veuillez réessayer.';
     }
-    return json_decode($result);
+    return json_decode($result, true);
 }
 
-function getCommentsByStoryId($storyId) {
-    $comments = loadComments();
+function getCommentsByStoryId($comments, $storyId) {
     $commentsByStoryId = [];
     foreach ($comments as $comment) {
-        if ($comment->story_id == $storyId) {
+        if ($comment['story_id'] == $storyId) {
             $commentsByStoryId[] = $comment;
         }
     }
@@ -80,7 +79,10 @@ function loadStories($page) {
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 // Load stories for the given page
 $storiesData = loadStories($page);
+$commentsData = loadComments();
+// Check if the response is valid
 $stories = $storiesData['stories'];
+$comments = $commentsData['comments'];
 
 ?>
 
@@ -98,7 +100,7 @@ $stories = $storiesData['stories'];
 </head>
 <?php include '../component/header.php'; ?>
 <?php displayNavBar(); ?>
-<h1>Feed General</h1>
+<h1>General</h1>
 <body>
     <div id="error-message" class="error-message">
         <?php
@@ -106,9 +108,8 @@ $stories = $storiesData['stories'];
         if (!is_array($stories)) {
             echo $stories;
         } else {
-            $comments = loadComments();
             if (!is_array($comments)) {
-                echo $comments->message;
+                echo $comments;
             }
         }
         ?>
@@ -122,9 +123,30 @@ $stories = $storiesData['stories'];
     <section id="stories-container">
         <?php
         foreach ($stories as $story) {
-            $storyObj = new Story($story['id'], $story['content'], $story['author'], $story['date'], $story['like_count'], $story['story_image']);
-            $comments = getCommentsByStoryId($story['id']);
-            renderStory($storyObj, $comments);
+            $storyObj = new Story(
+                    $story['id'],
+                    $story['content'],
+                    $story['author'],
+                    $story['date'],
+                    $story['like_count'],
+                    $story['story_image']
+            );
+            $comments = getCommentsByStoryId($comments,$story['id']);
+            // define comment as an array of Comment objects
+            $commentObjects = array();
+            foreach ($comments as $comment) {
+                $commentObj = new Comment(
+                    $comment['id'],
+                    $comment['story_id'],
+                    $comment['parent_comment_id'],
+                    $comment['content'],
+                    $comment['author'],
+                    $comment['parent_comment_id'] ?? null,
+                    $comment['like_count']
+                );
+                $commentObjects[] = $commentObj;
+            }
+            renderStory($storyObj, $commentObjects);
         }
         ?>
         <div class="pagination">

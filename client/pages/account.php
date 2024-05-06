@@ -6,7 +6,16 @@
  * source: https://github.com/Flamware/CLundi
  */
 session_start();
+session_write_close();
 include '../component/navbar.php'; // Include the navbar component
+
+// Check if the user is authenticated
+if (!isset($_SESSION['username'])) {
+    // Redirect to the login page
+    header('Location: /client');
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -21,10 +30,10 @@ include '../component/navbar.php'; // Include the navbar component
     <?php include '../component/header.php'; ?>
 </head>
 <body>
-<?php displayNavBar(); ?>
 <!-- Error message container -->
 <div id="error-message" class="error-message"></div>
 <div class="container">
+
     <h2>Account Information</h2>
     <div class="info">
         <div class="profile-picture">

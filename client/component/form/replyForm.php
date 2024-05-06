@@ -54,7 +54,7 @@ function renderReplyForm($storyId, $parent_comment_id_value)
             form.addEventListener('submit', function (event) {
                 event.preventDefault(); // Prevent default form submission
                 var formData = new FormData(form);
-                var url = '../../api/submit/submitComment.php'; // Your API endpoint
+                var url = '<?php echo API_PATH?>/submit/submitComment.php'; // Your API endpoint
                 fetch(url, {
                     method: 'POST',
                     body: formData

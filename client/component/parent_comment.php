@@ -1,14 +1,17 @@
 <!-- render_parent_comment.php -->
 <?php
-
 function getParentComment($comments) {
     if (!is_array($comments)) {
-        return [];
+        return []; // Return an empty array if the input is invalid
     }
-    return array_filter($comments, function($comment) {
-        return $comment->parent_comment_id == 0;
+
+    // Check for comments where parent_comment_id is null or empty
+    return array_filter($comments, function ($comment) {
+        return empty($comment->parent_comment_id); // Check if the parent_comment_id is empty
     });
 }
+
+
 
 function getRepliesByCommentId($comments, $parent_comment_id) {
     if (!is_array($comments)) {
@@ -26,7 +29,7 @@ function renderParentComments($comments) {
             ?>
             <div class="comment">
                 <a href="../pages/wall.php?username=<?= urlencode($comment->author) ?>">
-                    <img src="http://localhost/api/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?= htmlspecialchars($comment->author) ?>">
+                    <img src="../assets/profile_picture.png" alt="Profile Picture" class="profile-picture" data-author-name="<?= htmlspecialchars($comment->author) ?>">
                 </a>
                 <span hidden="comment id :"><?php echo htmlspecialchars($comment->id); ?></span>
                 <span class="comment-author">

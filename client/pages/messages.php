@@ -4,12 +4,12 @@
  * It fetches the messages from the database and displays them in a user-friendly format.
  * source: clundi.fr
  */
+include '../../conf.php'; // Include the API path
 include '../component/dm_thread.php'; // Include the direct message thread component
 include '../component/navbar.php'; // Include the navbar component
 include '../component/form/messageForm.php';
-
 //get request to the server
-$url = 'http://localhost/api/load/loadDms.php';
+$url = API_PATH.'/load/loadDms.php';
 $data = array('action' => 'loadDMs');
 $headers = array(
     'Content-type: application/x-www-form-urlencoded',

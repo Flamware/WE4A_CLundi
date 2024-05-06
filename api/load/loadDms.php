@@ -27,6 +27,7 @@ if(isset($_SESSION['user_id'])) {
                     'message_id' => $message['id'],
                     'message_text' => $message['message_text'],
                     'sent_at' => $message['sent_at'],
+                    'message_image' => $message['message_image'], // Add 'message_image' key
                     'is_sender' => ($message['sender_id'] == $user_id)
                 ];
                 $discussion_exists = true;

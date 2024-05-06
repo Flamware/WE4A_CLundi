@@ -28,8 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['username'])) {
     // return them the most recent to the oldest
     $formattedComments = array_reverse($formattedComments);
     http_response_code(200);
-    echo json_encode($formattedComments);
-    exit;
+    echo json_encode(array('success' => false, 'comments' => $formattedComments));
 } else {
     http_response_code(400);
     echo json_encode(array('success' => false, 'message' => 'Invalid action'));

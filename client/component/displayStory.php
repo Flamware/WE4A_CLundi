@@ -5,13 +5,12 @@ include 'form/replyForm.php';
 include 'button/likeButton.php'; // Corrected inclusion
 include 'button/renderCommentButton.php';
 require 'form/reportForm.php';
-require '../../conf.php'; // Include API_PATH
 function renderStory($story, $comments) {
     ?>
     <div class="story">
         <div class="story-content">
             <a href="../pages/wall.php?username=<?= urlencode($story->author) ?>">
-                <img src="http://localhost/api/uploads/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?= htmlspecialchars($story->author) ?>">
+                <img src="../assets/profile_picture.png" alt="Profile Picture" class="profile-picture" data-author-name="<?= htmlspecialchars($story->author) ?>">
             </a>
             <a href="../pages/wall.php?username=<?= urlencode($story->author) ?>" class="author"><?= htmlspecialchars($story->author) ?></a>
             <p class="content"><?= htmlspecialchars($story->content) ?></p>
