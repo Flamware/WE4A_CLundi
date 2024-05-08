@@ -140,24 +140,25 @@ $username = $_SESSION['username']?? 'Guest'; // Get the username from the sessio
     fetchNotifications(); // Fetch on page load
 </script>
 <style>
-    /* Overall styles for the header */
+
+
     .header {
-        display: flex;
-        justify-content: space-between; /* Horizontally spaced elements */
+        display: flex; /* Ensure header uses flex layout */
+        justify-content: space-between; /* Keep left and right sections at each end */
         align-items: center; /* Align vertically */
         background-color: #242038; /* Header background */
-        color: #CAC4CE; /* Light text color */
-        padding: 10px 20px; /* Uniform padding */
+        color: #CAC4CE; /* Text color */
+        padding: 10px 20px; /* Padding */
         border-radius: 0 0 10px 10px; /* Rounded bottom corners */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Soft shadow */
     }
-
-    /* Left section of the header */
-    .header .left {
-        display: flex;
-        gap: 10px; /* Spacing between elements */
+    .left {
+        display: flex; /* Use flex layout */
+        align-items: center; /* Align vertically */
+        flex-grow: 1; /* Grow to occupy available space */
+        justify-content: space-between; /* Even space between items */
+        padding: 0 20px; /* Add padding on left and right for consistency */
     }
-
     .header img {
         max-width: 40px;
         height: auto;

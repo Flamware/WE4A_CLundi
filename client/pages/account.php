@@ -31,7 +31,11 @@ if (!isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../js/error.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
+    <script src="../js/fetchFollowers.js"></script>
     <link rel="stylesheet" href="../css/error.css">
+    <link rel="stylesheet" href="../css/account.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/followBar.css">
     <title>Account</title>
     <?php include '../component/header.php'; ?>
 </head>

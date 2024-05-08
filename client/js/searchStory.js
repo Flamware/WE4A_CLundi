@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 suggestionButton.classList.add("story-search-button");
                                 suggestionButton.textContent = "View Story";
                                 suggestionButton.addEventListener("click", function () {
-                                    window.location.href = `story.php?id=${story.id}`; // Redirect to story
+                                    window.location.href = `main.php?search=${story.content}`; // Redirect to story
                                 });
 
                                 suggestionDiv.appendChild(suggestionButton); // Append the button to suggestionDiv
