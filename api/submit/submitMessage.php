@@ -79,6 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['username'])) {
 } else {
     // Unauthorized access
     http_response_code(401); // Unauthorized
-    echo json_encode(array('success' => false, 'message' => 'Unauthorized'));
+    echo json_encode(array('success' => false, 'message' => 'Unauthorized access'));
 }
 ?>

@@ -3,7 +3,7 @@ include '../db_connexion.php';
 global $conn;
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['user_id'])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $page = isset($_GET['page']) ? $_GET['page'] : 1;
     $limit = 3;
     $offset = ($page - 1) * $limit;

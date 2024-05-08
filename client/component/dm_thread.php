@@ -1,19 +1,21 @@
 <?php
-
 function displayDMThread($thread){
     $messageAuthor = $thread['sender'];
     $messageRecipient = $thread['receiver'];
     ?>
     <script src="../js/fetchProfilePicture.js"></script>
-    <link rel="stylesheet" href="../css/dm_thread.css">
+        <link rel="stylesheet" href="../css/dm_thread.css">
     <div class="messages">
         <?php foreach ($thread['messages'] as $message) :?>
             <div class="message <?php echo $message['is_sender'] ? 'sent' : 'received'; ?>">
                 <div class="message-content">
                     <img src="../assets/profile_picture.png" alt="Profile Picture" class="profile-picture" data-author-name="<?php echo $message['is_sender'] ? $messageAuthor : $messageRecipient; ?>">
                     <div class="message-text">
-                        <p><?php echo $message['message_text']; ?></p>
-                        <span class="timestamp"><?php echo $message['sent_at']; ?></span>
+                        <p><?php echo htmlspecialchars($message['message_text']); ?></p>
+                        <?php if (!empty($message['message_image'])) : ?>
+                            <img src="<?php echo API_PATH . "/uploads/messages/" . htmlspecialchars($message['message_image']); ?>" alt="Message Image" class="message-image">
+                        <?php endif; ?>
+                        <span class="timestamp"><?php echo htmlspecialchars($message['sent_at']); ?></span>
                     </div>
                 </div>
             </div>
@@ -22,6 +24,7 @@ function displayDMThread($thread){
             <input type="hidden" name="receiver" value="<?php echo $messageRecipient; ?>">
             <textarea name="message" placeholder="Reply to <?php echo $messageRecipient; ?>"></textarea>
             <button type="submit">Reply</button>
+            <input type="file" name="message_image" accept="image/*">
         </form>
     </div>
 
@@ -108,6 +111,53 @@ function displayDMThread($thread){
     .reply-form button {
         align-self: flex-end;
     }
+    /* prevent size for image */
+    .message-image {
+        max-width: 100%;
+        max-height: 200px;
+    }
+    .thread-container {
+        border-radius: 5px;
+        margin-bottom: 10px; /* Reduced margin */
+        padding: 5px; /* Reduced padding */
+        width: 100%;
+        border: 2px solid;
+        background-color: #b6bbc4
+    }
+
+    .conversation-header {
+        background-color: #f0f0f0;
+        padding: 3px; /* Reduced padding */
+        margin-bottom: 5px; /* Reduced margin */
+    }
+
+    .messages {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message {
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        padding: 3px; /* Reduced padding */
+        margin-bottom: 3px; /* Reduced margin */
+    }
+
+    .message.sent {
+        align-self: flex-end;
+        background-color: #DCF8C6;
+    }
+
+    .message.received {
+        align-self: flex-start;
+        background-color: #FC6736FF;
+    }
+
+    .timestamp {
+        font-size: 10px; /* Reduced font size */
+        color: #777;
+    }
+
 </style>
 <?php
 }

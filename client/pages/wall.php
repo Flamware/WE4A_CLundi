@@ -2,8 +2,12 @@
 session_start();
 // prevent writing to session from other requests
 session_write_close();
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit;
+}
 include '../../conf.php';
-
+include "../js/conf_js.php";
 include '../component/displayStory.php';
 include '../component/form/storyForm.php';
 include '../obj/comment.php';
@@ -12,6 +16,7 @@ include '../component/dm_thread.php';
 include '../component/navbar.php';
 include '../component/form/messageForm.php';
 include '../component/userBar.php';
+
 
 function getComments($comments, $storyId) {
     $commentsByStoryId = [];
@@ -22,7 +27,7 @@ function getComments($comments, $storyId) {
     }
     return $commentsByStoryId;
 }
-function loadWall($username)
+function loadWall($wallName)
 {
     // Construct the relative URL
     $url = API_PATH . '/load/loadWall.php';
@@ -30,8 +35,8 @@ function loadWall($username)
     $data = array('action' => 'loadStories');
 
     // If a specific username is provided, add it to the data
-    if ($username !== null) {
-        $url .= '?username=' . urlencode($username);
+    if ($wallName !== null) {
+        $url .= '?username=' . urlencode($wallName);
     }
 
     // Headers for the request
@@ -55,23 +60,40 @@ function loadWall($username)
     // Make the request and get the response
     $result = file_get_contents($url, false, $context);
     // Decode the JSON response
-    return json_decode($result);
+    return (json_decode($result));
 }
 
-$username = $_GET['username'] ?? $_SESSION['username'];
-$wall = loadWall($username);
+$wallName = $_GET['username'] ?? $_SESSION['username'];
+echo $wallName;
+$wall = loadWall($wallName);
 ?>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C Wall </title>
+    <title>Votre Mur </title>
     <script src="../js/error.js"></script>
     <script src="../js/dmSuggestion.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
+    <script src="../js/submitStory.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/like.js"></script>
+    <script src="../js/replyForm.js"></script>
+    <script src="../js/deleteButton.js"></script>
+    <script src="../js/reportForm.js"></script>
+    <script src="../js/commentButton.js"></script>
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/messageForm.css">
     <link rel="stylesheet" href="../css/error.css">
+    <link rel="stylesheet" href="../css/userBar.css">
+    <link rel="stylesheet" href="../css/storyForm.css">
+    <link rel="stylesheet" href="../css/story.css">
+    <link rel="stylesheet" href="../css/replyForm.css">
+    <link rel="stylesheet" href="../css/likeButton.css">
+    <link rel="stylesheet" href="../css/deleteButton.css">
+    <link rel="stylesheet" href="../css/reportForm.css">
+    <link rel="stylesheet" href="../css/commentButton.css">
+    <link rel="stylesheet" href="../css/replies.css">
 </head>
 <?php include '../component/header.php'; ?>
 <?php displayNavBar(); ?>
@@ -79,7 +101,11 @@ $wall = loadWall($username);
 <div id="error-message" class="error-message">
 
 </div>
-<h1>Votre Mur</h1>
+<?php if ($wallName === $_SESSION['username']) : ?>
+    <h1>Bienvenue sur votre Mur <?php echo htmlspecialchars($wallName); ?></h1>
+<?php else : ?>
+    <h1>Mur de <?php echo htmlspecialchars($wallName); ?></h1>
+<?php endif; ?>
 <div class="container">
 
     <div class="first-section">
@@ -99,19 +125,22 @@ $wall = loadWall($username);
                         src="../assets/profile_picture.png"
                         alt="Profile Picture"
                         class="profile-picture banner-profile-picture"
-                        data-author-name="<?php echo htmlspecialchars($username); ?>"
+                        data-author-name="<?php echo htmlspecialchars($wallName); ?>"
                 >
+                <?php if ($wallName === $_SESSION['username']) : ?>
                 <button id="change-banner-button">Changer ma banniere</button> <!-- Button to change the banner -->
                 <input type="file" id="banner-file-input" accept="image/*" style="display: none;">
                 <div class="edit-profile">
                     <a href="account.php">Edit Profile</a>
                 </div>
+                <?php endif; ?>
+
             </div>
         <div class="account-info">
             <h2>Account Information</h2>
-            <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
+            <p><strong>Username:</strong> <?php echo htmlspecialchars($wallName); ?></p>
             <!-- Follow/Unfollow Button -->
-            <?php if ($username !== $_SESSION['username']) : ?>
+            <?php if ($wallName !== $_SESSION['username']) : ?>
                 <button id="follow-button" class="<?php echo $wall->is_followed ? 'unfollow-button' : 'follow-button'; ?>">
                     <?php echo $wall->is_followed ? 'Unfollow' : 'Follow'; ?>
                 </button>
@@ -120,7 +149,7 @@ $wall = loadWall($username);
         <?php displayStoryForm(); ?>
         <section id="stories-container">
             <?php
-            foreach ($wall->stories as $storyData) {
+            foreach ($wall->stories  as $storyData) {
                 // Extract story data
                 $story = $storyData;
                 $storyObj = new Story($story->id, $story->content, $story->author, $story->created_at, $story->like_count, $story->story_image);
@@ -164,7 +193,7 @@ $wall = loadWall($username);
     // Function to follow/unfollow a user using POST
     function toggleFollow() {
         const followButton = document.getElementById('follow-button');
-        const username = '<?php echo htmlspecialchars($username); ?>';
+        const username = '<?php echo htmlspecialchars($wallName); ?>';
 
         fetch('<?php echo API_PATH?>/submit/submitFollow.php', {
             method: 'POST',  // POST request
@@ -192,7 +221,7 @@ $wall = loadWall($username);
     function fetchBanner() {
         console.log('Fetching banner...');
         const banner = document.getElementById('banner'); // Corrected ID here
-        const username = '<?php echo htmlspecialchars($username); ?>';
+        const username = '<?php echo htmlspecialchars($wallName); ?>';
 
         fetch('<?php echo API_PATH; ?>/load/loadBanner.php?username=' + encodeURIComponent(username))
             .then(response => {
@@ -223,86 +252,27 @@ $wall = loadWall($username);
     }
 
 
-
-    // Function to resize an image and upload it to the server
-    function resizeImage(file, targetWidth, targetHeight, callback) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const img = new Image();
-            img.onload = function () {
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-
-                const originalWidth = img.width;
-                const originalHeight = img.height;
-                const aspectRatio = originalWidth / originalHeight;
-
-                // Calculate new dimensions while maintaining aspect ratio
-                let newWidth, newHeight;
-                if (aspectRatio > 1) { // Landscape
-                    newWidth = targetWidth;
-                    newHeight = targetWidth / aspectRatio;
-                } else { // Portrait or square
-                    newWidth = targetHeight * aspectRatio;
-                    newHeight = targetHeight;
-                }
-
-                canvas.width = newWidth;
-                canvas.height = newHeight;
-
-                context.drawImage(img, 0, 0, newWidth, newHeight);
-
-                // Convert the canvas to a Blob
-                canvas.toBlob(function (blob) {
-                    if (blob) {
-                        callback(blob);
-                    } else {
-                        console.error("Error: Unable to create Blob from canvas.");
-                    }
-                }, 'image/jpeg', 0.9); // JPEG with quality level
-            };
-            img.src = e.target.result; // Set the image source to the FileReader result
-        };
-        reader.readAsDataURL(file); // Start reading the file
-    }
-
     document.getElementById('banner-file-input').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            const banner = document.getElementById('banner');
+        const file = event.target.files[0]; // Get the selected file
+        const formData = new FormData(); // Create a FormData object
+        formData.append('banner', file); // Append the file to the form data
 
-            // Resize to specific banner size, e.g., 1200px by 300px
-            resizeImage(file, 1200, 300, function (blob) {
-                if (blob) {
-                    // Display a preview (optional)
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        banner.src = e.target.result; // Update the banner image source
-                    };
-                    reader.readAsDataURL(blob);
-
-                    // Create a FormData object to send the Blob
-                    const formData = new FormData();
-                    formData.append('banner', blob);
-
-                    fetch('<?php echo API_PATH; ?>/update/updateBanner.php', {
-                        method: 'POST',
-                        body: formData,
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                console.log('Banner updated successfully');
-                            } else {
-                                console.error('Failed to update banner:', data.message);
-                            }
-                        })
-                        .catch(error => console.error('Error uploading banner:', error));
+        fetch('<?php echo API_PATH; ?>/update/updateBanner.php', {
+            method: 'POST', // POST request
+            body: formData // Send the form data
+        })
+            .then(response => response.json()) // Parse the JSON response
+            .then(data => {
+                if (data.success) {
+                    // If the upload was successful, fetch the new banner
+                    fetchBanner();
                 } else {
-                    console.error("Error: Resized Blob is null.");
+                    console.error('Banner upload failed:', data.message); // Handle errors
                 }
+            })
+            .catch(error => {
+                console.error('An error occurred during the banner upload:', error); // Handle exceptions
             });
-        }
     });
 </script>
 <style>
@@ -311,12 +281,15 @@ $wall = loadWall($username);
         position: relative;
         width: 100%; /* Full width */
         height: 300px; /* Fixed height for the banner */
+        margin-bottom: 10px; /* Space between sections */
     }
     #banner {
         width: 100%; /* Full width */
         height: 100%; /* Full height */
         object-fit: cover; /* Maintains aspect ratio */
         object-position: center; /* Centers the image */
+        border-radius: 10px; /* Rounded corners */
+        border: 2px solid; /* Border for contrast */
     }
     .banner-profile-picture {
         position: absolute;
@@ -363,7 +336,7 @@ $wall = loadWall($username);
         background-color: #b6bbc4; /* Light gray background */
         color: #0c2d57; /* Dark text color */
         padding: 10px; /* Padding for spacing */
-        border: 2px solid #0c2d57; /* Border for emphasis */
+        border: 2px solid; /* Border for emphasis */
         border-radius: 10px; /* Rounded corners */
         margin-bottom: 10px; /* Space between sections */
     }

@@ -7,8 +7,14 @@
  */
 session_start();
 session_write_close();
+// prevent access to unauthenticated users
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
 include '../component/navbar.php'; // Include the navbar component
-
+require '../../conf.php'; // Include the API path
+include "../component/followBar.php"; // Include the follow bar component
 // Check if the user is authenticated
 if (!isset($_SESSION['username'])) {
     // Redirect to the login page
@@ -32,8 +38,12 @@ if (!isset($_SESSION['username'])) {
 <body>
 <!-- Error message container -->
 <div id="error-message" class="error-message"></div>
+<?php displayNavBar(); ?> <!-- Include the navigation bar -->
 <div class="container">
-
+    <div class="follow-container">
+            <?php displayFollowBar(); ?>
+    </div>
+    <div class="account">
     <h2>Account Information</h2>
     <div class="info">
         <div class="profile-picture">
@@ -72,6 +82,7 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit">Update</button>
             </div>
         </form>
+    </div>
     </div>
 </div>
 <?php include '../component/footer.php'; ?> <!-- Include footer view -->
@@ -172,24 +183,45 @@ if (!isset($_SESSION['username'])) {
 </script>
 
 <style>
+    /* For more clarity, hide scrollbar for all overflow-y auto/scroll elements */
+    ::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
 
     body {
-        font-family: Arial, sans-serif;
-        background: url("../assets/background.jpg");
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
+        font-family: Arial, sans-serif; /* Use Arial font */
+        background: rgb(61,61,61);
+        background: -moz-radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+        background: -webkit-radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+        background: radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3d3d3d",endColorstr="#000c6e",GradientType=1);    margin: 0; /* Remove default margin */
+        padding: 0; /* Remove default padding */
     }
 
     .container {
+        display: flex;
+        justify-content: center;  /* Center horizontally */
+        min-height: 100vh;  /* Full viewport height */
+        padding: 20px;
+    }
+    .account {
         max-width: 600px;
-        margin: 50px auto;
         background-color: #fff;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-
+    .follow-container {
+        gap: 1rem;
+        padding: 10px;
+        border-radius: 10px;
+        background: #e0e0e0;
+        max-height: 300px;  /* Maximum height for the scrollable area */
+        overflow: auto;  /* Enable scrolling */
+        margin: 20px;
+        border: 2px solid;
+    }
     h2 {
         text-align: center;
         margin-bottom: 20px;
@@ -268,5 +300,4 @@ if (!isset($_SESSION['username'])) {
     button[type="submit"]:hover {
         background-color: #0056b3;
     }
-
 </style>

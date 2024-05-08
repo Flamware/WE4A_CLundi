@@ -3,7 +3,7 @@ session_start();
 include "../db_connexion.php";
 
 global $conn;
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['username'])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" ) {
     $stmt = $conn->prepare("SELECT comments.*, COUNT(likes.id) AS like_count 
                             FROM comments 
                             LEFT JOIN likes ON comments.id = likes.comment_id 

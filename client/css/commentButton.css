@@ -1,0 +1,18 @@
+/* Style for the toggle button */
+.toggle-button-container {
+    margin-top: 10px; /* Spacing between the button and other elements */
+}
+
+.toggle-button {
+    background-color: #0c2d57; /* Dark blue background */
+    color: #fff; /* White text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px 16px; /* Padding for the button */
+    cursor: pointer; /* Change cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.toggle-button:hover {
+    background-color: #0056b3; /* Change background color on hover */
+}

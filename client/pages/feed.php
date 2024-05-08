@@ -1,5 +1,12 @@
 <?php
 require '../../conf.php';
+session_start();
+session_write_close();
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit;
+}
+include "../js/conf_js.php";
 include "../component/navbar.php";
 include "../component/userBar.php";
 include "../component/form/messageForm.php";
@@ -62,14 +69,29 @@ $comments = $feed['comments'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feed General</title>
+    <title>Votre Feed</title>
     <script src="../js/error.js"></script>
     <script src="../js/dmSuggestion.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/submitStory.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/like.js"></script>
+    <script src="../js/replyForm.js"></script>
+    <script src="../js/deleteButton.js"></script>
+    <script src="../js/reportForm.js"></script>
+    <script src="../js/commentButton.js"></script>
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/messageForm.css">
     <link rel="stylesheet" href="../css/error.css">
+    <link rel="stylesheet" href="../css/userBar.css">
+    <link rel="stylesheet" href="../css/storyForm.css">
+    <link rel="stylesheet" href="../css/story.css">
+    <link rel="stylesheet" href="../css/replyForm.css">
+    <link rel="stylesheet" href="../css/likeButton.css">
+    <link rel="stylesheet" href="../css/deleteButton.css">
+    <link rel="stylesheet" href="../css/reportForm.css">
+    <link rel="stylesheet" href="../css/commentButton.css">
+    <link rel="stylesheet" href="../css/replies.css">
 </head>
 <body>
 <?php include '../component/header.php'; ?>
@@ -81,7 +103,6 @@ $comments = $feed['comments'];
         <?php displayUserBar("wall.php?username="); ?>
     </div>
     <div class="second-section">
-        <?php displayStoryForm(); ?>
         <section id="stories-container">
             <?php
             foreach ($stories as $story) {
@@ -128,9 +149,7 @@ $comments = $feed['comments'];
     </div>
 
     <div class="third-section">
-        <div id="dm-threads">
             <?php displayMessageForm(); ?>
-        </div>
     </div>
 </div>
 

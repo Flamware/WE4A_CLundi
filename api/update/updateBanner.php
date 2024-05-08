@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
     // Validate the file type and size
     $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
     $allowedExtensions = ["jpg", "jpeg", "png", "gif"];
-    $maxFileSize = 10 * 1024 * 1024; // 10MB in bytes
+    $maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
 
     if (!in_array($fileType, $allowedExtensions)) {
         echo json_encode(["success" => false, "message" => "Only JPG, JPEG, PNG, and GIF files are allowed."]);

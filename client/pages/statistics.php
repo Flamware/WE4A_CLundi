@@ -7,6 +7,15 @@
  * It also displays the number of stories per user.
  * credits: https://clundi.fr, github-copilot & chatGPT
  */
+session_start();
+// prevent session writing
+session_write_close();
+// prevent access to unauthenticated users
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+require '../../conf.php';
 include "../component/navBar.php";
 ?>
 <!DOCTYPE html>
@@ -20,6 +29,7 @@ include "../component/navBar.php";
 <body>
 <?php include '../component/header.php'; ?>
 <?php displayNavBar(); ?>
+
 <div class="main-container">
 <div class="container">
     <div class="statistics">
@@ -55,12 +65,25 @@ include "../component/navBar.php";
 </body>
 </html>
 <script>
-    fetch("../../api/statistics.php")
+    console.log("Fetching statistics...");
+    // On page load, asynchronously fetch the statistics
+    fetch('<?php echo API_PATH ?>/statistics.php', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
         .then(response => response.json())
         .then(data => {
-            document.getElementById("story-count").innerText = data.storyCount;
-            document.getElementById("comment-count").innerText = data.commentCount;
-            document.getElementById("like-count").innerText = data.likeCount;
-            document.getElementById("comment-count-per-story").innerText = data.commentCountPerStory;
+            console.log(data);
+            // Update the statistics on the page
+            document.getElementById('story-count').textContent = data.storyCount;
+            document.getElementById('comment-count').textContent = data.commentCount;
+            document.getElementById('like-count').textContent = data.likeCount;
+            document.getElementById('comment-count-per-story').textContent = data.commentCountPerStory;
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+
 </script>

@@ -1,13 +1,6 @@
 <?php
 session_start();
-// Check if the user is authenticated
-if (!isset($_SESSION['username'])) {
-    // Redirect to the login page
-    header('Location: /client');
-    exit();
-}
 session_write_close();
-
 include '../obj/comment.php';
 include '../obj/story.php';
 include '../component/dm_thread.php';
@@ -17,31 +10,8 @@ include '../component/form/messageForm.php';
 include '../component/form/storyForm.php';
 require '../component/displayStory.php';
 include '../component/userBar.php';
-function loadComments() {
-    // get request to the server
-    $url = API_PATH . '/load/loadComments.php';
-    $data = array('action' => 'loadComments');
-    $headers = array(
-        'Content-type: application/x-www-form-urlencoded',
-        'Cookie: ' . http_build_query($_COOKIE, '', ';')
-    );
-    $options = array(
-        'http' => array(
-            'header' => $headers,
-            'method' => 'GET',
-            'content' => http_build_query($data)
-        )
-    );
-    // Create a stream context
-    $context = stream_context_create($options);
-    // Make the request and get the response
-    $result = file_get_contents($url, false, $context);
-    //if the request failed show an error message
-    if ($result === FALSE) {
-        return 'Impossible de charger les commentaires, veuillez réessayer.';
-    }
-    return json_decode($result, true);
-}
+include '../component/searchBar.php';
+require '../js/conf_js.php';
 
 function getCommentsByStoryId($comments, $storyId) {
     $commentsByStoryId = [];
@@ -52,9 +22,9 @@ function getCommentsByStoryId($comments, $storyId) {
     }
     return $commentsByStoryId;
 }
-function loadStories($page) {
+function loadStories($page, $search = null) {
     // Construct the relative URL with GET parameters
-    $url = API_PATH . '/load/loadStories.php?page=' . urlencode($page);
+    $url = API_PATH . '/load/loadStories.php?page=' . urlencode($page) . '&query=' . urlencode($search);
     // Headers for the request
     $headers = array(
         'Content-type: application/x-www-form-urlencoded',
@@ -77,13 +47,11 @@ function loadStories($page) {
 
 // Get the current page number
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$search = isset($_GET['search']) ? $_GET['search'] : null;
 // Load stories for the given page
-$storiesData = loadStories($page);
-$commentsData = loadComments();
+$data = loadStories($page, $search);
 // Check if the response is valid
-$stories = $storiesData['stories'];
-$comments = $commentsData['comments'];
-
+$stories = $data['stories'];
 ?>
 
 <head>
@@ -94,12 +62,32 @@ $comments = $commentsData['comments'];
     <script src="../js/dmSuggestion.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/submitStory.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/like.js"></script>
+    <script src="../js/replyForm.js"></script>
+    <script src="../js/deleteButton.js"></script>
+    <script src="../js/reportForm.js"></script>
+    <script src="../js/commentButton.js"></script>
+    <script src="../js/searchStory.js"></script>
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/messageForm.css">
     <link rel="stylesheet" href="../css/error.css">
+    <link rel="stylesheet" href="../css/userBar.css">
+    <link rel="stylesheet" href="../css/storyForm.css">
+    <link rel="stylesheet" href="../css/story.css">
+    <link rel="stylesheet" href="../css/replyForm.css">
+    <link rel="stylesheet" href="../css/likeButton.css">
+    <link rel="stylesheet" href="../css/deleteButton.css">
+    <link rel="stylesheet" href="../css/reportForm.css">
+    <link rel="stylesheet" href="../css/commentButton.css">
+    <link rel="stylesheet" href="../css/replies.css">
+    <link rel="stylesheet" href="../css/searchStory.css">
 </head>
 <?php include '../component/header.php'; ?>
-<?php displayNavBar(); ?>
+<?php
+displayNavBar();
+displaySearchBar();
+?>
 <h1>General</h1>
 <body>
     <div id="error-message" class="error-message">
@@ -107,10 +95,6 @@ $comments = $commentsData['comments'];
         //if not string, show error message
         if (!is_array($stories)) {
             echo $stories;
-        } else {
-            if (!is_array($comments)) {
-                echo $comments;
-            }
         }
         ?>
     </div>
@@ -131,18 +115,17 @@ $comments = $commentsData['comments'];
                     $story['like_count'],
                     $story['story_image']
             );
-            $comments = getCommentsByStoryId($comments,$story['id']);
             // define comment as an array of Comment objects
             $commentObjects = array();
-            foreach ($comments as $comment) {
+            foreach ($story['comments'] as $comment) {
                 $commentObj = new Comment(
                     $comment['id'],
                     $comment['story_id'],
-                    $comment['parent_comment_id'],
+                    $comment['parent_comment_id'] ?? null,
                     $comment['content'],
                     $comment['author'],
-                    $comment['parent_comment_id'] ?? null,
-                    $comment['like_count']
+                    $comment['created_at'],
+                    $comment['like_count'],
                 );
                 $commentObjects[] = $commentObj;
             }
@@ -164,9 +147,7 @@ $comments = $commentsData['comments'];
     </section>
     </div>
     <div class="third-section">
-            <div id="dm-threads">
-                <?php displayMessageForm(); ?>
-            </div>
+        <?php displayMessageForm(); ?>
     </div>
     </div>
     <?php include '../component/footer.php'; ?>

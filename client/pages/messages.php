@@ -4,6 +4,13 @@
  * It fetches the messages from the database and displays them in a user-friendly format.
  * source: clundi.fr
  */
+session_start(); // Start the session
+session_write_close(); // Close the session
+// prevent access to unauthenticated users
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
 include '../../conf.php'; // Include the API path
 include '../component/dm_thread.php'; // Include the direct message thread component
 include '../component/navbar.php'; // Include the navbar component
@@ -40,25 +47,27 @@ if ($result === FALSE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Direct Message Thread</title>
-    <script src="../js/fetchProfilePicture.js"></script>
-    <script src="../js/dmSuggestion.js"></script>
-    <script src="../js/error.js"></script>
     <script src="../js/navBar.js"></script>
-    <link rel="stylesheet" href="../css/messages.css">
+    <script src="../js/error.js"></script>
+    <script src="../js/dmSuggestion.js"></script>
+    <script src="../js/fetchProfilePicture.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/reportForm.js"></script>
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/error.css">
+    <link rel="stylesheet" href="../css/messages.css">
 </head>
 <?php include '../component/header.php'; ?> <!-- Include header view -->
-
 <?php displayNavBar(); ?>
 <body>
 <div id="error-message" class="error-message"></div>
 <div class="container">
-    <h1>Direct Messages</h1>
     <?php if (empty($threads)) : ?>
         <p>No messages found.</p>
     <?php else: ?>
         <?php
-    //show the messages
+        echo '<div class="thread">
+                <h1>Direct Messages</h1>';
         foreach ($threads as $thread) : ?>
             <div class="thread-container">
                 <button class="toggle-thread-button">
@@ -69,13 +78,14 @@ if ($result === FALSE) {
                     <?php displayDMThread($thread); ?>
                 </div>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-    <?php
-    // Include the message form
-    displayMessageForm();
-    ?>
+        <?php endforeach;
+        echo '</div>';
+        ?>
+<?php endif; ?>
+    <div class="third-section">
+        <?php displayMessageForm(); ?>
     </div>
+</div>
     <?php include '../component/footer.php'; ?>
 </body>
 </html>

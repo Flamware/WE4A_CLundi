@@ -1,7 +1,14 @@
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
 body {
     font-family: Arial, sans-serif; /* Use Arial font */
-    background-image: url(../assets/background.jpg); /* Set background image */
-    margin: 0; /* Remove default margin */
+    background: rgb(61,61,61);
+    background: -moz-radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    background: -webkit-radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    background: radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3d3d3d",endColorstr="#000c6e",GradientType=1);    margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
 }
 body, html {
@@ -9,15 +16,25 @@ body, html {
     margin: 0;
     padding: 0;
 }
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+.thread{
+    width: 100%;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 .message-thread.hidden {
     display: none;
 }
 
-.thread-container{
-    margin: 20px auto;
-    width: 80%;
-    background-color: #b6bbc4;
-}
 
 
 .message-container h2 {
@@ -40,9 +57,6 @@ body, html {
     border-radius: 5px;
     cursor: pointer;
 }
-
-
-
 /* Style for the textarea */
 textarea {
     padding: 10px;
@@ -65,3 +79,9 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+.third-section {
+    flex-basis: 15%;
+    /* Fixed percentage width for third section */
+    max-width: 15%;
+    /* Prevent the section from growing too much */
+}

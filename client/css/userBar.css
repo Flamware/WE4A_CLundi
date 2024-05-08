@@ -1,0 +1,112 @@
+#search-container {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+#user-container {
+    padding: 20px;
+}
+
+#user-container h {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.user {
+    display: flex; /* Flex layout to align items */
+    align-items: center; /* Vertical alignment */
+    padding: 10px; /* Padding for spacing */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background */
+    margin-bottom: 10px; /* Spacing between user elements */
+    transition: background-color 0.3s; /* Smooth transition for hover effects */
+
+}
+
+.user:hover {
+    background-color: #e0e0e0; /* Change background color on hover */
+}
+
+.user a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Default text color */
+    flex-grow: 1; /* Allow link to grow to fill space */
+}
+
+.user a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+.user .profile-picture {
+    width: 40px; /* Increased size for better visibility */
+    height: 40px;
+    border-radius: 50%; /* Circular profile picture */
+    object-fit: cover; /* Maintain aspect ratio */
+    margin-right: 10px; /* Space between image and text */
+}
+
+#button-container {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 20px;
+}
+
+#show-more-button,
+#show-less-button {
+    margin-left: 10px; /* Add spacing between buttons */
+    padding: 10px 20px; /* Padding for buttons */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #0c2d57; /* Darker blue for buttons */
+    color: white; /* White text for contrast */
+    border: none; /* No border */
+    cursor: pointer; /* Change cursor to indicate clickable */
+    transition: background-color 0.3s; /* Smooth transition for hover effects */
+}
+
+#show-more-button:hover,
+#show-less-button:hover {
+    background-color: #07335f; /* Darker on hover */
+}
+
+/* Style for suggestion component */
+.suggestion-container {
+    max-height: 150px; /* Scrollable height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    background-color: #f0f0f0; /* Background color for suggestion area */
+    border: 1px solid #ccc; /* Border around suggestions */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding for spacing */
+}
+
+.suggestion {
+    display: flex; /* Use flex layout for alignment */
+    align-items: center; /* Vertical alignment */
+    padding: 5px; /* Spacing within each suggestion */
+    border-bottom: 1px solid #ccc; /* Separator between suggestions */
+}
+
+.suggestion:last-child {
+    border-bottom: none; /* Remove border from the last suggestion */
+}
+
+.suggestion .suggestion-button {
+    background: none; /* No background for buttons */
+    border: none; /* No border */
+    text-align: left; /* Align text to the left */
+    padding: 5px; /* Padding for spacing */
+    cursor: pointer; /* Indicate clickable */
+}
+
+.suggestion .suggestion-button:hover {
+    background-color: #e0e0e0; /* Change background color on hover */
+}
+
+.suggestion .profile-picture {
+    width: 30px; /* Profile picture size */
+    height: 30px;
+    border-radius: 50%; /* Circular shape */
+    margin-right: 10px; /* Spacing between profile picture and text */
+}
+

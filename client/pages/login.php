@@ -1,3 +1,8 @@
+<?php
+session_start();
+session_write_close();
+require '../../conf.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,11 +12,11 @@
     <script src="../js/error.js"></script>
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/error.css">
-    <?php include '../component/header.php'; ?>
 </head>
 <body>
-<div class="login">
+<?php include '../component/header.php'; ?>
 
+<div class="login">
     <main>
         <div id="error-message" class="error-message"></div>
         <section id="login-form-section">

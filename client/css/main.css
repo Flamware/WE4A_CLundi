@@ -1,62 +1,92 @@
+/* For more clarity, hide scrollbar for all overflow-y auto/scroll elements */
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
 body {
     font-family: Arial, sans-serif; /* Use Arial font */
-    background-image: url(../assets/background.jpg); /* Set background image */
-    margin: 0; /* Remove default margin */
+    background: rgb(61,61,61);
+    background: -moz-radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    background: -webkit-radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    background: radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3d3d3d",endColorstr="#000c6e",GradientType=1);    margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
 }
-body, html {
+body,
+html {
     min-height: 100vh;
     margin: 0;
     padding: 0;
 }
+
 /* Flexbox layout for the container */
 .container {
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-between; /* Space between sections */
-    align-items: flex-start; /* Align items at the start of the cross-axis */
-    margin-top: 10px; /* Adjust the top margin */
+    display: flex;
+    /* Use flexbox for layout */
+    justify-content: space-between;
+    /* Space between sections */
+    align-items: flex-start;
+    /* Align items at the start of the cross-axis */
+    margin-top: 10px;
+    /* Adjust the top margin */
 }
 
 /* Individual section styles */
 .first-section {
-    flex-basis: 15%; /* Fixed percentage width for first section */
-    max-width: 15%; /* Prevent the section from growing too much */
-    background-color: #aab8c2; /* Set background color */
-    color: #0c356a; /* Set text color */
-    padding: 10px; /* Add padding */
-    margin-right: 10px; /* Add margin to the right */
-    border-radius: 5px; /* Add border radius */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add box shadow */
-    max-height: 50vh; /* Maximum height to control the section's height */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
+    flex-basis: 15%;
+    max-width: 15%;
+    background-color: #657786;
+    color: #0c356a;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    max-height: 50vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
+    backdrop-filter: blur(10px); /* Apply a blur effect */
+    border: 2px solid black;
 }
 
 .second-section {
-    flex-grow: 1; /* Allow this section to grow to fill available space */
-    flex-basis: 70%; /* Set base width to 70% */
-    max-width: 70%; /* Ensure it doesn't grow beyond 70% */
+    flex-grow: 1;
+    /* Allow this section to grow to fill available space */
+    flex-basis: 70%;
+    /* Set base width to 70% */
+    max-width: 70%;
+    /* Ensure it doesn't grow beyond 70% */
+    margin: 20px;
 }
 
 .third-section {
-    flex-basis: 15%; /* Fixed percentage width for third section */
-    max-width: 15%; /* Prevent the section from growing too much */
+    flex-basis: 15%;
+    /* Fixed percentage width for third section */
+    max-width: 15%;
+    /* Prevent the section from growing too much */
 }
+
 h1 {
-    text-align: center; /* Center the heading */
-    color: #aab8c2; /* Set heading color */
+    text-align: center;
+    /* Center the heading */
+    color: #aab8c2;
+    /* Set heading color */
 }
 
 /* Adjustments for smaller screens */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column; /* Stack sections vertically on smaller screens */
+        flex-direction: column;
+        /* Stack sections vertically on smaller screens */
     }
 
     .first-section,
     .second-section,
     .third-section {
-        flex-basis: auto; /* Allow sections to take natural widths */
-        max-width: 100%; /* Sections can grow to full width */
-        width: 100%; /* Set sections to full width on smaller screens */
+        flex-basis: auto;
+        /* Allow sections to take natural widths */
+        max-width: 100%;
+        /* Sections can grow to full width */
+        width: 100%;
+        /* Set sections to full width on smaller screens */
     }
 }

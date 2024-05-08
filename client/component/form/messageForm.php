@@ -3,63 +3,73 @@ function displayMessageForm() {
     ?>
     <form id="message-form" action="http://localhost/api/submit/submitMessage.php" method="post">
         <h3>Send a message</h3>
-        <input type="text" class="fetched-user" placeholder="Search user..." />
+        <input type="text" name="receiver" class="fetched-user" placeholder="Enter receiver's username" />
         <div class="suggestions-container"></div>
         <textarea name="message" placeholder="Your message here..."></textarea>
         <button type="submit">Send</button>
     </form>
-    <?php
-}
-?>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const messageForm = document.getElementById('message-form');
 
-        messageForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
 
-            const xhr = new XMLHttpRequest(); // Create a new XMLHttpRequest object
-            const formData = new FormData(); // Create a FormData object to store form data
+    <script>
 
-            // Set the receiver and message data from form inputs
-            const receiver = document.querySelector('.fetched-user').value; // The receiver's identifier
-            const message = document.querySelector('textarea').value; // The message text
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageForm = document.getElementById('message-form');
 
-            formData.append('receiver', receiver); // Add the receiver field to the form data
-            formData.append('message', message); // Add the message field to the form data
+            if (!messageForm) {
+                console.error('Form not found');
+                return;
+            }
 
-            xhr.open('POST', 'http://localhost/api/submit/submitMessage.php', true); // Initialize the request
+            messageForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
 
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    // If the request was successful
-                    alert('Message sent successfully');
-                    window.location.reload(); // Reload the page
-                } else {
-                    // If the request failed
-                    alert('Failed to send message');
-                }
-            };
+                const formData = new FormData(messageForm); // Create FormData from the form itself
 
-            // Handle network errors
-            xhr.onerror = function() {
-                alert('An error occurred during the request');
-            };
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost/api/submit/submitMessage.php', true); // Define POST request
 
-            xhr.send(formData); // Send the form data via the POST request
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        showError("Message sent successfully");
+                        messageForm.reset(); // Reset the form
+                        //if location is message page, reload the page
+                        if (window.location.href.includes('message')) {
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    } else {
+                        // Decode the JSON response and display the error message
+                        const response = JSON.parse(xhr.responseText);
+                        showError(response.message); // Display error message
+                    }
+                };
+
+                xhr.onerror = function() {
+                    console.error('Network error occurred during the request');
+                    showError('Network error. Please try again later.');
+                };
+
+                xhr.send(formData); // Send the form data
+            });
         });
-    });
-</script>
+
+    </script>
 
 <style>
     #message-form {
         display: flex;
         flex-direction: column;
-        align-items: flex-start; /* Align items to the left */
+        align-items: flex-start;
         padding: 10px; /* Light padding for a compact design */
-        border: 1px solid #ccc; /* Light border */
-        border-radius: 5px;
-        background-color: #aab8c2; /* Clean background */
+        border: 2px solid rgba(255, 255, 255, 0.5); /* Semi-transparent border */
+        border-radius: 20px;
+        background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
+        backdrop-filter: blur(10px); /* Apply a blur effect */
+        height: 100%; /* Full height */
+        margin: 20px 0; /* Space around the form */
+        border: 2px solid black;
+
     }
 
     #message-form h3 {
@@ -104,3 +114,6 @@ function displayMessageForm() {
         background-color: #f9f9f9; /* Highlight on hover */
     }
 </style>
+    <?php
+}
+?>

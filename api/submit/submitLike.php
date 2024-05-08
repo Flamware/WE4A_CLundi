@@ -2,6 +2,11 @@
 session_start();
 include '../db_connexion.php'; // Assuming this file includes your PDO database connection
 global $conn;
+if(!isset($_SESSION['user_id'])) {
+    http_response_code(401); // Unauthorized
+    echo json_encode(array('success' => false, 'message' => 'You must be logged in.'));
+    exit;
+}
 // Check if the request method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Assuming you have a session or some way to identify the user

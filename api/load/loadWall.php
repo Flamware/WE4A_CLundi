@@ -53,7 +53,6 @@ function formatComments($comments){
     $formattedComments = [];
     foreach ($comments as $story_id => $commentList) {
         foreach ($commentList as $comment) {
-            print_r($comment);
             $formattedComments[] = array(
                 'id' => $comment['id'],
                 'story_id' => $comment['story_id'],

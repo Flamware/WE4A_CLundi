@@ -1,0 +1,61 @@
+.story {
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 10px;
+    background-color: #b6bbc4;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.story-header {
+    display: flex;
+    align-items: center; /* Align author and profile picture */
+}
+
+.story-content {
+    margin-bottom: 10px; /* Space between content and options */
+}
+
+.story-image {
+    max-width: 100%; /* Prevent overflow beyond the container */
+    max-height: 400px; /* Limit the height of the image */
+    object-fit: cover; /* Maintain aspect ratio and crop excess */
+    border-radius: 10px; /* Match the story border-radius */
+    margin-top: 10px; /* Space between the image and content */
+}
+
+.delete-button {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.delete-button:hover {
+    background-color: #d80000; /* Change color on hover */
+}
+
+.author {
+    font-weight: bold; /* Emphasize author name */
+    margin-left: 10px; /* Space between profile picture and author */
+}
+
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Circular profile picture */
+    object-fit: cover; /* Maintain aspect ratio */
+    object-position: center;
+}
+
+.date {
+    font-style: italic; /* Italicize date */
+    display: block; /* Ensure it appears on its own line */
+}
+
+.option {
+    margin-top: 10px; /* Space between content and options */
+}

@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="../css/signup.css"> <!-- Link to styles.css -->
 </head>
 <body>
+<?php include '../component/header.php'; ?> <!-- Include header view -->
+
 <div>
-    <?php include '../component/header.php'; ?> <!-- Include header view -->
     <main>
         <section id="create-account-form">
             <h2>Créer un Compte</h2>

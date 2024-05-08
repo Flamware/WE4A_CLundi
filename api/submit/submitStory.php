@@ -7,7 +7,7 @@ global $conn;
 if (!isset($_SESSION['username'])) {
     // If not logged in, return Unauthorized status
     http_response_code(401);
-    echo json_encode(array('success' => false, 'message' => 'Unauthorized'));
+    echo json_encode(array('success' => false, 'message' => 'You must be logged in.'));
     exit;
 }
 

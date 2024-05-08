@@ -1,16 +1,18 @@
 <?php
 session_start();
+session_write_close();
+// Check if the user is authenticated
+if (!isset($_SESSION['username']) || $_SESSION['admin'] !== 1) {
+    // User is not authenticated, redirect to login page
+    header('Location: login.php');
+    exit();
+}
+
 require '../component/navbar.php';
 require '../component/userBar.php';
 include '../../conf.php';
 include '../component/button/banButton.php';
-// Check if the user is authenticated
-if (!isset($_SESSION['username']) || $_SESSION['admin'] !== 1) {
-    // User is not authenticated, redirect to login page
-    header('Location: /client');
-    exit();
-}
-session_write_close();
+
 
 $userFetched = $_GET['username'] ?? $_SESSION['username'];
 
