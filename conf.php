@@ -13,6 +13,7 @@ if (!defined('API_PATH')) {
     // Define the API path
     define('API_PATH', $protocol . '://' . $host . $basePath);
 }
-
-
 ?>
+<script>
+    var apiPath = '<?php echo API_PATH; ?>';
+</script>

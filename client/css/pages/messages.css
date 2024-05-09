@@ -11,11 +11,13 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3d3d3d",endColorstr="#000c6e",GradientType=1);    margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
 }
-body, html {
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
+html, body {
+    margin: 0; /* Reset default margins */
+    padding: 0; /* Reset default padding */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    width: 100%; /* Make sure body spans the full viewport width */
 }
+
 .container {
     display: flex;
     justify-content: space-between;
@@ -61,6 +63,7 @@ textarea {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    width: auto;
 }
 
 /* Style for the submit button */

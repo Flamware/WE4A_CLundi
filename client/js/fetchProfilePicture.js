@@ -15,7 +15,7 @@ function loadProfilePicture(profilePictureElement) {
                 if (response.profile_picture === '') {
                     profilePicturePath = "../assets/profile_picture.png"; // Default
                 } else {
-                    profilePicturePath = "http://localhost/api/uploads/profile_picture/" + response.profile_picture;
+                    profilePicturePath = apiPath + "/uploads/profile_picture/" + response.profile_picture;
                 }
                 profilePictureElement.setAttribute('src', profilePicturePath);
                 localStorage.setItem('profile_picture_' + authorName, profilePicturePath);
@@ -23,7 +23,7 @@ function loadProfilePicture(profilePictureElement) {
         };
 
         // Send the AJAX request to fetch the profile picture
-        xhr.open('GET', 'http://localhost/api/load/loadProfilePicture.php?author=' + authorName, true);
+        xhr.open('GET', apiPath + '/load/loadProfilePicture.php?author=' + authorName, true);
         xhr.send();
     }
 }

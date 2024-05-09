@@ -2,11 +2,7 @@
 .delete-button {
     background-color: #000000; /* Red background */
     color: #ffffff; /* White text color */
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    margin-top: 5px;
 }
 
 .delete-button:hover {

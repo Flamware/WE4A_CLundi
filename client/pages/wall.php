@@ -64,7 +64,6 @@ function loadWall($wallName)
 }
 
 $wallName = $_GET['username'] ?? $_SESSION['username'];
-echo $wallName;
 $wall = loadWall($wallName);
 ?>
 
@@ -73,7 +72,7 @@ $wall = loadWall($wallName);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Votre Mur </title>
     <script src="../js/error.js"></script>
-    <script src="../js/dmSuggestion.js"></script>
+    <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/submitStory.js"></script>
     <script src="../js/logout.js"></script>
@@ -82,18 +81,21 @@ $wall = loadWall($wallName);
     <script src="../js/deleteButton.js"></script>
     <script src="../js/reportForm.js"></script>
     <script src="../js/commentButton.js"></script>
-    <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/pages/wall.css">
+    <link rel="stylesheet" href="../css/bar/navbar.css">
     <link rel="stylesheet" href="../css/error.css">
-    <link rel="stylesheet" href="../css/userBar.css">
-    <link rel="stylesheet" href="../css/storyForm.css">
-    <link rel="stylesheet" href="../css/story.css">
-    <link rel="stylesheet" href="../css/replyForm.css">
-    <link rel="stylesheet" href="../css/likeButton.css">
-    <link rel="stylesheet" href="../css/deleteButton.css">
-    <link rel="stylesheet" href="../css/reportForm.css">
-    <link rel="stylesheet" href="../css/commentButton.css">
-    <link rel="stylesheet" href="../css/replies.css">
+    <link rel="stylesheet" href="../css/bar/userBar.css">
+    <link rel="stylesheet" href="../css/form/storyForm.css">
+    <link rel="stylesheet" href="../css/component/story.css">
+    <link rel="stylesheet" href="../css/form/replyForm.css">
+    <link rel="stylesheet" href="../css/button/likeButton.css">
+    <link rel="stylesheet" href="../css/button/deleteButton.css">
+    <link rel="stylesheet" href="../css/form/reportForm.css">
+    <link rel="stylesheet" href="../css/button/commentButton.css">
+    <link rel="stylesheet" href="../css/component/replies.css">
 </head>
 <?php include '../component/header.php'; ?>
 <?php displayNavBar(); ?>
@@ -275,144 +277,7 @@ $wall = loadWall($wallName);
             });
     });
 </script>
-<style>
-    /* CSS for the banner and profile picture to mimic Twitter */
-    .banner-container {
-        position: relative;
-        width: 100%; /* Full width */
-        height: 300px; /* Fixed height for the banner */
-        margin-bottom: 10px; /* Space between sections */
-    }
-    #banner {
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        object-fit: cover; /* Maintains aspect ratio */
-        object-position: center; /* Centers the image */
-        border-radius: 10px; /* Rounded corners */
-        border: 2px solid; /* Border for contrast */
-    }
-    .banner-profile-picture {
-        position: absolute;
-        bottom: 50px; /* Positioned above the bottom of the banner */
-        left: 20px; /* Positioned from the left edge */
-        border-radius: 50%; /* Circular shape */
-        border: 3px solid white; /* Border for contrast */
-        width: 80px; /* Size of the profile picture */
-        height: 80px; /* Maintain a square shape */
-        z-index: 2; /* Ensures it appears above the banner */
-    }
-    .edit-profile {
-        position: absolute;
-        bottom: 10px; /* Above the banner bottom */
-        right: 20px; /* Positioned from the right edge */
-        background-color: #b6bbc4; /* Light gray background */
-        color: #0c2d57; /* Dark text color */
-        padding: 5px 10px; /* Padding for spacing */
-        border-radius: 5px; /* Rounded corners */
-        text-decoration: none; /* No underline */
-        z-index: 2; /* Ensures it appears above the banner */
-    }
 
-    .edit-profile:hover {
-        background-color: #fc6736; /* Change color on hover */
-        color: white; /* White text on hover */
-    }
-    /* Edit banner button */
-    #change-banner-button {
-        position: absolute; /* Position relative to the banner */
-        bottom: 10px; /* Above the bottom of the banner */
-        left: 20px; /* Positioned from the left edge */
-        background-color: #b6bbc4; /* Light gray background */
-        color: #0c2d57; /* Dark text color */
-        padding: 5px 10px; /* Padding for spacing */
-        border-radius: 5px; /* Rounded corners */
-        border: none; /* No border */
-        cursor: pointer; /* Change cursor to pointer on hover */
-        z-index: 2; /* Ensures it appears above the banner */
-    }
-
-    .account-info {
-        position: relative; /* Relative to its container */
-        background-color: #b6bbc4; /* Light gray background */
-        color: #0c2d57; /* Dark text color */
-        padding: 10px; /* Padding for spacing */
-        border: 2px solid; /* Border for emphasis */
-        border-radius: 10px; /* Rounded corners */
-        margin-bottom: 10px; /* Space between sections */
-    }
-
-
-    .account-info h2 {
-        margin-bottom: 5px; /* Space below the heading */
-    }
-
-    .account-info p {
-        margin-bottom: 5px; /* Space between paragraphs */
-    }
-    /* Adjust for smaller screens */
-    @media (max-width: 600px) {
-        .banner-container {
-            height: 200px; /* Reduce height for smaller screens */
-        }
-
-        .banner-profile-picture {
-            width: 60px; /* Reduce size of profile picture */
-            height: 60px; /* Maintain square shape */
-        }
-
-        .edit-profile {
-            bottom: 5px; /* Adjust position */
-            right: 10px; /* Adjust position */
-        }
-
-        .account-info {
-            padding: 5px; /* Reduce padding */
-            border-radius: 5px; /* Adjust rounded corners */
-        }
-    }
-
-
-    /* Default style for follow/unfollow buttons */
-    .follow-button, .unfollow-button {
-        border: none; /* No border */
-        border-radius: 5px; /* Rounded corners */
-        padding: 8px 16px; /* Padding for a comfortable click area */
-        cursor: pointer; /* Change cursor to pointer on hover */
-        font-weight: bold; /* Bold text for emphasis */
-    }
-
-    /* Style for the 'Follow' button */
-    .follow-button {
-        background-color: #0c2d57; /* Green for following */
-        color: white; /* White text for contrast */
-        transition: background-color 0.3s; /* Smooth transition on hover */
-    }
-
-    /* Hover effect for the 'Follow' button */
-    .follow-button:hover {
-        background-color: #0c2d57; /* Darker green on hover */
-    }
-
-    /* Style for the 'Unfollow' button */
-    .unfollow-button {
-        background-color: red; /* Red for unfollowing */
-        color: white; /* White text for contrast */
-        transition: background-color 0.3s; /* Smooth transition on hover */
-    }
-
-    /* Hover effect for the 'Unfollow' button */
-    .unfollow-button:hover {
-        background-color: darkred; /* Darker red on hover */
-    }
-
-    /* Disabled style for when the button shouldn't be clickable */
-    .disabled-button {
-        background-color: gray; /* Gray color for disabled state */
-        color: lightgray; /* Lighter text to indicate disabled */
-        cursor: not-allowed; /* Cursor indicates disabled */
-    }
-
-</style>
 
 
 <?php include '../component/footer.php'; ?>

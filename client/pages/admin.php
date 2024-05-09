@@ -63,7 +63,7 @@ function displayReportInfo($reportInfo)
             echo "<ul>"; // Using an unordered list
             foreach ($reportInfo->reportedStories as $story) {
                 echo "<li>";
-                echo "<strong>Story ID:</strong> <a href='#' onclick='displayStory(" . htmlentities($story->id) . ")'>" . htmlentities($story->id) . "</a><br>";
+                echo "<strong>Story ID:</strong> <a href='#' onclick='displayStory(" . htmlentities($story->story_id) . ")'>" . htmlentities($story->story_id) . "</a><br>";
                 echo "<strong>Content:</strong> " . htmlentities($story->content) . "<br>";
                 echo "<strong>Reported By User ID:</strong> " . htmlentities($story->from) . "<br>";
                 echo "<strong>Reported At:</strong> " . htmlentities($story->reported_at);
@@ -121,11 +121,17 @@ function displayReportInfo($reportInfo)
     <title>C Wall </title>
     <script src="../js/error.js"></script>
     <script src="../js/auth.js"></script>
-    <script src="../js/dmSuggestion.js"></script>
+    <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/submitStory.js"></script>
-    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/error.css">
+    <link rel="stylesheet" href="../css/pages/admin.css">
+    <link rel="stylesheet" href="../css/error.css">
+    <link rel="stylesheet" href="../css/bar/navbar.css">
+    <link rel="stylesheet" href="../css/bar/userBar.css">
 </head>
 <?php include '../component/header.php'; ?>
 <body>
@@ -160,14 +166,13 @@ function displayReportInfo($reportInfo)
 </html>
 
 <script>
-    // Function to open the modal and load the story content
     // Function to display a story in a modal
     function displayStory(storyId) {
         const modal = document.getElementById("story-modal");
         const storyDetails = document.getElementById("story-details");
-
+        var url = `../../api/load/loadStories.php?story_id=${storyId}`;
         // Fetch the story content from the server
-        fetch(`../../api/load/loadStories.php?story_id=${storyId}`) // Correct URL
+        fetch(url)
             .then(response => {
                 if (!response.ok) { // Check for non-200 HTTP status
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -193,6 +198,7 @@ function displayReportInfo($reportInfo)
                 }
             })
             .catch(error => {
+                console.log('url is', url);
                 console.error('Fetch error:', error); // Log the error
                 showError('Error fetching story content.'); // Display error message
             });

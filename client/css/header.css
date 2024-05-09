@@ -1,0 +1,146 @@
+
+
+.header {
+    display: flex; /* Ensure header uses flex layout */
+    justify-content: space-between; /* Keep left and right sections at each end */
+    align-items: center; /* Align vertically */
+    background-color: #242038; /* Header background */
+    color: #CAC4CE; /* Text color */
+    padding: 10px 20px; /* Padding */
+    border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Soft shadow */
+}
+.left {
+    display: flex; /* Use flex layout */
+    align-items: center; /* Align vertically */
+    flex-grow: 1; /* Grow to occupy available space */
+    justify-content: space-between; /* Even space between items */
+    padding: 0 20px; /* Add padding on left and right for consistency */
+}
+.header img {
+    max-width: 40px;
+    height: auto;
+}
+
+/* Special case for UTBM logo */
+.header .utbm img {
+    max-width: 80px; /* Larger logo */
+    height: auto;
+}
+
+/* Right section of the header */
+.header .right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Increased gap for spacing */
+}
+
+/* User profile picture and text */
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-user img {
+    border-radius: 50%; /* Circular profile picture */
+}
+
+/* Logout section */
+.logout {
+    text-align: center; /* Center text alignment */
+}
+
+.logout a {
+    text-decoration: none;
+    color: #CAC4CE; /* Consistent text color */
+    transition: color 0.3s; /* Smooth transition */
+}
+
+.logout a:hover {
+    color: #fc6736; /* Change color on hover */
+}
+
+/* Notification icon and container */
+.notification {
+    position: relative; /* For absolute positioning of inner elements */
+}
+
+.notification-icon {
+    cursor: pointer; /* Indicate clickable element */
+    position: relative;
+}
+
+.notification-count {
+    position: absolute; /* Absolute position within the parent */
+    top: -5px;
+    right: -5px; /* Adjust to align with bell icon */
+    background: #fc6736; /* Bright color for notification count */
+    color: #ffffff; /* White text */
+    border-radius: 50%; /* Circular count */
+    padding: 2px 6px; /* Padding for count */
+    font-size: 0.8rem; /* Smaller text */
+}
+
+/* Notification container */
+.notification-container {
+    position: absolute; /* Relative to the parent */
+    top: 100%; /* Position below the icon */
+    right: 0; /* Align to the right */
+    background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
+    backdrop-filter: blur(10px); /* Apply a blur effect */
+    border-radius: 8px; /* Soft corners */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Soft shadow */
+    width: 250px; /* Fixed width */
+    max-height: 400px; /* Max height with overflow */
+    overflow-y: auto; /* Enable scrolling */
+    padding: 10px; /* Padding around content */
+    transition: all 0.3s ease; /* Smooth transitions */
+    z-index: 100; /* Ensure it appears above other elements */
+    display: none; /* Default to hidden */
+}
+
+/* Individual notification items */
+.notification-item {
+    display: flex;
+    justify-content: space-between; /* Space between text and close button */
+    align-items: center;
+    padding: 10px; /* Padding within the notification */
+    border-radius: 8px; /* Rounded corners */
+    background: #0c2d57; /* Light background */
+    border: 1px solid #ccc; /* Border for separation */
+    margin-bottom: 10px; /* Space between notifications */
+    transition: all 0.3s; /* Smooth transitions */
+}
+
+.notification-item:hover {
+    background: #fc6736; /* Lighter background on hover */
+}
+
+.close-button {
+    cursor: pointer; /* Indicate clickable */
+    color: #333; /* Dark color */
+    font-weight: bold; /* Make it more visible */
+}
+
+/* Change color on hover */
+.close-button:hover {
+    color: #000000;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column; /* Stack elements */
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .header .right {
+        flex-direction: column; /* Stack elements in a column */
+        gap: 10px; /* Smaller gap for compact layout */
+    }
+
+    .header .user p {
+        text-align: center; /* Center the text */
+    }
+}

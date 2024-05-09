@@ -24,7 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_SESSION['username'])) {
         echo json_encode(array('error' => 'Story not found'));
         exit;
     }
-
+    //check if the user is the author of the story or an admin
+    if ($_SESSION['username'] !== $story['author'] && $_SESSION['admin'] !== 1) {
+        http_response_code(403);
+        echo json_encode(array('error' => 'You are not authorized to delete this story'));
+        exit;
+    }
     // Delete the story
     try {
         $stmt = $conn->prepare('DELETE FROM stories WHERE id = ?');
@@ -33,9 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_SESSION['username'])) {
         echo json_encode(array('success' => true)); // Respond with success message
     } catch (PDOException $e) {
         // Handle database errors
-        error_log('Error deleting the story: ' . $e->getMessage());
         http_response_code(500);
-        echo json_encode(array('error' => 'Error deleting the story'));
+        echo json_encode(array('error' => 'Error deleting the story'.$e->getMessage()));
     }
 } else {
     // Return method not allowed if request method is not POST

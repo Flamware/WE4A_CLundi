@@ -1,0 +1,147 @@
+/* Base styles for the navbar */
+.navbar {
+    /* Blur effect */
+    background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
+    backdrop-filter: blur(10px); /* Apply a blur effect */
+    margin: 10px auto;
+    color: #000000;
+    border-radius: 10px;
+    border: 2px solid black;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribute links evenly */
+    padding: 10px;
+    width: fit-content;
+}
+
+/* Media query for small screens */
+@media (max-width: 500px) {
+    .navbar {
+        flex-direction: column; /* Stack vertically */
+        align-items: flex-start; /* Align items to the start */
+    }
+}
+
+/* Styles for the expand button (visible on small screens) */
+.navbar .expand-button {
+    background: transparent;
+    display: none; /* Hide by default */
+    padding: 10px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar .expand-button > i {
+    font-size: 1.5em;
+    color: #333;
+}
+
+/* Display expand button for small screens */
+@media (max-width: 500px) {
+    .navbar .expand-button {
+        display: flex; /* Show expand button */
+    }
+}
+
+/* Navigation content styles */
+.navbar .content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Hide content by default for mobile (controlled by JavaScript) */
+@media (max-width: 500px) {
+    .navbar .content {
+        display: none; /* Hide initially */
+        flex-direction: column; /* Stack links vertically */
+        align-items: flex-start; /* Align to the left */
+    }
+
+    /* Show content when the expand button is clicked (JavaScript needed) */
+    .navbar .expand-button:focus + .content,
+    .navbar .expand-button:active + .content {
+        display: flex;
+    }
+}
+
+/* Styles for navigation links */
+.navbar .link {
+    box-sizing: border-box;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px; /* Padding between links */
+    text-decoration: none; /* No underline */
+    color: inherit;
+    transition: background 0.3s;
+}
+
+/* Adjustments for small screens */
+@media (max-width: 500px) {
+    .navbar .link {
+        width: 100%;
+        justify-content: flex-start; /* Align to the left */
+        padding: 10px;
+    }
+}
+
+/* Hover effect for navigation links */
+.navbar .link:hover {
+    background-color: rgba(0, 0, 0, 0.2); /* Light hover effect */
+}
+
+/* Dropdown styles */
+.navbar .dropdown {
+    position: relative; /* Needed for submenu positioning */
+}
+
+/* Submenu content */
+.navbar .dropdown .dropdown-content {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%; /* Position submenu below parent link */
+    left: 0;
+    background-color: #b6bbc4;
+    flex-direction: column;
+    list-style: none; /* Remove list styling */
+    padding: 0;
+    box-shadow: 3px 3px 3px #000000;
+}
+
+/* Show submenu on hover */
+.navbar .dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+/* Submenu links */
+.navbar .dropdown .dropdown-content a {
+    padding: 10px 20px; /* Adjusted padding */
+    text-decoration: none; /* No underline */
+    color: inherit; /* Inherit color from parent */
+    transition: background 0.3s;
+}
+
+/* Hover effect for submenu links */
+.navbar .dropdown .dropdown-content a:hover {
+    color: #1a78b3; /* Change text color on hover */
+    background-color: rgba(0, 0, 0, 0.1); /* Light hover background */
+}
+
+/* Adjust submenu for small screens */
+@media (max-width: 500px) {
+    .navbar .dropdown .dropdown-content {
+        position: relative;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .navbar .dropdown .dropdown-content a {
+        padding: 10px; /* Adjust padding for small screens */
+    }
+}

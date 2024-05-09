@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['username'])) {
         }
         // Return JSON response indicating success and redirect to the story page
         http_response_code(201); // Created
-        echo json_encode(array('success' => true, 'message' => 'Comment submitted successfully'));
+        echo json_encode(array('success' => true, 'message' => 'Comment submitted successfully', 'story_id' => $story_id, 'parent_comment_id' => $parent_comment_id, 'author' => $author, 'content' => $content, 'created_at' => date('Y-m-d H:i:s')));
         exit();
     } catch (PDOException $e) {
         // Return JSON response indicating failure and error message

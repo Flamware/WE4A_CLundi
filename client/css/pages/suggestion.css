@@ -1,0 +1,58 @@
+/* Container for the story type selector and tag search form */
+.story-type-selector {
+    display: flex; /* Flex layout for alignment */
+    justify-content: space-between; /* Space between links and form */
+    align-items: center; /* Vertical alignment */
+    padding: 10px; /* Padding for container */
+    border: 2px solid; /* Border for visual separation */
+    background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
+    backdrop-filter: blur(10px); /* Apply a blur effect */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Links in the story type selector */
+.story-type-selector a {
+    text-decoration: none; /* No underlines */
+    color: #333; /* Dark text color */
+    padding: 10px; /* Padding for height consistency */
+    border-radius: 3px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+/* Hover effect for the links */
+.story-type-selector a:hover {
+    background-color: #e0e0e0; /* Light gray on hover */
+}
+
+/* Form within the story type selector */
+.story-type-selector form {
+    display: flex; /* Flex layout for alignment */
+    align-items: center; /* Vertical alignment */
+}
+
+/* Text input field within the form */
+.story-type-selector input[type="text"] {
+    padding: 10px; /* Consistent padding for height alignment */
+    border: 1px solid #ccc; /* Border for input field */
+    border-radius: 3px; /* Rounded corners */
+    height: 40px; /* Explicit height for consistency */
+    line-height: 20px; /* Line height for text alignment */
+    margin-right: 10px; /* Space between input and submit button */
+}
+
+/* Submit button within the form */
+.story-type-selector input[type="submit"] {
+    padding: 10px 20px; /* Padding for consistent height */
+    border-radius: 3px; /* Rounded corners */
+    background-color: #0c2d57; /* Background color */
+    color: white; /* Text color */
+    border: none; /* No border */
+    cursor: pointer; /* Cursor to indicate clickable */
+    transition: background-color 0.3s; /* Smooth hover transition */
+    height: 40px; /* Explicit height for consistency */
+}
+
+/* Hover effect for the submit button */
+.story-type-selector input[type="submit"]:hover {
+    background-color: #07335f; /* Darker blue on hover */
+}

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un Compte</title>
-    <link rel="stylesheet" href="../css/signup.css"> <!-- Link to styles.css -->
+    <link rel="stylesheet" href="../css/pages/signup.css"> <!-- Link to styles.css -->
+    <link rel="stylesheet" href="../css/bar/navbar.css"> <!-- Link to nav.css -->
 </head>
-<body>
-<?php include '../component/header.php'; ?> <!-- Include header view -->
 
+<body>
 <div>
     <main>
         <section id="create-account-form">

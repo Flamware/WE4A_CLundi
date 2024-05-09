@@ -45,7 +45,6 @@ function fetchPaginatedStories($page, $storiesPerPage, $search = null) {
 }
 
 
-// Function to fetch a specific story by its ID
 function fetchStoryById($storyId) {
     global $conn;
 
@@ -56,11 +55,15 @@ function fetchStoryById($storyId) {
          WHERE stories.id = :storyId 
          GROUP BY stories.id"
     );
-    $stmt->bindParam(':id', $storyId, PDO::PARAM_INT);
+
+    // Correct the parameter binding name
+    $stmt->bindParam(':storyId', $storyId, PDO::PARAM_INT);
+
     $stmt->execute();
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
 function fetchCommentsByStoryId($storyId) {
     global $conn;
 

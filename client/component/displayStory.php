@@ -41,10 +41,13 @@ function renderStory($story, $comments) {
         </div>
 
         <?php
+        displayReportForm("story", $story->id);
+
         // Use story ID to create a unique ID for the comment section
         $commentSectionId = 'comment-section' . $story->id;
-        renderCommentButton($commentSectionId, "Voir les commentaires");
-
+        ?>
+        <button id="toggle-comments-<?= $story->id ?>" onclick="toggleVisibility('<?= $commentSectionId ?>')">Voir les commentaires</button>
+        <?php
         if (!empty($comments)) { ?>
             <div id="<?= $commentSectionId ?>" style="display: none;">
                 <?php

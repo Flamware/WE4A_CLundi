@@ -6,7 +6,6 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit;
 }
-include "../js/conf_js.php";
 include "../component/navbar.php";
 include "../component/userBar.php";
 include "../component/form/messageForm.php";
@@ -71,7 +70,7 @@ $comments = $feed['comments'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Votre Feed</title>
     <script src="../js/error.js"></script>
-    <script src="../js/dmSuggestion.js"></script>
+    <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/submitStory.js"></script>
     <script src="../js/logout.js"></script>
@@ -80,18 +79,22 @@ $comments = $feed['comments'];
     <script src="../js/deleteButton.js"></script>
     <script src="../js/reportForm.js"></script>
     <script src="../js/commentButton.js"></script>
-    <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/pages/main.css">
+    <link rel="stylesheet" href="../css/bar/navbar.css">
     <link rel="stylesheet" href="../css/error.css">
-    <link rel="stylesheet" href="../css/userBar.css">
-    <link rel="stylesheet" href="../css/storyForm.css">
-    <link rel="stylesheet" href="../css/story.css">
-    <link rel="stylesheet" href="../css/replyForm.css">
-    <link rel="stylesheet" href="../css/likeButton.css">
-    <link rel="stylesheet" href="../css/deleteButton.css">
-    <link rel="stylesheet" href="../css/reportForm.css">
-    <link rel="stylesheet" href="../css/commentButton.css">
-    <link rel="stylesheet" href="../css/replies.css">
+    <link rel="stylesheet" href="../css/bar/userBar.css">
+    <link rel="stylesheet" href="../css/form/storyForm.css">
+    <link rel="stylesheet" href="../css/component/story.css">
+    <link rel="stylesheet" href="../css/form/replyForm.css">
+    <link rel="stylesheet" href="../css/button/likeButton.css">
+    <link rel="stylesheet" href="../css/button/deleteButton.css">
+    <link rel="stylesheet" href="../css/form/reportForm.css">
+    <link rel="stylesheet" href="../css/button/commentButton.css">
+    <link rel="stylesheet" href="../css/component/replies.css">
+    <link rel="stylesheet" href="../css/form/messageForm.css">
 </head>
 <body>
 <?php include '../component/header.php'; ?>

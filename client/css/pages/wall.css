@@ -1,0 +1,219 @@
+/* For more clarity, hide scrollbar for all overflow-y auto/scroll elements */
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+body {
+    font-family: Arial, sans-serif; /* Use Arial font */
+    background: rgb(61,61,61);
+    background: -moz-radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    background: -webkit-radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    background: radial-gradient(circle, rgba(61,61,61,1) 0%, rgba(194,66,66,1) 50%, rgba(0,12,110,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3d3d3d",endColorstr="#000c6e",GradientType=1);    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+html, body {
+    margin: 0; /* Reset default margins */
+    padding: 0; /* Reset default padding */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    width: 100%; /* Make sure body spans the full viewport width */
+}
+
+/* Flexbox layout for the container */
+.container {
+    display: flex;
+    /* Use flexbox for layout */
+    justify-content: space-between;
+    /* Space between sections */
+    align-items: flex-start;
+    /* Align items at the start of the cross-axis */
+    margin-top: 10px;
+
+}
+
+/* Individual section styles */
+.first-section {
+    flex-basis: 15%;
+    max-width: 15%;
+    background-color: #657786;
+    color: #0c356a;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    max-height: 50vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
+    backdrop-filter: blur(10px); /* Apply a blur effect */
+    border: 2px solid black;
+}
+
+.second-section {
+    flex-grow: 1;
+    /* Allow this section to grow to fill available space */
+    flex-basis: 70%;
+    /* Set base width to 70% */
+    max-width: 70%;
+    /* Ensure it doesn't grow beyond 70% */
+    margin: 20px;
+    /*set z axis to avoid overlapping*/
+    z-index: 1;
+
+}
+
+
+h1 {
+    text-align: center;
+    /* Center the heading */
+    color: #aab8c2;
+    /* Set heading color */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        /* Stack sections vertically on smaller screens */
+    }
+
+    .first-section,
+    .second-section {
+        flex-basis: 100%;
+        /* Full width for smaller screens */
+        max-width: 100%;
+        /* Full width for smaller screens */
+    }
+}
+
+/* CSS for the banner and profile picture to mimic Twitter */
+.banner-container {
+    position: relative;
+    width: 100%; /* Full width */
+    height: 300px; /* Fixed height for the banner */
+    margin-bottom: 10px; /* Space between sections */
+}
+#banner {
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    object-fit: cover; /* Maintains aspect ratio */
+    object-position: center; /* Centers the image */
+    border-radius: 10px; /* Rounded corners */
+    border: 2px solid; /* Border for contrast */
+}
+.banner-profile-picture {
+    position: absolute;
+    bottom: 50px; /* Positioned above the bottom of the banner */
+    left: 20px; /* Positioned from the left edge */
+    border-radius: 50%; /* Circular shape */
+    border: 3px solid white; /* Border for contrast */
+    width: 80px; /* Size of the profile picture */
+    height: 80px; /* Maintain a square shape */
+}
+.edit-profile {
+    position: absolute;
+    bottom: 10px; /* Above the banner bottom */
+    right: 20px; /* Positioned from the right edge */
+    background-color: #b6bbc4; /* Light gray background */
+    color: #0c2d57; /* Dark text color */
+    padding: 5px 10px; /* Padding for spacing */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* No underline */
+}
+
+.edit-profile:hover {
+    background-color: #fc6736; /* Change color on hover */
+    color: white; /* White text on hover */
+}
+/* Edit banner button */
+#change-banner-button {
+    position: absolute; /* Position relative to the banner */
+    bottom: 10px; /* Above the bottom of the banner */
+    left: 20px; /* Positioned from the left edge */
+    background-color: #b6bbc4; /* Light gray background */
+    color: #0c2d57; /* Dark text color */
+    padding: 5px 10px; /* Padding for spacing */
+    border-radius: 5px; /* Rounded corners */
+    border: none; /* No border */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.account-info {
+    position: relative; /* Relative to its container */
+    background-color: #b6bbc4; /* Light gray background */
+    color: #0c2d57; /* Dark text color */
+    padding: 10px; /* Padding for spacing */
+    border: 2px solid; /* Border for emphasis */
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 10px; /* Space between sections */
+}
+
+
+.account-info h2 {
+    margin-bottom: 5px; /* Space below the heading */
+}
+
+.account-info p {
+    margin-bottom: 5px; /* Space between paragraphs */
+}
+/* Adjust for smaller screens */
+@media (max-width: 600px) {
+    .banner-container {
+        height: 200px; /* Reduce height for smaller screens */
+    }
+
+    .banner-profile-picture {
+        width: 60px; /* Reduce size of profile picture */
+        height: 60px; /* Maintain square shape */
+    }
+
+    .edit-profile {
+        bottom: 5px; /* Adjust position */
+        right: 10px; /* Adjust position */
+    }
+
+    .account-info {
+        padding: 5px; /* Reduce padding */
+        border-radius: 5px; /* Adjust rounded corners */
+    }
+}
+
+
+/* Default style for follow/unfollow buttons */
+.follow-button, .unfollow-button {
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px 16px; /* Padding for a comfortable click area */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    font-weight: bold; /* Bold text for emphasis */
+}
+
+/* Style for the 'Follow' button */
+.follow-button {
+    background-color: #0c2d57; /* Green for following */
+    color: white; /* White text for contrast */
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+/* Hover effect for the 'Follow' button */
+.follow-button:hover {
+    background-color: #0c2d57; /* Darker green on hover */
+}
+
+/* Style for the 'Unfollow' button */
+.unfollow-button {
+    background-color: red; /* Red for unfollowing */
+    color: white; /* White text for contrast */
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+/* Hover effect for the 'Unfollow' button */
+.unfollow-button:hover {
+    background-color: darkred; /* Darker red on hover */
+}
+
+/* Disabled style for when the button shouldn't be clickable */
+.disabled-button {
+    background-color: gray; /* Gray color for disabled state */
+    color: lightgray; /* Lighter text to indicate disabled */
+    cursor: not-allowed; /* Cursor indicates disabled */
+}

@@ -9,8 +9,11 @@ body {
     padding: 0; /* Remove default padding */
 }
 
-body, html {
-    height: 100%;
+html, body {
+    margin: 0; /* Reset default margins */
+    padding: 0; /* Reset default padding */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    width: 100%; /* Make sure body spans the full viewport width */
 }
 
 /* Main Content Wrapper */

@@ -23,8 +23,12 @@ include "../component/navBar.php";
 <head>
     <meta charset="UTF-8">
     <title>Statistiques</title>
-    <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/statistics.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/bar/navbar.css">
+    <link rel="stylesheet" href="../css/pages/statistics.css">
+
 </head>
 <body>
 <?php include '../component/header.php'; ?>

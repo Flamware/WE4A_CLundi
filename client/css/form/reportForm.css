@@ -1,18 +1,17 @@
-.toggle-button {
-    padding: 5px 15px;
-    background-color: #007bff;
+.toggle-button-report {
+    background-color: #dc3545;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
-
+.toggle-button-report:hover {
+    background-color: #c82333;
+}
 .toggle-button:hover {
     background-color: #0056b3;
 }
 
 .report-form {
-    display: none; /* Default to hidden */
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
@@ -34,11 +33,9 @@
 }
 
 .report-form button {
-    padding: 5px 15px;
     background-color: #dc3545;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -49,7 +46,6 @@
 .report-message {
     margin-top: 10px;
     padding: 5px;
-    border: 1px solid;
     border-radius: 5px;
     display: none;
 }

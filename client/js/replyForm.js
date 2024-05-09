@@ -32,10 +32,30 @@ document.addEventListener("DOMContentLoaded", function () {
                     if(data.success){
                         // Show success message
                         showError(data.message);
-                        // Reload the page after a delay (optional)
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1000);
+                        // Get the most proachable parent comment or the story container
+                        var parent = form.closest('.comment');
+                        if (!parent) {
+                            parent = form.closest('.story');
+                        }
+                        // Create a new reply element
+                        var reply = document.createElement('div');
+                        reply.classList.add('comment');
+                        reply.innerHTML = `
+                     <div class="comment-header">
+                     <a href="../pages/wall.php?username=${data.author}">
+                     <img src="../assets/profile_picture.png" alt="Profile Picture" class="profile-picture" data-author-name="${data.author}">
+                     </a>
+                        <a href="../pages/wall.php?username=${data.author}" class="author">${data.author}</a>
+                        </div>
+                        <div class="content">
+                            <p>${data.content}</p>
+                            <span class="date">${data.created_at}</span>
+                            </div>
+                        </div>`;
+                        parent.appendChild(reply);
+                        // load the profile picture for the new reply by calling the loadProfilePicture function with profile-picture element
+                        loadProfilePicture(reply.querySelector('.profile-picture'));
+                        // Hide the reply form
                     } else {
                         // Show error message if submission failed
                         showError(data.message);
@@ -55,7 +75,6 @@ function toggleTextArea(containerId) {
     var container = document.getElementById(containerId);
     container.style.display = container.style.display === "none" ? "block" : "none";
 }
-
 function hideTextArea(containerId) {
     var container = document.getElementById(containerId);
     container.style.display = "none";

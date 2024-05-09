@@ -8,11 +8,13 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3d3d3d",endColorstr="#000c6e",GradientType=1);    margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
 }
-body, html {
-    min-height: 100vh; /* Full viewport height */
-    display: flex; /* Use flexbox for the layout */
-    flex-direction: column; /* Arrange elements in a column */
+html, body {
+    margin: 0; /* Reset default margins */
+    padding: 0; /* Reset default padding */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    width: 100%; /* Make sure body spans the full viewport width */
 }
+
 
 /* Main Container */
 .main-container {
@@ -25,13 +27,13 @@ body, html {
 .left-section {
     flex-basis: 15%; /* Fixed percentage width for first section */
     max-width: 15%; /* Prevent the section from growing too much */
-    background-color: #aab8c2; /* Set background color */
     color: #0c356a; /* Set text color */
     padding: 10px; /* Add padding */
     margin-right: 10px; /* Add margin to the right */
     border-radius: 5px; /* Add border radius */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add box shadow */
-    max-height: 35vh; /* Maximum height to control the section's height */
+    background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
+    backdrop-filter: blur(10px); /* Apply a blur effect */
+    max-height: 70vh; /* Maximum height to control the section's height */
     overflow-y: auto; /* Enable vertical scrolling if needed */
 }
 

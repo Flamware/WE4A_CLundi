@@ -55,7 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare('INSERT INTO stories (content, author, story_image) VALUES (?, ?, ?)');
         $stmt->execute([$story, $username, $storyImageFilename]);
         http_response_code(201); // Created status
-        echo json_encode(array('success' => true, 'message' => 'Story submitted successfully'));
+        // encode the response as JSON, and return : the author, the story content, the story image, and a success message
+        echo json_encode(array('success' => true, 'author' => $username, 'content' => $story, 'story_image' => $storyImageFilename, 'message' => 'Story submitted successfully'));
+        exit();
     } catch (PDOException $e) {
         // Handle database errors
         http_response_code(500); // Internal Server Error

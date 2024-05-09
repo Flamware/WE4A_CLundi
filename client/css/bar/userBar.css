@@ -1,0 +1,90 @@
+
+/* Container for the suggestion list */
+.suggestions-container {
+    max-height: 150px; /* Maintains a reasonable height with scrolling */
+    overflow-y: auto; /* Enables vertical scrolling if content exceeds max-height */
+    overflow-x: hidden; /* Prevents horizontal overflow */
+    border-radius: 5px; /* Rounded corners for aesthetics */
+    padding: 10px; /* Padding for inner spacing */
+    box-sizing: border-box; /* Ensures padding and borders are within the specified width */
+    max-width: 100%; /* Restricts the container from extending beyond its parent */
+    border: 1px solid #ccc; /* Border for the container */
+}
+#search-button {
+    background-color: #0c2d57; /* Blue background color */
+    color: #f0ece5; /* White text color */
+    border: none; /* No border */
+    cursor: pointer; /* Changes cursor to indicate clickable */
+}
+#search-button:hover {
+    background-color: #0a2348; /* Darker blue on hover */
+}
+
+/* Container for individual suggestion */
+.user-fetched {
+    padding: 10px; /* Padding for spacing */
+}
+
+/* Style for each individual suggestion (divs with "user" class) */
+.user {
+    display: flex; /* Flex layout for alignment */
+    align-items: center; /* Center-align items vertically */
+    padding: 10px; /* Padding for spacing */
+    border-bottom: 1px solid #ccc; /* Separate suggestions with borders */
+    transition: background-color 0.3s; /* Smooth transition for hover effects */
+    width: 100%;
+}
+
+.user:hover {
+    background-color: #e0e0e0; /* Highlight suggestion on hover */
+}
+
+/* Style for the suggestion button */
+.user-button {
+    background: none; /* No background */
+    border: none; /* No border */
+    text-align: left; /* Align text to the left */
+    cursor: pointer; /* Changes cursor to indicate clickable */
+    flex-grow: 1; /* Allow the button to fill available space */
+    color: #333; /* Default text color */
+}
+
+.user-button:hover {
+    text-decoration: underline; /* Underline text on hover */
+}
+
+/* Style for the profile picture inside suggestions */
+.profile-picture {
+    width: 40px; /* Size of the profile picture */
+    height: 40px; /* Keep it circular */
+    border-radius: 50%; /* Circular shape */
+    object-fit: cover; /* Maintain aspect ratio */
+    margin-right: 10px; /* Space between the profile picture and text */
+}
+
+/* Removing the bottom border for the last suggestion in the list */
+.user-fetched .user:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+/* Style for the "No users found" message */
+.no-users {
+    padding: 10px; /* Padding for spacing */
+    text-align: center; /* Center-align text */
+    color: #777; /* Lighter text color */
+}
+#user-container {
+    display: flex; /* Flex layout for alignment */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    align-items: center; /* Center-align items vertically */
+    padding: 10px; /* Padding for spacing */
+    border-bottom: 1px solid #ccc; /* Separate suggestions with borders */
+    transition: background-color 0.3s; /* Smooth transition for hover effects */
+}
+/* Style for the show more button */
+#show-less-button, #show-more-button {
+    background-color: #0c2d57; /* Blue background color */
+    color: #f0ece5; /* White text color */
+    border: 5px;
+    border-radius: 5px; /* Rounded corners */
+}

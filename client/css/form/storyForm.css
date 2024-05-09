@@ -21,15 +21,13 @@
 }
 
 #submit-story button {
-    padding: 5px 15px;
     background-color: #007bff;
     color: white;
-    border-radius: 5px;
     cursor: pointer;
 }
 
 #submit-story button:hover {
-    background-color: #0056b3;
+    background-color: #0c2d57;
 }
 
 #image-preview-container {

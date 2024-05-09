@@ -49,13 +49,18 @@ if ($result === FALSE) {
     <title>Direct Message Thread</title>
     <script src="../js/navBar.js"></script>
     <script src="../js/error.js"></script>
-    <script src="../js/dmSuggestion.js"></script>
+    <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/logout.js"></script>
     <script src="../js/reportForm.js"></script>
-    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/component/dmThread.css">
+    <link rel="stylesheet" href="../css/form/messageForm.css">
+    <link rel="stylesheet" href="../css/bar/navbar.css">
     <link rel="stylesheet" href="../css/error.css">
-    <link rel="stylesheet" href="../css/messages.css">
+    <link rel="stylesheet" href="../css/pages/messages.css">
 </head>
 <?php include '../component/header.php'; ?> <!-- Include header view -->
 <?php displayNavBar(); ?>

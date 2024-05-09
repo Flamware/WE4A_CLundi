@@ -19,21 +19,23 @@ document.addEventListener("DOMContentLoaded", function () {
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const users = JSON.parse(xhr.responseText);
-                    const suggestionContainer = document.createElement("div");
-                    suggestionContainer.classList.add("suggestion-container"); // For scrollability
+
+                    const userFetched = document.createElement("div");
+                    userFetched.classList.add("user-fetched"); // For scrollability
 
                     users.forEach((user) => {
+                        const suggestionDiv = document.createElement("div");
+                        suggestionDiv.classList.add("user");
+
                         const profilePicture = document.createElement("img");
                         profilePicture.alt = "Profile Picture";
                         profilePicture.classList.add("profile-picture");
+                        profilePicture.setAttribute("data-author-name", user.username);
 
                         loadProfilePicture(profilePicture, user.username); // Fetch and set profile picture
 
-                        const suggestionDiv = document.createElement("div");
-                        suggestionDiv.classList.add("suggestion");
-
                         const suggestionButton = document.createElement("button");
-                        suggestionButton.classList.add("suggestion-button");
+                        suggestionButton.classList.add("user-button");
                         suggestionButton.textContent = user.username;
 
                         suggestionButton.addEventListener("click", function () {
@@ -43,11 +45,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         suggestionDiv.appendChild(profilePicture); // Add profile picture to suggestion div
                         suggestionDiv.appendChild(suggestionButton); // Add button to suggestion div
-                        suggestionContainer.appendChild(suggestionDiv); // Add div to container
+
+                        userFetched.appendChild(suggestionDiv); // Add suggestion div to userFetched
                     });
 
                     suggestionsContainer.innerHTML = ""; // Clear previous suggestions
-                    suggestionsContainer.appendChild(suggestionContainer); // Add new suggestions
+                    suggestionsContainer.appendChild(userFetched); // Add new suggestions
                 } else {
                     console.error("Request failed:", xhr.status);
                 }

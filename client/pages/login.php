@@ -10,7 +10,11 @@ require '../../conf.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <script src="../js/error.js"></script>
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/error.css">
+    <link rel="stylesheet" href="../css/pages/login.css">
     <link rel="stylesheet" href="../css/error.css">
 </head>
 <body>

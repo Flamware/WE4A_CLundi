@@ -24,8 +24,8 @@ function renderComments( $replies = [],$comments) {
     </span>
                 <?php
                 $toggleButtonId = 'replies-' . $reply->id;
-                renderCommentButton($toggleButtonId, 'Voir les réponses');
                 ?>
+                <button id="toggle-comments-<?= $reply->id ?>" onclick="toggleVisibility('<?= $toggleButtonId ?>')">Voir les commentaires</button>
                 <div class="replies" id="<?php echo $toggleButtonId; ?>" style="display: none;">
                     <?php
                     renderComments(getRepliesByCommentId($comments, $reply->id), $comments);

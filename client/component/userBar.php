@@ -6,9 +6,11 @@ function displayUserBar($url) {
             <div class="suggestions-container"></div>
             <button id="search-button">Search</button>
         </div>
+
     <div id="user-container">
         <h>Users of Clundi :</h>
     </div>
+
     <div id="button-container">
         <button id="show-more-button">Show More</button>
         <button id="show-less-button" style="display: none;">Show Less</button> <!-- Initially hidden -->
@@ -19,7 +21,6 @@ function displayUserBar($url) {
             // Variables to track the current page and limit
             let currentPage = 1;
             const usersPerPage = 3; // Change this to your desired number of users per page
-
             // Function to fetch users from the server
             function fetchUsers() {
                 fetch('<?php echo API_PATH ?>/load/loadUsers.php?page=' + currentPage)

@@ -50,8 +50,8 @@ function renderParentComments($comments) {
                 <?php
                 displayReportForm('comment', $comment->id);
                 $toggleButtonId = 'replies-' . $comment->id;
-                renderCommentButton($toggleButtonId, 'Voir les réponses');
                 ?>
+                <button id="toggle-comments-<?= $comment->id ?>" onclick="toggleVisibility('<?= $toggleButtonId ?>')">Voir les commentaires</button>
                 <div class="replies" id="<?php echo $toggleButtonId; ?>" onload="toggleVisibility(this)" style="display: none;">
                     <?php
                     require_once 'render_replies.php';
