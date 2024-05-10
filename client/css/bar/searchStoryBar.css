@@ -10,6 +10,7 @@
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+    max-width: 50%;
 }
 
 #story-search-button {

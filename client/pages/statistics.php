@@ -30,8 +30,8 @@ include "../component/bar/navBar.php";
     <link rel="stylesheet" href="../css/pages/statistics.css">
 
 </head>
-<body>
 <?php include '../component/header.php'; ?>
+<body>
 <?php displayNavBar(); ?>
 
 <div class="main-container">
@@ -48,7 +48,7 @@ include "../component/bar/navBar.php";
                 <p id="comment-count">0</p>
             </div>
             <div class="statistics-item">
-                <h2>Nombre de likes</h2>
+                <h2>Nombre de likes émits</h2>
                 <p id="like-count">0</p>
             </div>
         </div>
@@ -60,13 +60,17 @@ include "../component/bar/navBar.php";
                 <h2>Nombre de commentaires reçus</h2>
                 <p id="comment-count-per-story">0</p>
             </div>
+            <div class="statistics-item">
+                <h2>Nombre de likes reçus</h2>
+                <p id="like-count-received">0</p>
         </div>
     </div>
     <!-- Add more sections for other statistics as needed -->
 </div>
 </div>
-<?php include '../component/footer.php'; ?>
+</div>
 </body>
+<?php include '../component/footer.php'; ?>
 </html>
 <script>
     console.log("Fetching statistics...");
@@ -84,6 +88,7 @@ include "../component/bar/navBar.php";
             document.getElementById('story-count').textContent = data.storyCount;
             document.getElementById('comment-count').textContent = data.commentCount;
             document.getElementById('like-count').textContent = data.likeCount;
+            document.getElementById('like-count-received').textContent = data.likeReceived;
             document.getElementById('comment-count-per-story').textContent = data.commentCountPerStory;
         })
         .catch(error => {

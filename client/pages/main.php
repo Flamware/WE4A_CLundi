@@ -73,7 +73,7 @@ $stories = $data['stories'];
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/pages/main.css">
     <link rel="stylesheet" href="../css/bar/navbar.css">
-    <link rel="stylesheet" href="../css/component/searchStory.css">
+    <link rel="stylesheet" href="../css/bar/searchStoryBar.css">
     <link rel="stylesheet" href="../css/error.css">
     <link rel="stylesheet" href="../css/bar/userBar.css">
     <link rel="stylesheet" href="../css/form/storyForm.css">

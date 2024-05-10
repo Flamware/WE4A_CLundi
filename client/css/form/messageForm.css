@@ -7,7 +7,6 @@
     border-radius: 20px;
     background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
     backdrop-filter: blur(10px); /* Apply a blur effect */
-    height: 100%; /* Full height */
     margin: 20px 0; /* Space around the form */
     border: 2px solid black;
 

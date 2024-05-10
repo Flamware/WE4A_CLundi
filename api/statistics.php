@@ -2,6 +2,8 @@
 include "db_connexion.php";
 session_start();
 global $conn;
+
+
 // Check if the request method is GET and if the user is logged in
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
@@ -30,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['username'])) {
         }
 
         // Get the number of likes using user_id
-        $sql = "SELECT COUNT(*) as count FROM likes WHERE user_id = (SELECT user_id FROM users WHERE username = ?)";
+        $sql = "SELECT COUNT(*) as count FROM likes WHERE user_id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->execute([$username]);
+        $stmt->execute([$_SESSION['user_id']]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($result) {
             $likeCount = $result['count'];
@@ -55,12 +57,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['username'])) {
                 }
             }
         }
+        // get the number of like the user has received on his stories
+        $sql = "SELECT COUNT(*) as count FROM likes WHERE story_id IN (SELECT id FROM stories WHERE author = ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$username]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $likeReceived = $result['count'];
+        }
+
+        // get the number of like the user has received on his comments
+        $sql = "SELECT COUNT(*) as count FROM likes WHERE comment_id IN (SELECT id FROM comments WHERE author = ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$username]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $likeReceived += $result['count'];
+        }
+
 
         // Encode the data as JSON
         echo json_encode([
             'storyCount' => $storyCount,
             'commentCount' => $commentCount,
             'likeCount' => $likeCount,
+            'likeReceived' => $likeReceived,
             'commentCountPerStory' => $commentCountPerStory
         ]);
     } catch (PDOException $e) {

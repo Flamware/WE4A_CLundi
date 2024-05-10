@@ -14,11 +14,15 @@ body {
     padding: 0; /* Remove default padding */
 }
 html, body {
+    display: flex;
+    flex-direction: column; /* Stack body content vertically */
     margin: 0; /* Reset default margins */
     padding: 0; /* Reset default padding */
     overflow-x: hidden; /* Prevent horizontal overflow */
     width: 100%; /* Make sure body spans the full viewport width */
+    min-height: 100vh;  /* Full viewport height */
 }
+
 
 /* Flexbox layout for the container */
 .container {

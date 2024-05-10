@@ -44,8 +44,9 @@ require '../../conf.php';
             </form>
         </section>
     </main>
-    <?php include '../component/footer.php'; ?> <!-- Include footer view -->
 </div>
+</body>
+<?php include '../component/footer.php'; ?> <!-- Include footer view -->
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

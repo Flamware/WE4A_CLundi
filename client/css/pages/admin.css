@@ -9,10 +9,13 @@ body {
     padding: 0; /* Remove default padding */
 }
 html, body {
+    display: flex;
+    flex-direction: column; /* Stack body content vertically */
     margin: 0; /* Reset default margins */
     padding: 0; /* Reset default padding */
     overflow-x: hidden; /* Prevent horizontal overflow */
     width: 100%; /* Make sure body spans the full viewport width */
+    min-height: 100vh;  /* Full viewport height */
 }
 
 
@@ -33,7 +36,7 @@ html, body {
     border-radius: 5px; /* Add border radius */
     background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
     backdrop-filter: blur(10px); /* Apply a blur effect */
-    max-height: 70vh; /* Maximum height to control the section's height */
+    max-height: 50%; /* Maximum height to control the section's height */
     overflow-y: auto; /* Enable vertical scrolling if needed */
 }
 

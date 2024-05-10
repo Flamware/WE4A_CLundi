@@ -8,7 +8,7 @@ if (!defined('API_PATH')) {
     $host = $_SERVER['HTTP_HOST'];
 
     // Optionally, add a dynamic base path if your server has a context path (e.g., if it's not at the root)
-    $basePath = '/api'; // Adjust as needed for your setup
+    $basePath = '/WE4A_CLundi/api';
 
     // Define the API path
     define('API_PATH', $protocol . '://' . $host . $basePath);

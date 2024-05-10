@@ -173,6 +173,7 @@ function displayReportInfo($reportInfo)
     </div>
 </div>
 </body>
+<?php include '../component/footer.php'; ?>
 </html>
 
 <script>

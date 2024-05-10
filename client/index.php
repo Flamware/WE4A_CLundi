@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../conf.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -45,9 +46,9 @@ require '../conf.php';
             <li><a href="pages/account.php">Mon Compte</a></li>
             <?php if (isset($_SESSION['username'])) { ?>
                 <li><a href="pages/logout.php">Se Déconnecter</a></li>
-            <?php } else { ?>
-                <li><a href="pages/login.php">Se Connecter</a></li>
-            <?php } ?>
+            <?php }
+            ?>
+            <li><a href="pages/login.php">Se Connecter</a></li>
         </ul>
     </nav>
 

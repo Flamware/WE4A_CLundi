@@ -101,7 +101,7 @@ $stories = $data['stories'];
     <link rel="stylesheet" href="../css/form/reportForm.css">
     <link rel="stylesheet" href="../css/button/commentButton.css">
     <link rel="stylesheet" href="../css/component/replies.css">
-    <link rel="stylesheet" href="../css/component/searchStory.css">
+    <link rel="stylesheet" href="../css/bar/searchStoryBar.css">
     <link rel="stylesheet" href="../css/form/messageForm.css">
 </head>
 <?php include '../component/header.php'; ?>

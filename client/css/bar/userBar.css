@@ -5,7 +5,6 @@
     overflow-y: auto; /* Enables vertical scrolling if content exceeds max-height */
     overflow-x: hidden; /* Prevents horizontal overflow */
     border-radius: 5px; /* Rounded corners for aesthetics */
-    padding: 10px; /* Padding for inner spacing */
     box-sizing: border-box; /* Ensures padding and borders are within the specified width */
     max-width: 100%; /* Restricts the container from extending beyond its parent */
     border: 1px solid #ccc; /* Border for the container */
