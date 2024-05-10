@@ -10,7 +10,7 @@ function renderReplyForm($storyId, $parent_comment_id_value)
             Répondre
         </button>
         <div id="<?php echo $containerId; ?>" class="text-area-container" style="display: none;">
-            <form id="replyForm_<?php echo $containerId; ?>" class="reply-form" action="http://localhost/api/submit-comment" method="post">
+            <form id="replyForm_<?php echo $containerId; ?>" class="reply-form" action="<?php echo API_PATH?>/submit-comment" method="post">
                 <textarea name="content" placeholder="Tapez votre réponse" class="reply-textarea"></textarea>
                 <input type="hidden" name="story_id" value="<?php echo $storyId; ?>">
                 <input type="hidden" name="parent_comment_id" value="<?php echo $parent_comment_id_value; ?>">
