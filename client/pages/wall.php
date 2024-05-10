@@ -203,9 +203,15 @@ $wall = loadWall($wallName);
 
     // Function to follow/unfollow a user using POST
     function toggleFollow() {
+        // ask confirm before unfollow
+
         const followButton = document.getElementById('follow-button');
         const username = '<?php echo htmlspecialchars($wallName); ?>';
-
+        if (followButton.classList.contains('unfollow-button')) {
+            if (!confirm('Are you sure you want to unfollow this user?')) {
+                return;
+            }
+        }
         fetch(apiPath+'/submit/submitFollow.php', {
             method: 'POST',  // POST request
             headers: {

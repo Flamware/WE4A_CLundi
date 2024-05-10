@@ -30,6 +30,7 @@ $username = $_SESSION['username']?? 'Guest'; // Get the username from the sessio
                 <p><?= htmlspecialchars($username) ?></p>
             </a>
         </div>
+        <?php if (isset($_SESSION['username'])) { ?>
         <div class="notification">
             <div class="notification-icon" onclick="toggleNotifications()">
                 <i class="fa fa-bell"></i>
@@ -40,6 +41,7 @@ $username = $_SESSION['username']?? 'Guest'; // Get the username from the sessio
                 <!-- Notifications will be inserted here -->
             </div>
         </div>
+        <?php } ?>
     </div>
 </header>
 

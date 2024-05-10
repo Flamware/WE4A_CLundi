@@ -23,6 +23,8 @@ include "../component/bar/navBar.php";
 <head>
     <meta charset="UTF-8">
     <title>Statistiques</title>
+    <script src="../js/error.js"></script>
+    <script src="../js/logout.js"></script>
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/header.css">
@@ -50,6 +52,10 @@ include "../component/bar/navBar.php";
             <div class="statistics-item">
                 <h2>Nombre de likes émits</h2>
                 <p id="like-count">0</p>
+            </div>
+            <div class="statistics-item">
+                <h2>Nombre de followers</h2>
+                <p id="follower-count">0</p>
             </div>
         </div>
     </div>
@@ -90,6 +96,7 @@ include "../component/bar/navBar.php";
             document.getElementById('like-count').textContent = data.likeCount;
             document.getElementById('like-count-received').textContent = data.likeReceived;
             document.getElementById('comment-count-per-story').textContent = data.commentCountPerStory;
+            document.getElementById('follower-count').textContent = data.followers;
         })
         .catch(error => {
             console.error('Error:', error);

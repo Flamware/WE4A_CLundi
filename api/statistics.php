@@ -57,6 +57,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['username'])) {
                 }
             }
         }
+
+        //get the number of followers
+        $sql = "SELECT COUNT(*) as count FROM user_following WHERE followed_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$_SESSION['user_id']]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $followers = $result['count'];
+        }
+
         // get the number of like the user has received on his stories
         $sql = "SELECT COUNT(*) as count FROM likes WHERE story_id IN (SELECT id FROM stories WHERE author = ?)";
         $stmt = $conn->prepare($sql);
@@ -82,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['username'])) {
             'commentCount' => $commentCount,
             'likeCount' => $likeCount,
             'likeReceived' => $likeReceived,
+            'followers' => $followers,
             'commentCountPerStory' => $commentCountPerStory
         ]);
     } catch (PDOException $e) {
