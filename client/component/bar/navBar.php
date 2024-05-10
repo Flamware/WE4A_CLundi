@@ -5,7 +5,6 @@ function displayNavBar() {
     ?>
     <!-- Navigation bar with submenu for feeds -->
     <nav class="navbar">
-        <button class="expand-button" onclick="toggleMenu()"><i class="fa fa-bars"></i></button>
         <div id="navbar-content" class="content">
             <?php
             if (isset($_SESSION['user_id']) && $_SESSION['admin'] == 1)

@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // AJAX request to fetch story suggestions
                 const xhr = new XMLHttpRequest();
-                xhr.open("GET", `http://localhost/api/load/loadStories.php?query=${encodeURIComponent(query)}`);
+                xhr.open("GET", apiPath + `/load/loadStories.php?query=${encodeURIComponent(query)}`);
                 xhr.onload = function () {
                     if (xhr.status === 200) {
                         const response = JSON.parse(xhr.responseText);
@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 profilePicture.alt = "Profile Picture";
                                 profilePicture.classList.add("profile-picture");
                                 profilePicture.setAttribute("data-author-name", story.author);
+                                loadProfilePicture(profilePicture);
 
                                 const authorName = document.createElement("span");
                                 authorName.classList.add("author-name");
@@ -90,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 if (story.story_image) {
                                     const storyImage = document.createElement("img");
-                                    storyImage.src = `http://localhost/api/uploads/stories/${story.story_image}`;
+                                    storyImage.src = apiPath + `/uploads/stories/${story.story_image}`;
                                     storyImage.alt = "Story Image";
                                     storyImage.classList.add("story-image");
                                     storyContent.appendChild(storyImage);
@@ -113,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 suggestionDiv.appendChild(suggestionButton); // Append the button to suggestionDiv
                                 suggestionsContainer.appendChild(suggestionDiv); // Add suggestionDiv to suggestionsContainer
+
                             });
                         } else {
                             suggestionsContainer.textContent = "No suggestions found"; // When there are no matching stories

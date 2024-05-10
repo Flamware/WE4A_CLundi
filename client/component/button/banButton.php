@@ -5,14 +5,15 @@ function renderBanButton($username = null) {
     ?>
     <!-- Toggle button to show/hide the ban form -->
     <button class="delete-button" onclick="toggleVisibility('ban-form')">Ban User</button>
+    <!-- Unban button -->
+    <button class="delete-button" onclick="submitUnbanForm('<?= $usernameValue ?>')">Unban User</button>
 
     <!-- Form for banning a user with a ban duration -->
-    <form id="ban-form" onsubmit="submitBanForm(event)" method="post">
+    <form id="ban-form" onsubmit="submitBanForm(event)" style="display : none" method="post">
         <!-- Display username as plain text -->
         <p>Username: <?= $usernameValue ?></p>
         <!-- Hidden input field to send username to server -->
         <input type="hidden" name="username" value="<?= $usernameValue ?>" required>
-
         <!-- Dropdown to select ban duration -->
         <select name="ban_duration" required>
             <option value="" disabled selected>Ban Duration</option>
@@ -22,8 +23,13 @@ function renderBanButton($username = null) {
             <option value="permanent">Permanent</option>
         </select>
 
+        <!-- Textarea for the ban reason -->
+        <textarea name="ban_reason" placeholder="Ban Reason" required></textarea>
+
         <!-- Submit button to send the form via AJAX -->
         <button type="submit">Ban</button>
+        <!-- Button to cancel the ban -->
+        <button type="button" onclick="toggleVisibility('ban-form')">Cancel</button>
     </form>
 
     <!-- Styles for the ban button and form -->
@@ -87,7 +93,7 @@ function renderBanButton($username = null) {
             const form = document.getElementById("ban-form");
             const formData = new FormData(form); // Get form data
 
-            fetch("../../api/update/updateBan.php", {
+            fetch(apiPath + "/update/updateBan.php", {
                 method: "POST",
                 body: formData
             })
@@ -110,6 +116,36 @@ function renderBanButton($username = null) {
                 .catch(error => {
                     console.error("Error submitting ban form:", error);
                     alert("An error occurred while banning the user.");
+                });
+        }
+
+        // Function to handle the form submission with AJAX
+        function submitUnbanForm(username) {
+            const formData = new FormData();
+            formData.append("username", username);
+            formData.append("ban_duration", "no ban");
+
+            fetch(apiPath + "/update/updateBan.php", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json(); // Parse the JSON response
+                })
+                .then(data => {
+                    if (data.success) {
+                        showError(data.message);
+                    } else {
+                        console.error("Unban failed:", data);
+                        showError(`Failed to unban user: ${data.message}`);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error submitting unban form:", error);
+                    showError("An error occurred while unbanning the user.");
                 });
         }
     </script>

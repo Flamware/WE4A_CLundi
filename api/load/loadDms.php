@@ -1,4 +1,12 @@
 <?php
+/**
+ * Load the user's direct messages
+ * Method: GET
+ * Source : Axel Antunes
+ *
+ * This file loads the user's direct messages from the database
+ * It returns the discussions with other users
+ */
 include "../db_connexion.php"; // Make sure this file includes your database connection
 
 session_start();
@@ -65,7 +73,7 @@ if(isset($_SESSION['user_id'])) {
 } else {
     // Return error message if the user is not logged in
     http_response_code(401);
-    echo json_encode(array('success' => false, 'message' => 'Unauthorized'));
+    echo json_encode(array('success' => false, 'message' => 'Vous devez être connecté.'));
     exit;
 }
 ?>

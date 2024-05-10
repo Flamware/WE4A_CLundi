@@ -1,4 +1,14 @@
 <?php
+/**
+ * Load users
+ * Method: GET
+ * Source : Estouan Gachelin
+ *
+ * This file loads all users from the database
+ * It returns the users in a JSON format
+ * The users are ordered from the most recent to the oldest
+ */
+
 include '../db_connexion.php';
 global $conn;
 session_start();

@@ -11,9 +11,9 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
-include '../../conf.php'; // Include the API path
+require '../../conf.php'; // Include the API path
 include '../component/dm_thread.php'; // Include the direct message thread component
-include '../component/navbar.php'; // Include the navbar component
+include '../component/bar/navBar.php'; // Include the navbar component
 include '../component/form/messageForm.php';
 //get request to the server
 $url = API_PATH.'/load/loadDms.php';
@@ -47,7 +47,6 @@ if ($result === FALSE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Direct Message Thread</title>
-    <script src="../js/navBar.js"></script>
     <script src="../js/error.js"></script>
     <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
@@ -76,7 +75,7 @@ if ($result === FALSE) {
         foreach ($threads as $thread) : ?>
             <div class="thread-container">
                 <button class="toggle-thread-button">
-                    <img src="http://localhost/api/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?php echo $thread['receiver'] ?>">
+                    <img src=<?php echo API_PATH ?>"/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?php echo $thread['receiver'] ?>">
                     Discussion with <?php echo $thread['receiver']; ?>
                 </button>
                 <div class="message-thread hidden">

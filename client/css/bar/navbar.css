@@ -1,5 +1,6 @@
 /* Base styles for the navbar */
 .navbar {
+    position: relative;
     /* Blur effect */
     background-color: rgba(170, 184, 194, 0.5); /* Transparent background */
     backdrop-filter: blur(10px); /* Apply a blur effect */
@@ -13,6 +14,7 @@
     justify-content: space-between; /* Distribute links evenly */
     padding: 10px;
     width: fit-content;
+    z-index: 100;
 }
 
 /* Media query for small screens */

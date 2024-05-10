@@ -1,4 +1,14 @@
 <?php
+/**
+ * Submit a story
+ * Method: POST
+ * Source : Axel Antunes & CoPilot
+ *
+ * This file handles the server-side logic for submitting a story
+ * It retrieves the story content and optional image from the POST request
+ * It inserts the story content and image filename into the database
+ * It returns a JSON response indicating success or failure
+ */
 session_start();
 include "../db_connexion.php"; // Database connection
 global $conn;
@@ -7,7 +17,7 @@ global $conn;
 if (!isset($_SESSION['username'])) {
     // If not logged in, return Unauthorized status
     http_response_code(401);
-    echo json_encode(array('success' => false, 'message' => 'You must be logged in.'));
+    echo json_encode(array('success' => false, 'message' => 'Vous devez être connecté pour soumettre une histoire'));
     exit;
 }
 
@@ -66,6 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
     // If method is not POST, return Method Not Allowed status
     http_response_code(405);
-    echo json_encode(array('success' => false, 'message' => 'Method Not Allowed'));
+    echo json_encode(array('success' => false, 'message' => 'Acces non autorisé'));
 }
 ?>

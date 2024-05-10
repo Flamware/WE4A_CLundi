@@ -1,4 +1,13 @@
 <?php
+/**
+ * Submit a comment
+ * Method: POST
+ * Source : Axel Antunes
+ *
+ * This file handles the server-side logic for submitting a comment
+ * It retrieves the comment data from the POST request and inserts it into the database
+ * It returns a JSON response indicating success or failure
+ */
 
 session_start();
 include "../db_connexion.php";
@@ -7,7 +16,7 @@ global $conn;
 if (!isset($_SESSION['username'])) {
     // If the user is not logged in, return an error
     http_response_code(401);
-    echo json_encode(array('success' => false, 'message' => 'You must be logged in.'));
+    echo json_encode(array('success' => false, 'message' => 'Vous devez être connecté pour commenter'));
     exit;
 }
 else {
@@ -43,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['username'])) {
         }
         // Return JSON response indicating success and redirect to the story page
         http_response_code(201); // Created
-        echo json_encode(array('success' => true, 'message' => 'Comment submitted successfully', 'story_id' => $story_id, 'parent_comment_id' => $parent_comment_id, 'author' => $author, 'content' => $content, 'created_at' => date('Y-m-d H:i:s')));
+        echo json_encode(array('success' => true, 'message' => 'Commentaire envoyé', 'story_id' => $story_id, 'parent_comment_id' => $parent_comment_id, 'author' => $author, 'content' => $content, 'created_at' => date('Y-m-d H:i:s')));
         exit();
     } catch (PDOException $e) {
         // Return JSON response indicating failure and error message
@@ -55,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['username'])) {
 } else {
     // Return JSON response indicating invalid action or unauthorized access
     http_response_code(401); // Unauthorized
-    echo json_encode(array('success' => false, 'message' => 'Unauthorized access or invalid action'));
+    echo json_encode(array('success' => false, 'message' => 'Action non autorisée'));
     exit;
 }
 ?>

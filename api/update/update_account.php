@@ -1,11 +1,14 @@
 <?php
-/*
+/**
  * Update account information
  * Method: POST
- * Parameters: email, first_name, last_name
- * What's updated: email, first_name, last_name, updated_at
- * The user must be logged in to update their account information
+ * Source : Axel Antunes & ChatGPT
  *
+ * This file handles the update account server-side logic
+ * It receives the email, first name, and last name from the client
+ * It validates the input and checks if the email already exists
+ * If the input is valid and the email does not exist, it updates the user information in the database
+ * It sends a JSON response indicating the success or failure of the update process
  */
 session_start();
 include "../db_connexion.php";
@@ -58,7 +61,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
     exit;
 } else {
     http_response_code(400);
-    echo json_encode(array('success' => false, 'message' => 'Invalid action'));
+    echo json_encode(array('success' => false, 'message' => 'Vous devez être connecté pour mettre à jour vos informations'));
     exit;
 
 }

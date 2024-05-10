@@ -7,10 +7,10 @@ if (!isset($_SESSION['username']) || $_SESSION['admin'] !== 1) {
     header('Location: login.php');
     exit();
 }
+require '../../conf.php';
 
-require '../component/navbar.php';
-require '../component/userBar.php';
-include '../../conf.php';
+include '../component/bar/navBar.php';
+include '../component/bar/userBar.php';
 include '../component/button/banButton.php';
 
 
@@ -50,9 +50,11 @@ function displayReportInfo($reportInfo)
 {
     // Check if the data is valid and contains information
     if ($reportInfo && $reportInfo->success) {
-        echo "<h2>Reports Overview</h2>";
+        $reportAccount = isset($_GET['username']) ? $_GET['username'] : $_SESSION['username'];
+        echo "<h2>Reports Overview of $reportAccount</h2>";
         if(!empty($reportInfo->banStatus)){
             echo "<h3>Ban Status</h3>";
+            echo "<p><strong>$reportInfo->message</strong></p>";
             echo "<p><strong>Is Banned:</strong> " . ($reportInfo->banStatus->is_banned ? 'Yes' : 'No') . "</p>";
             echo "<p><strong>Ban Start:</strong> " . htmlentities($reportInfo->banStatus->ban_start) . "</p>";
             echo "<p><strong>Ban End:</strong> " . htmlentities($reportInfo->banStatus->ban_end) . "</p>";
@@ -61,13 +63,16 @@ function displayReportInfo($reportInfo)
         if (!empty($reportInfo->reportedStories)) {
             echo "<h3>Reported Stories</h3>";
             echo "<ul>"; // Using an unordered list
-            foreach ($reportInfo->reportedStories as $story) {
+            foreach ($reportInfo->reportedStories as $report) {
                 echo "<li>";
-                echo "<strong>Story ID:</strong> <a href='#' onclick='displayStory(" . htmlentities($story->story_id) . ")'>" . htmlentities($story->story_id) . "</a><br>";
-                echo "<strong>Content:</strong> " . htmlentities($story->content) . "<br>";
-                echo "<strong>Reported By User ID:</strong> " . htmlentities($story->from) . "<br>";
-                echo "<strong>Reported At:</strong> " . htmlentities($story->reported_at);
+                echo "<strong>Story ID:</strong> <a href='#' onclick='displayStory(" . htmlentities($report->story_id) . ")'>" . htmlentities($report->story_id) . "</a><br>";
+                echo "<strong>Content:</strong> " . htmlentities($report->content) . "<br>";
+                echo "<strong>Reported By User ID:</strong> " . htmlentities($report->from) . "<br>";
+                echo "<strong>Reported At:</strong> " . htmlentities($report->reported_at);
                 echo "</li>";
+                // add button to delete story or delete report associated with story
+                echo "<button onclick='deleteStory(" . htmlentities($report->story_id) . ")'>Delete Story</button>";
+                echo "<button onclick='deleteStoryReport(" . htmlentities($report->id) . ")'>Delete Report</button>";
             }
             echo "</ul>";
         }
@@ -76,13 +81,16 @@ function displayReportInfo($reportInfo)
         if (!empty($reportInfo->reportedComments)) {
             echo "<h3>Reported Comments</h3>";
             echo "<ul>"; // Using an unordered list
-            foreach ($reportInfo->reportedComments as $comment) {
+            foreach ($reportInfo->reportedComments as $report) {
                 echo "<li>";
-                echo "<strong>Comment ID:</strong> " . htmlentities($comment->id) . "<br>";
-                echo "<strong>Content:</strong> " . htmlentities($comment->content) . "<br>";
-                echo "<strong>Reported By User ID:</strong> " . htmlentities($comment->from) . "<br>";
-                echo "<strong>Reported At:</strong> " . htmlentities($comment->reported_at);
+                echo "<strong>Comment ID:</strong> <a href='#' onclick='displayComment(" . htmlentities($report->comment_id) . ")'>" . htmlentities($report->comment_id) . "</a><br>";
+                echo "<strong>Content:</strong> " . htmlentities($report->content) . "<br>";
+                echo "<strong>Reported By User ID:</strong> " . htmlentities($report->from) . "<br>";
+                echo "<strong>Reported At:</strong> " . htmlentities($report->reported_at);
                 echo "</li>";
+                // add button to delete comment or delete report associated with comment
+                echo "<button onclick='deleteComment(" . htmlentities($report->comment_id) . ")'>Delete Comment</button>";
+                echo "<button onclick='deleteCommentReport(" . htmlentities($report->id) . ")'>Delete Report</button>";
             }
             echo "</ul>";
         }
@@ -120,10 +128,10 @@ function displayReportInfo($reportInfo)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C Wall </title>
     <script src="../js/error.js"></script>
-    <script src="../js/auth.js"></script>
     <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
     <script src="../js/submitStory.js"></script>
+    <script src="../js/logout.js"></script>
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
@@ -151,6 +159,8 @@ function displayReportInfo($reportInfo)
             displayReportInfo($reportInfo); // Function call to display the fetched report information
             renderBanButton();
             ?>
+            <!-- Make admin button -->
+            <button onclick="makeAdmin('<?php echo $userFetched; ?>')">Make Admin</button>
         </div>
     </div>
 </div>
@@ -170,7 +180,7 @@ function displayReportInfo($reportInfo)
     function displayStory(storyId) {
         const modal = document.getElementById("story-modal");
         const storyDetails = document.getElementById("story-details");
-        var url = `../../api/load/loadStories.php?story_id=${storyId}`;
+        var url = apiPath + `/load/loadStories.php?story_id=${storyId}`;
         // Fetch the story content from the server
         fetch(url)
             .then(response => {
@@ -204,12 +214,183 @@ function displayReportInfo($reportInfo)
             });
     }
 
+    // Function to display a comment in a modal
+    function displayComment(commentId) {
+        const modal = document.getElementById("story-modal");
+        const storyDetails = document.getElementById("story-details");
+        var url = apiPath + `/load/loadComments.php?comment_id=${commentId}`;
+        // Fetch the comment content from the server
+        fetch(url)
+            .then(response => {
+                if (!response.ok) { // Check for non-200 HTTP status
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json(); // Parse the JSON response
+            })
+            .then(data => {
+                if (data.success) { // Ensure data contains a comment
+                    const comment = data.comments[0];
+
+                    // Display the comment content in the modal
+                    storyDetails.innerHTML = `
+                    <h2>Comment ID: ${comment.id}</h2>
+                    <p><strong>Author:</strong> ${comment.author}</p>
+                    <p><strong>Date:</strong> ${comment.created_at}</p>
+                    <p><strong>Content:</strong> ${comment.content}</p>
+                `;
+
+                    modal.style.display = "flex"; // Show the modal
+                } else {
+                    // Handle unsuccessful response or missing comment data
+                    console.error('Comment data missing or unsuccessful response:', data);
+                    showError('Failed to load comment content.');
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error); // Log the error
+                showError('Error fetching comment content.'); // Display error message
+            });
+    }
+
     // Function to close the modal
     function closeModal() {
         const modal = document.getElementById("story-modal");
         modal.style.display = "none"; // Hide the modal
     }
 
-
-
+    // Function to delete a story with post request
+    function deleteStory(storyId) {
+        var formData = new FormData();
+        formData.append('story_id', storyId);
+        fetch(apiPath + '/delete/story.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Story deleted successfully.');
+                    location.reload();
+                } else {
+                    console.error('Delete story failed:', data);
+                    alert(`Failed to delete story: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting story:', error);
+                alert('An error occurred while deleting the story.');
+            });
+    }
+    function deleteStoryReport(reportId) {
+        var formData = new FormData();
+        formData.append('report_id', reportId);
+        fetch(apiPath + '/delete/storyReport.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Report deleted successfully.');
+                    location.reload();
+                } else {
+                    console.error('Delete report failed:', data);
+                    alert(`Failed to delete report: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting report:', error);
+                alert('An error occurred while deleting the report.');
+            });
+    }
+    function deleteComment(commentId) {
+        var formData = new FormData();
+        formData.append('comment_id', commentId);
+        fetch(apiPath + '/delete/comment.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Comment deleted successfully.');
+                    location.reload();
+                } else {
+                    console.error('Delete comment failed:', data);
+                    alert(`Failed to delete comment: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting comment:', error);
+                alert('An error occurred while deleting the comment.');
+            });
+    }
+    function deleteCommentReport(reportId) {
+        var formData = new FormData();
+        formData.append('report_id', reportId);
+        fetch(apiPath + '/delete/commentReport.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Report deleted successfully.');
+                    location.reload();
+                } else {
+                    console.error('Delete report failed:', data);
+                    alert(`Failed to delete report: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting report:', error);
+                alert('An error occurred while deleting the report.');
+            });
+    }
+    function makeAdmin(username) {
+        var formData = new FormData();
+        formData.append('username', username);
+        fetch(apiPath + '/update/admin.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    showError(data.message);
+                } else {
+                    console.error('Make admin failed:', data);
+                    showError(`Failed to make user admin: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error making user admin:', error);
+                showError('An error occurred while making the user admin.');
+            });
+    }
 </script>

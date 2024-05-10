@@ -1,4 +1,13 @@
 <?php
+/**
+ * Load the user's report information
+ * Method: GET
+ * Parameters: username
+ * Source : Estouan Gachelin & Axel Antunes
+ *
+ * This file loads the user's report information from the database
+ * It returns the user's reported stories, comments, and messages
+ */
 session_start();
 
 // Check if the user is an admin

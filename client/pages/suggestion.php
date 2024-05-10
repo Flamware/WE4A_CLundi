@@ -1,16 +1,16 @@
 <?php
 session_start();
 session_write_close();
+require '../../conf.php';
 include '../obj/comment.php';
 include '../obj/story.php';
 include '../component/dm_thread.php';
-include '../../conf.php';
-include '../component/navbar.php';
+include '../component/bar/navBar.php';
 include '../component/form/messageForm.php';
 include '../component/form/storyForm.php';
 require '../component/displayStory.php';
-include '../component/userBar.php';
-include '../component/searchBar.php';
+include '../component/bar/userBar.php';
+include '../component/bar/searchBar.php';
 function getCommentsByStoryId($comments, $storyId) {
     $commentsByStoryId = [];
     foreach ($comments as $comment) {
@@ -23,18 +23,18 @@ function getCommentsByStoryId($comments, $storyId) {
 function loadStories($page) {
     // Construct the relative URL with GET parameters
     $url = API_PATH . '/load/suggestion.php?page=' . urlencode($page);
-
     switch ($_GET) {
-        case isset($_GET['most_liked']):
+        case (isset($_GET['type']) && $_GET['type'] == 'most_liked'):
             $url = API_PATH . '/load/suggestion.php?most_liked&page=' . urlencode($page);
             break;
-        case isset($_GET['most_suggested']):
-            $url = API_PATH . '/load/suggestion.php?most_suggested&page=' . urlencode($page);
+        case (isset($_GET['type']) && $_GET['type'] == 'most_commented'):
+            $url = API_PATH . '/load/suggestion.php?most_commented&page=' . urlencode($page);
             break;
         case isset($_GET['tags']):
             $url = API_PATH . '/load/suggestion.php?tags=' . urlencode($_GET['tags']) . '&page=' . urlencode($page);
             break;
     }
+
     // Headers for the request
     $headers = array(
         'Content-Type: application/x-www-form-urlencoded',
@@ -127,7 +127,7 @@ displaySearchBar();
     <div class="second-section">
         <div class="story-type-selector">
             <a href="?type=most_liked&page=1">Most Liked</a>
-            <a href="?type=most_suggested&page=1">Most Suggested</a>
+            <a href="?type=most_commented&page=1">Most Commented</a>
 
             <!-- Tag search form -->
             <form action="" method="get"> <!-- Using GET method -->

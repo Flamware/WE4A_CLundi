@@ -14,7 +14,8 @@ $username = $_SESSION['username']?? 'Guest'; // Get the username from the sessio
             <img src="../assets/utbm.svg" alt="Logo UTBM">
         </a>
         <a href="main.php">
-            <img src="../assets/utx.png" alt="Logo UTX">
+            <!-- relative path to main.php -->
+            <img src="../assets/utx_text.png" alt="UTX Text">
         </a>
         <a href="main.php">
             <img src="../assets/utx_text.png" alt="UTX Text">

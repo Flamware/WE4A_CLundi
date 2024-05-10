@@ -24,7 +24,7 @@ require '../../conf.php';
     <main>
         <div id="error-message" class="error-message"></div>
         <section id="login-form-section">
-            <form id="login-form" method="post" action="http://localhost/api/login.php">
+            <form id="login-form" method="post" action="">
                 <h2>Connexion</h2>
                 <div class="form-group">
                     <label for="username">Nom d'utilisateur :</label>
@@ -39,6 +39,8 @@ require '../../conf.php';
                     <button type="button" onclick="window.location.href='register.php'">S'inscrire</button>
                     <!-- Link to signup page -->
                 </div>
+                <!-- Button to main without login -->
+                <button type="button" onclick="window.location.href='main.php'">Continuer sans se connecter</button>
             </form>
         </section>
     </main>
@@ -51,13 +53,15 @@ require '../../conf.php';
             event.preventDefault(); // Prevent form submission
 
             // Fetch API to submit login form data
-            fetch('../../api/session/login.php', {
+            fetch(apiPath + '/session/login.php', {
                 method: 'POST',
                 body: new FormData(this)
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        //clear local storage
+                        localStorage.clear();
                         showError(data.message)
                         setTimeout(function () {
                             //go to main page

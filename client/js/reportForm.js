@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var reportMessage = document.querySelector(`#report-message-${id}`); // Unique report message based on ID
 
-            fetch('../../../api/submit/submitReport.php', {
+            fetch(apiPath + '/submit/submitReport.php', {
                 method: 'POST',
                 body: formData
             })

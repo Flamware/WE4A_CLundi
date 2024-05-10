@@ -1,4 +1,13 @@
 <?php
+/**
+ * Load the story image
+ * Method: GET
+ * Parameters: story_id
+ * Source : Estouan Gachelin
+ *
+ * This file loads the story image from the database
+ * It returns the image file
+ */
 session_start();
 include '../db_connexion.php';
 global $conn;
@@ -18,7 +27,7 @@ function fetchStoryImageFilename($storyId) {
 }
 
 // Ensure the user is authenticated and the request method is GET
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['username'])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET['story_id'])) { // Check if the story ID is provided
         $storyId = intval($_GET['story_id']);
         $imageFilename = fetchStoryImageFilename($storyId);

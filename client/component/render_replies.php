@@ -19,7 +19,9 @@ function renderComments( $replies = [],$comments) {
         <?php
         renderReplyForm($reply->story_id, $reply->id);
         renderLikeButton($reply->id, false, $reply->like_count);
+        if ((isset($_SESSION['username']) && $_SESSION['username'] === $reply->author) || (isset($_SESSION['admin']) && $_SESSION['admin'] === true)) {
         renderDeleteButton($reply->id, false);
+        }
         ?>
     </span>
                 <?php
@@ -35,6 +37,10 @@ function renderComments( $replies = [],$comments) {
 
             <?php
         }
+    }
+    // no replies
+    else {
+        echo "<p>No comments available.</p>";
     }
 }
 

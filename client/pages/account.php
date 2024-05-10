@@ -7,21 +7,23 @@
  */
 session_start();
 session_write_close();
+
+// Check if the user is authenticated
+if (!isset($_SESSION['username'])) {
+    // Redirect to the login page
+    header('Location: login.php');
+    exit();
+}
+
 // prevent access to unauthenticated users
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
-include '../component/navbar.php'; // Include the navbar component
 require '../../conf.php'; // Include the API path
-include "../component/followBar.php"; // Include the follow bar component
-include '../js/conf_js.php'; // Include the JavaScript configuration file
-// Check if the user is authenticated
-if (!isset($_SESSION['username'])) {
-    // Redirect to the login page
-    header('Location: /client');
-    exit();
-}
+include '../component/bar/navBar.php'; // Include the navbar component
+include "../component/bar/followBar.php"; // Include the follow bar component
+
 
 ?>
 
@@ -33,6 +35,7 @@ if (!isset($_SESSION['username'])) {
     <script src="../js/error.js"></script>
     <script src="../js/fetchFollowers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
+    <script src="../js/logout.js"></script>
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/header.css">
@@ -77,8 +80,6 @@ if (!isset($_SESSION['username'])) {
         <h3>Update Profile Information</h3>
         <form id="update-form" method="post" action="">
             <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
                 <label for="first_name">First Name:</label>
@@ -88,6 +89,12 @@ if (!isset($_SESSION['username'])) {
             </div>
             <div class="button-container">
                 <button type="submit">Update</button>
+            </div>
+            <!-- Section to delete account -->
+            <div class="delete-account">
+                <h3>Delete Account</h3>
+                <p>Are you sure you want to delete your account?</p>
+                <button id="delete-account" onclick="deleteAccount()">Delete Account</button>
             </div>
         </form>
     </div>
@@ -102,21 +109,25 @@ if (!isset($_SESSION['username'])) {
 
         function loadAccountInfo() {
             // Fetch user account information from the server
-            fetch('http://localhost/api/account_info.php')
+            fetch(apiPath + '/account_info.php')
                 .then(response => response.json())
                 .then(data => {
                     // Update the account information fields with the fetched data
-                    document.querySelector('.info p:nth-child(1)').innerHTML = "<strong>Username:</strong> " + data.user.username;
+                    document.querySelector('.info p:first-child').innerHTML = "<strong>Username:</strong> " + data.user.username;
                     document.querySelector('.info p:nth-child(2)').innerHTML = "<strong>Email:</strong> " + data.user.email;
                     document.querySelector('.info p:nth-child(3)').innerHTML = "<strong>First Name:</strong> " + data.user.first_name;
                     document.querySelector('.info p:nth-child(4)').innerHTML = "<strong>Last Name:</strong> " + data.user.last_name;
-                    // Update the profile picture
-                    document.getElementById('profile-pic').src = "http://localhost/api/uploads/profile_picture/" + data.user.profile_picture;
+
                     // put in local storage the profile picture
-                    //update the profile picture in local storage
-                    localStorage.setItem('profile_picture_' + data.user.username, "http://localhost/api/uploads/profile_picture/" + data.user.profile_picture);
-                    const authorName = document.getElementById('profile-pic').getAttribute('data-author-name');
-                    const profilePicturePath = data.user.profile_picture;
+                    if (data.user.profile_picture!=null){
+                        console.log('profile_picture_' + data.user.username);
+                        // Update the profile picture
+                        document.getElementById('profile-pic').src = apiPath+"/uploads/profile_picture/" + data.user.profile_picture;
+                        localStorage.setItem('profile_picture_' + data.user.username, apiPath + "/uploads/profile_picture/" + data.user.profile_picture);
+                        const authorName = document.getElementById('profile-pic').getAttribute('data-author-name');
+                        const profilePicturePath = data.user.profile_picture;
+                    }
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -132,7 +143,7 @@ if (!isset($_SESSION['username'])) {
             const formData = new FormData(this);
 
             // Send POST request to update account information
-            fetch('../../api/update/update_account.php', {
+            fetch(apiPath + '/update/update_account.php', {
                 method: 'POST',
                 body: formData
             })
@@ -141,7 +152,6 @@ if (!isset($_SESSION['username'])) {
                     if (data.success) {
                         showError(data.message);
                         // Clear input fields
-                        document.getElementById('username').value = '';
                         document.getElementById('email').value = '';
                         document.getElementById('first_name').value = '';
                         document.getElementById('last_name').value = '';
@@ -151,12 +161,10 @@ if (!isset($_SESSION['username'])) {
                         }, 1000);
                     } else {
                         showError(data.message);
-                        alert('Failed to update account information. Please try again.');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while updating account information. Please try again.');
                 });
         });
         document.getElementById('update-profile-picture-form').addEventListener('submit', function (event) {
@@ -166,7 +174,7 @@ if (!isset($_SESSION['username'])) {
             const formData = new FormData(this);
 
             // Send POST request to update profile picture
-            fetch('../../api/update/update_profile_picture.php', {
+            fetch(apiPath + '/update/update_profile_picture.php', {
                 method: 'POST',
                 body: formData
             })
@@ -186,5 +194,29 @@ if (!isset($_SESSION['username'])) {
                     alert('An error occurred while updating profile picture. Please try again.');
                 });
         });
-    });
+    })
+    function deleteAccount() {
+        // Confirm account deletion
+        if (!confirm('Are you sure you want to delete your account?')) {
+            return;
+        }
+        // Send DELETE request to delete the user account
+        fetch(apiPath + '/delete/account.php', {
+            method: 'DELETE'
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showError(data.message);
+                    // Redirect to the login page
+                    window.location.href = 'login.php';
+                } else {
+                    showError(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the account. Please try again.');
+            });
+    }
 </script>

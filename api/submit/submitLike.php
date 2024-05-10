@@ -1,10 +1,20 @@
 <?php
+/**
+ * Submit like
+ * Method: POST
+ * Source : Estouan Gachelin
+ *
+ * This file handles the submission of likes
+ * It allows users to like or unlike stories and comments
+ * It returns a JSON response indicating the success of the like submission
+ */
+
 session_start();
 include '../db_connexion.php'; // Assuming this file includes your PDO database connection
 global $conn;
 if(!isset($_SESSION['user_id'])) {
     http_response_code(401); // Unauthorized
-    echo json_encode(array('success' => false, 'message' => 'You must be logged in.'));
+    echo json_encode(array('success' => false, 'message' => 'Vous devez être connecté pour liker'));
     exit;
 }
 // Check if the request method is POST

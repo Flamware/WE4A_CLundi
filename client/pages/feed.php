@@ -1,17 +1,17 @@
 <?php
-require '../../conf.php';
 session_start();
 session_write_close();
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit;
 }
-include "../component/navbar.php";
-include "../component/userBar.php";
-include "../component/form/messageForm.php";
-include "../component/form/storyForm.php";
+require '../../conf.php';
 include "../obj/comment.php";
 include "../obj/story.php";
+include "../component/bar/navBar.php";
+include "../component/bar/userBar.php";
+include "../component/form/messageForm.php";
+include "../component/form/storyForm.php";
 include "../component/displayStory.php";
 
 // Get the current page number or default to 1

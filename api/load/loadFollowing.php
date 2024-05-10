@@ -1,4 +1,13 @@
 <?php
+/**
+ * Load the list of users the current user is following
+ * Method: GET
+ * Parameters: username
+ * Source : CoPilot, Axel Antunes & Estouan Gachelin
+ *
+ * This file loads the list of users the current user is following from the database
+ * It returns the list of usernames
+ */
 require '../db_connexion.php';
 session_start();
 global $conn;

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Submit report
+ * Method: POST
+ * Source : Axel Antunes & ChatGPT
+ *
+ * This file handles the server-side logic for submitting a report
+ * It checks if the user is logged in and is an admin, then inserts the report into the database
+ */
 session_start();
 include '../db_connexion.php'; // Assuming this file contains the database connection
 global $conn;
@@ -6,7 +14,7 @@ global $conn;
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['username'])) {
     http_response_code(403);
-    echo json_encode(array('success' => false, 'message' => 'You must be logged in.'));
+    echo json_encode(array('success' => false, 'message' => 'Vous devez être connecté pour signaler un contenu.'));
     exit;
 }
 
@@ -38,9 +46,9 @@ if (isset($_POST['type']) && isset($_POST['id']) && isset($_POST['report_content
 
             // Execute the statement
             $stmt->execute();
-            echo json_encode(array('message' => 'Report submitted successfully'));
+            echo json_encode(array('message' => 'Signalement envoyé avec succès.'));
         } else {
-            echo json_encode(array('message' => 'Error: Unable to prepare statement.'));
+            echo json_encode(array('message' => 'Error: Unable to prepare the statement.'));
         }
     } catch (PDOException $e) {
         // Check if it's a duplicate entry error

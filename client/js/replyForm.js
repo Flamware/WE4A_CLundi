@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
         form.addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent default form submission
             var formData = new FormData(form);
-            var url = apiPath+'/submit/submitComment.php'; // Your API endpoint
+            var url = apiPath + '/submit/submitComment.php'; // Your API endpoint
             fetch(url, {
                 method: 'POST',
                 body: formData

@@ -23,7 +23,7 @@ function displayUserBar($url) {
             const usersPerPage = 3; // Change this to your desired number of users per page
             // Function to fetch users from the server
             function fetchUsers() {
-                fetch('<?php echo API_PATH ?>/load/loadUsers.php?page=' + currentPage)
+                fetch(apiPath + '/load/loadUsers.php?page=' + currentPage)
                     .then(response => response.json())
                     .then(data => {
                         // Access the 'users' property of the data object

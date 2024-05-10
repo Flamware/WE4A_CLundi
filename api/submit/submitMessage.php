@@ -1,4 +1,16 @@
 <?php
+/**
+ * Submit message
+ * Method: POST
+ * Source : Estouan Gachelin & CoPilot
+ *
+ * This file handles the submission of messages
+ * It requires the user to be logged in
+ * It expects the receiver's username and the message text
+ * Optionally, it can also receive an image
+ * The message is stored in the database
+ */
+
 include "../db_connexion.php";
 global $conn;
 session_start();
@@ -8,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['username'])) {
     // Validate POST parameters
     if (!isset($_POST['receiver']) || !isset($_POST['message'])) {
         http_response_code(400); // Bad request
-        echo json_encode(array('success' => false, 'message' => 'Missing receiver or message'));
+        echo json_encode(array('success' => false, 'message' => 'Paramètres manquants'));
         exit;
     }
 
@@ -31,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['username'])) {
         // Move the uploaded file
         if (!move_uploaded_file($_FILES['message_image']['tmp_name'], $targetPath)) {
             http_response_code(500); // Internal server error
-            echo json_encode(array('success' => false, 'message' => 'Error uploading image'));
+            echo json_encode(array('success' => false, 'message' => 'Erreur lors de l\'envoi de l\'image'));
             exit;
         }
 
@@ -47,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['username'])) {
     // Check if the receiver exists
     if (!$receiver) {
         http_response_code(404); // Not found
-        echo json_encode(array('success' => false, 'message' => 'Receiver not found'));
+        echo json_encode(array('success' => false, 'message' => 'Utilisateur non trouvé'));
         exit;
     }
 
@@ -70,15 +82,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['username'])) {
         $stmt->execute();
 
         http_response_code(201); // Created
-        echo json_encode(array('success' => true, 'message' => 'Message sent successfully'));
+        echo json_encode(array('success' => true, 'message' => 'Message envoyé'));
 
     } catch (PDOException $e) {
         http_response_code(500); // Internal server error
-        echo json_encode(array('success' => false, 'message' => 'Error sending the message'));
+        echo json_encode(array('success' => false, 'message' => 'Erreur de base de données: ' . $e->getMessage()));
     }
 } else {
     // Unauthorized access
     http_response_code(401); // Unauthorized
-    echo json_encode(array('success' => false, 'message' => 'Unauthorized access'));
+    echo json_encode(array('success' => false, 'message' => 'Vous devez être connecté pour envoyer un message'));
 }
 ?>

@@ -1,4 +1,16 @@
     <?php
+    /**
+     * Load stories
+     * Method: GET
+     * Parameters: page, most_liked, most_commented, tags
+     * Source : Estouan Gachelin
+     *
+     * This file loads stories from the database
+     * It returns the stories in a JSON format
+     * The stories are ordered based on the type of request
+     * The stories can be filtered by tags
+     */
+
     session_start();
     include '../db_connexion.php'; // Database connection
     global $conn;
@@ -11,10 +23,9 @@
         $offset = ($page - 1) * $storiesPerPage;
 
         $sql = ""; // SQL query initialization
-        $bindValues = []; // Array to store bound values
-
-        // Determine which SQL query to use based on type
-        if (isset($_GET['most_liked'])||!isset($_GET['most_suggested'])&&!isset($_GET['tags'])) {
+            $bindValues = []; // Array to store bound values
+            // Determine which SQL query to use based on type
+        if (isset($_GET['most_liked'])||!isset($_GET['most_commented'])&&!isset($_GET['tags'])) {
             $sql = "SELECT stories.*, COUNT(likes.id) AS like_count 
                 FROM stories 
                 LEFT JOIN likes ON stories.id = likes.story_id 
@@ -23,13 +34,17 @@
                 LIMIT ? OFFSET ?";
 
             $bindValues = [$storiesPerPage, $offset]; // Bind limit and offset
-        } elseif (isset($_GET['most_suggested'])) {
-            $sql = "SELECT stories.*, COUNT(suggestions.id) AS suggestion_count 
-                FROM stories 
-                LEFT JOIN suggestions ON stories.id = suggestions.story_id 
-                GROUP BY stories.id 
-                ORDER BY suggestion_count DESC 
-                LIMIT ? OFFSET ?";
+        } elseif (isset($_GET['most_commented'])) {
+            // SQL query to fetch most commented stories
+            $sql = "SELECT stories.*, 
+                   COUNT(DISTINCT comments.id) AS comment_count,
+                   COUNT(DISTINCT likes.id) AS like_count
+            FROM stories 
+            LEFT JOIN comments ON stories.id = comments.story_id 
+            LEFT JOIN likes ON stories.id = likes.story_id 
+            GROUP BY stories.id 
+            ORDER BY comment_count DESC 
+            LIMIT ? OFFSET ?";
 
             $bindValues = [$storiesPerPage, $offset]; // Bind limit and offset
         } elseif (isset($_GET['tags'])) {

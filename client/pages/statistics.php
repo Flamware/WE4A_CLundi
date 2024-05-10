@@ -16,7 +16,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 require '../../conf.php';
-include "../component/navBar.php";
+include "../component/bar/navBar.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -71,7 +71,7 @@ include "../component/navBar.php";
 <script>
     console.log("Fetching statistics...");
     // On page load, asynchronously fetch the statistics
-    fetch('<?php echo API_PATH ?>/statistics.php', {
+    fetch(apiPath + '/statistics.php', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Delete a notification
+ * Method: POST
+ * Parameters: notification_id
+ * Source : CoPilot & Axel Antunes
+ */
 session_start();
 include '../db_connexion.php';
 global $conn;

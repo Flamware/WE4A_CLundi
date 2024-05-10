@@ -1,4 +1,12 @@
 <?php
+/**
+ * Load the user's notifications
+ * Method: GET
+ * Source : CoPilot & Axel Antunes
+ *
+ * This file loads the user's notifications from the database
+ * It returns the notifications and the count of unseen notifications
+ */
 session_start();
 include "../db_connexion.php";
 global $conn;
@@ -6,7 +14,7 @@ global $conn;
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401); // Unauthorized
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+    echo json_encode(['success' => false, 'message' => 'Vous devez être connecté pour accéder à vos notifications.']);
     exit(); // Ensure the script doesn't continue
 }
 

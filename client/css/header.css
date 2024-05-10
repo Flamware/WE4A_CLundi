@@ -1,5 +1,4 @@
 
-
 .header {
     display: flex; /* Ensure header uses flex layout */
     justify-content: space-between; /* Keep left and right sections at each end */

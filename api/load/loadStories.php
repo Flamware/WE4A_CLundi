@@ -1,4 +1,15 @@
 <?php
+/**
+ * Load stories from the database
+ * Method: GET
+ * Parameters: story_id (optional), page (optional), query (optional)
+ * Source : Estouan Gachelin, Axel Antunes & https://github.com/Flamware/CLundi
+ *
+ * This file loads stories from the database
+ * It returns stories in a JSON format
+ * The stories are paginated and can be filtered by a search query
+ * Each story includes its comments and like count
+ */
 session_start();
 include '../db_connexion.php'; // Database connection
 global $conn;

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Update the user's profile banner
+ * Method: POST
+ * Source : Estouan Gachelin & CoPilot
+ *
+ * This file allows a user to update their profile banner
+ * It requires the user to be logged in
+ * It returns a JSON response indicating success or failure
+ */
 session_start();
 include "../db_connexion.php";
 global $conn;

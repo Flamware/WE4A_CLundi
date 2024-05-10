@@ -2,20 +2,19 @@
 session_start();
 // prevent writing to session from other requests
 session_write_close();
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'])&&!isset($_GET['username'])){
     header('Location: login.php');
     exit;
 }
-include '../../conf.php';
-include "../js/conf_js.php";
-include '../component/displayStory.php';
-include '../component/form/storyForm.php';
+require '../../conf.php';
 include '../obj/comment.php';
 include '../obj/story.php';
+include '../component/displayStory.php';
+include '../component/form/storyForm.php';
 include '../component/dm_thread.php';
-include '../component/navbar.php';
+include '../component/bar/navBar.php';
 include '../component/form/messageForm.php';
-include '../component/userBar.php';
+include '../component/bar/userBar.php';
 
 
 function getComments($comments, $storyId) {
@@ -56,15 +55,15 @@ function loadWall($wallName)
 
     // Create a stream context
     $context = stream_context_create($options);
-
     // Make the request and get the response
     $result = file_get_contents($url, false, $context);
-    // Decode the JSON response
+
     return (json_decode($result));
 }
 
 $wallName = $_GET['username'] ?? $_SESSION['username'];
 $wall = loadWall($wallName);
+
 ?>
 
 <head>
@@ -96,6 +95,7 @@ $wall = loadWall($wallName);
     <link rel="stylesheet" href="../css/form/reportForm.css">
     <link rel="stylesheet" href="../css/button/commentButton.css">
     <link rel="stylesheet" href="../css/component/replies.css">
+    <link rel="stylesheet" href="../css/form/messageForm.css">
 </head>
 <?php include '../component/header.php'; ?>
 <?php displayNavBar(); ?>
@@ -103,7 +103,7 @@ $wall = loadWall($wallName);
 <div id="error-message" class="error-message">
 
 </div>
-<?php if ($wallName === $_SESSION['username']) : ?>
+<?php if (isset($_SESSION['username']) && $wallName === $_SESSION['username']) : ?>
     <h1>Bienvenue sur votre Mur <?php echo htmlspecialchars($wallName); ?></h1>
 <?php else : ?>
     <h1>Mur de <?php echo htmlspecialchars($wallName); ?></h1>
@@ -113,6 +113,11 @@ $wall = loadWall($wallName);
     <div class="first-section">
         <?php displayUserBar("wall.php?username="); ?>
     </div>
+    <?php
+    if ($wall->message == null) : ?>
+
+        <p>Utilisateur Inexistant.</p>
+    <?php else : ?>
     <div class="second-section">
             <div class="banner-container">
                 <!-- Banner image, use function to fetch the banner -->
@@ -142,7 +147,7 @@ $wall = loadWall($wallName);
             <h2>Account Information</h2>
             <p><strong>Username:</strong> <?php echo htmlspecialchars($wallName); ?></p>
             <!-- Follow/Unfollow Button -->
-            <?php if ($wallName !== $_SESSION['username']) : ?>
+            <?php if (isset($_SESSION['username']) && $wallName !== $_SESSION['username']) : ?>
                 <button id="follow-button" class="<?php echo $wall->is_followed ? 'unfollow-button' : 'follow-button'; ?>">
                     <?php echo $wall->is_followed ? 'Unfollow' : 'Follow'; ?>
                 </button>
@@ -151,20 +156,26 @@ $wall = loadWall($wallName);
         <?php displayStoryForm(); ?>
         <section id="stories-container">
             <?php
-            foreach ($wall->stories  as $storyData) {
-                // Extract story data
-                $story = $storyData;
-                $storyObj = new Story($story->id, $story->content, $story->author, $story->created_at, $story->like_count, $story->story_image);
+            if (empty($wall->stories)) {
+                echo '<p>No stories found.</p>';
+            }
+            else {
+                foreach ($wall->stories as $storyData) {
+                    // Extract story data
+                    $story = $storyData;
+                    $storyObj = new Story($story->id, $story->content, $story->author, $story->created_at, $story->like_count, $story->story_image);
 
-                // Get comments for the story
-                $comments = getComments($wall->comments, $storyObj->id);
+                    // Get comments for the story
+                    $comments = getComments($wall->comments, $storyObj->id);
 
-                // Display the story
-                renderStory($storyObj, $comments);
+                    // Display the story
+                    renderStory($storyObj, $comments);
+                }
             }
             ?>
         </section>
     </div>
+    <?php endif; ?>
     <div class="third-section">
         <div id="dm-threads">
             <?php
@@ -197,7 +208,7 @@ $wall = loadWall($wallName);
         const followButton = document.getElementById('follow-button');
         const username = '<?php echo htmlspecialchars($wallName); ?>';
 
-        fetch('<?php echo API_PATH?>/submit/submitFollow.php', {
+        fetch(apiPath+'/submit/submitFollow.php', {
             method: 'POST',  // POST request
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',  // Ensure correct content type
@@ -225,7 +236,7 @@ $wall = loadWall($wallName);
         const banner = document.getElementById('banner'); // Corrected ID here
         const username = '<?php echo htmlspecialchars($wallName); ?>';
 
-        fetch('<?php echo API_PATH; ?>/load/loadBanner.php?username=' + encodeURIComponent(username))
+        fetch(apiPath + '/load/loadBanner.php?username=' + encodeURIComponent(username))
             .then(response => {
                 if (!response.ok) { // Handle non-200 HTTP responses
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -237,7 +248,7 @@ $wall = loadWall($wallName);
                     // Update the banner image source if available
                     if (data.banner_picture) {
                         console.log('Banner data:', data);
-                        banner.src = `<?php echo API_PATH?>/uploads/profile_banner/${data.banner_picture}`;
+                        banner.src = apiPath + `/uploads/profile_banner/${data.banner_picture}`;
                     }
                     else
                     {
@@ -259,7 +270,7 @@ $wall = loadWall($wallName);
         const formData = new FormData(); // Create a FormData object
         formData.append('banner', file); // Append the file to the form data
 
-        fetch('<?php echo API_PATH; ?>/update/updateBanner.php', {
+        fetch(apiPath + '/update/updateBanner.php', {
             method: 'POST', // POST request
             body: formData // Send the form data
         })

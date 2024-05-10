@@ -11,8 +11,8 @@ function submitDeleteForm(button) {
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+            var response = JSON.parse(xhr.responseText);
             if (xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
                 if (response.success) {
                     var itemToDelete = null;
 
@@ -32,8 +32,8 @@ function submitDeleteForm(button) {
                     showError(response.message);
                 }
             } else {
-                console.error('HTTP Error:', xhr.status);
-                showError(xhr.status + ' ' + xhr.statusText);
+                console.error('HTTP Error:', response.message);
+                showError(response.message);
             }
         }
     };

@@ -1,4 +1,15 @@
 <?php
+/**
+ * Update profile picture
+ * Method: POST
+ * Source : Estouan Gachelin
+ *
+ * This file handles the profile picture update server-side logic
+ * It receives the profile picture file from the client
+ * It validates the file type and size
+ * If the file is valid, it moves the uploaded file to the target directory and updates the user's profile picture in the database
+ * It sends a JSON response indicating the success or failure of the update process
+ */
 session_start();
 include "../db_connexion.php";
 global $conn;
@@ -65,6 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
         echo json_encode(["success" => false, "message" => "Failed to upload profile picture."]);
     }
 } else {
-    echo json_encode(["success" => false, "message" => "Invalid request."]);
+    echo json_encode(["success" => false, "message" => "Vous devez être connecté pour mettre à jour votre photo de profil."]);
 }
 ?>

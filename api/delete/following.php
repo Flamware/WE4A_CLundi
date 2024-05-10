@@ -1,4 +1,10 @@
 <?php
+/**
+ * Unfollow a user
+ * Method: POST
+ * Parameters: username
+ * Source : CoPilot, ChatGPT & Antunes Axel
+ */
 session_start();
 require '../db_connexion.php';
 global $conn;

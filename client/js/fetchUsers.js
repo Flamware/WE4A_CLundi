@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // AJAX request to fetch suggestions
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", `http://localhost/api/suggestion.php?query=${query}`);
+            xhr.open("GET", apiPath + `/suggestion.php?query=${query}`);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const users = JSON.parse(xhr.responseText);

@@ -20,7 +20,7 @@ function displayDMThread($thread){
                 </div>
             </div>
         <?php endforeach; ?>
-        <form class="reply-form" action="http://localhost/api/submit/submitMessage.php" method="post" onsubmit="postMessage(event, '<?php echo $messageRecipient; ?>', '<?php echo $messageAuthor; ?>')">
+        <form class="reply-form" action="<?php echo API_PATH?> /submit/submitMessage.php" method="post" onsubmit="postMessage(event, '<?php echo $messageRecipient; ?>', '<?php echo $messageAuthor; ?>')">
             <input type="hidden" name="receiver" value="<?php echo $messageRecipient; ?>">
             <textarea name="message" placeholder="Reply to <?php echo $messageRecipient; ?>"></textarea>
             <button type="submit">Reply</button>

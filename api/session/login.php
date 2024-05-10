@@ -1,4 +1,13 @@
 <?php
+/**
+ * Login user
+ * Method: POST
+ * Parameters: username, password
+ * Source : Estouan Gachelin, Axel Antunes & CoPilot
+ *
+ * This file logs in the user by verifying the username and password
+ * It returns a success message if the login is successful
+ */
 
 session_start();
 include "../db_connexion.php";

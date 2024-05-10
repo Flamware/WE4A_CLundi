@@ -1,14 +1,21 @@
+<?php
+require '../../conf.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un Compte</title>
+    <link rel="stylesheet" href="../css/global.css"> <!-- Link to global.css -->
+    <link rel="stylesheet" href="../css/header.css"> <!-- Link to header.css -->
+    <link rel="stylesheet" href="../css/footer.css"> <!-- Link to footer.css -->
     <link rel="stylesheet" href="../css/pages/signup.css"> <!-- Link to styles.css -->
-    <link rel="stylesheet" href="../css/bar/navbar.css"> <!-- Link to nav.css -->
 </head>
 
 <body>
+<?php include '../component/header.php'; ?> <!-- Include header view -->
+
 <div>
     <main>
         <section id="create-account-form">
@@ -31,8 +38,8 @@
             <p>Déjà un compte ? <a href="login.php">Connexion</a></p>
         </section>
     </main>
-    <?php include '../component/footer.php'; ?> <!-- Include footer view -->
 </div>
+<?php include '../component/footer.php'; ?> <!-- Include footer view -->
 </body>
 </html>
 <script>
@@ -41,7 +48,7 @@
         event.preventDefault(); // Prevent default form submission
         const form = event.target;
         const formData = new FormData(form);
-        const url = '../../api/session/register.php'; // API endpoint
+        const url = apiPath + '/session/register.php'; // API endpoint
         const response = await fetch(url, {
             method: 'POST',
             body: formData

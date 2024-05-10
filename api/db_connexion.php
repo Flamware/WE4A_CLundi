@@ -4,7 +4,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "clundidb";
+$dbname = "clundi_antunes_gachelin";
 global $conn;
 try {
     // Create a PDO connection with persistent option enabled
@@ -12,6 +12,7 @@ try {
 
     // Set PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 } catch(PDOException $e) {
     // If connection fails, throw an exception
     throw new Exception("Connection failed: " . $e->getMessage());

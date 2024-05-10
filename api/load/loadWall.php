@@ -1,4 +1,14 @@
 <?php
+/**
+ * Load the user's wall
+ * Method: GET
+ * Parameters: username
+ * Source : Estouan Gachelin, Axel Antunes & ChatGPT
+ *
+ * This file loads the user's wall from the database
+ * It returns the stories and comments on the wall
+ */
+
 include "../db_connexion.php";
 session_start();
 function loadStoriesFromWall($conn, $author){
@@ -74,6 +84,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Check if username parameter is provided
     if (isset($_GET['username'])) {
         $author = $_GET['username'];
+        // check if the user exists
+        $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+        $stmt->execute([$author]);
+        if (!$stmt->fetchColumn()) {
+            http_response_code(200);
+            echo json_encode(['success' => false, 'message' => null]);
+            exit;
+        }
         // check if the session user is following the author
         $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->execute([$author]);
@@ -121,12 +139,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $formattedComments = formatComments($comments);
 
     // Return the formatted data with the follow status as JSON response
-    http_response_code(200);
-    // Format and return data
     http_response_code(200); // OK
 
     echo json_encode([
         'success' => true,
+        'message' => 'Stories and comments loaded successfully.',
         'stories' => formatStories($stories),
         'comments' => formatComments($comments),
         'is_followed' => $is_followed // This should now be either true or false

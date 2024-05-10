@@ -1,4 +1,13 @@
 <?php
+/**
+ * Update notifications
+ * Method: POST
+ * Source: Estouan Gachelin
+ *
+ * This file handles the server-side logic to update notifications
+ * It marks all notifications as read for the logged-in user
+ * It sends a JSON response indicating the success or failure of the process
+ */
 session_start();
 include '../db_connexion.php';
 global $conn;

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append('id', id);
             formData.append('type', type);
             console.log('Button clicked'); // Add this line to check if the event listener is triggered
-            fetch(apiPath+'/submit/submitLike.php', {
+            fetch(apiPath + '/submit/submitLike.php', {
                 method: 'POST',
                 body: formData
             })

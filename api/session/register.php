@@ -1,4 +1,15 @@
 <?php
+/**
+ * Register user
+ * Method: POST
+ * Source : Estouan Gachelin
+ *
+ * This file handles the registration server-side logic
+ * It receives the username, email, password, and confirm-password from the client
+ * It validates the input and checks if the username or email already exists
+ * If the input is valid and the username or email does not exist, it creates a new user in the database
+ * It sends a JSON response indicating the success or failure of the registration process
+ */
 session_start();
 include "../db_connexion.php";
 global $conn;

@@ -1,18 +1,26 @@
 <?php
+/**
+ * Delete a story
+ * Method: POST
+ * Parameters: story_id
+ * Source : CoPilot & Axel Antunes
+ *
+ * This file deletes a story if the current user is the author or an admin
+ * The story must not be reported to be deleted unless the user is an admin
+ */
 session_start();
 include "../db_connexion.php";
 global $conn;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_SESSION['username'])) {
-   // Check if the request contains the required parameters
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['username'])) {
     if (!isset($_POST['story_id'])) {
         http_response_code(400);
-        echo json_encode(array('error' => 'Story ID is required'));
+        echo json_encode(array('success' => false, 'message' => 'Missing story ID'));
         exit;
     }
 
-    // Get the story ID from the request
-    $story_id = $_POST['story_id'];
+    // Sanitize and extract the story ID
+    $story_id = filter_var($_POST['story_id'], FILTER_SANITIZE_NUMBER_INT);
 
     // Check if the story exists
     $stmt = $conn->prepare('SELECT * FROM stories WHERE id = ?');
@@ -21,28 +29,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'&& isset($_SESSION['username'])) {
 
     if (!$story) {
         http_response_code(404);
-        echo json_encode(array('error' => 'Story not found'));
+        echo json_encode(array('success' => false, 'message' => 'Story not found'));
         exit;
     }
-    //check if the user is the author of the story or an admin
+
+    // Check if the story is reported
+    $stmt = $conn->prepare('SELECT COUNT(*) FROM story_reports WHERE story_id = ?');
+    $stmt->execute([$story_id]);
+    $reportCount = $stmt->fetchColumn();
+
+    if ($reportCount > 0&& $_SESSION['admin'] !== 1) {
+        http_response_code(403);
+        echo json_encode(array('success' => false, 'message' => 'Cannot delete story as it has been reported'));
+        exit;
+    }
+
+    // Check if the user is the author or an admin
     if ($_SESSION['username'] !== $story['author'] && $_SESSION['admin'] !== 1) {
         http_response_code(403);
-        echo json_encode(array('error' => 'You are not authorized to delete this story'));
+        echo json_encode(array('success' => false, 'message' => 'Not authorized to delete the story'));
         exit;
     }
-    // Delete the story
+
+    // Attempt to delete the story
     try {
+        $conn->beginTransaction();
         $stmt = $conn->prepare('DELETE FROM stories WHERE id = ?');
         $stmt->execute([$story_id]);
-        http_response_code(200); // Change status code to 200 for successful deletion
-        echo json_encode(array('success' => true)); // Respond with success message
+        $conn->commit();
+
+        http_response_code(200);
+        echo json_encode(array('success' => true, 'message' => 'Story deleted successfully'));
     } catch (PDOException $e) {
-        // Handle database errors
+        $conn->rollBack();
         http_response_code(500);
-        echo json_encode(array('error' => 'Error deleting the story'.$e->getMessage()));
+        echo json_encode(array('success' => false, 'message' => 'Error deleting the story', 'error' => $e->getMessage()));
+        error_log('PDOException: ' . $e->getMessage());
     }
 } else {
-    // Return method not allowed if request method is not POST
     http_response_code(405);
+    echo json_encode(array('success' => false, 'message' => 'Method Not Allowed'));
 }
-?>

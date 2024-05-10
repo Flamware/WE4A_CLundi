@@ -44,7 +44,9 @@ function renderParentComments($comments) {
                     // Render toggle button for replies
                     renderReplyForm($comment->story_id, $comment->id);
                     renderLikeButton($comment->id, false, $comment->like_count);
+                    if ((isset($_SESSION['username']) && $_SESSION['username'] === $comment->author) || (isset($_SESSION['admin']) && $_SESSION['admin'] === true)) {
                     renderDeleteButton($comment->id, false);
+                    }
                     ?>
                 </span>
                 <?php

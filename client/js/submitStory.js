@@ -5,7 +5,7 @@ document.getElementById('submit-story-btn').addEventListener('click', function (
     console.log(storyContent);
 
     // Send POST request to the server
-    fetch('http://localhost/api/submit/submitStory.php', {
+    fetch(apiPath + '/submit/submitStory.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Load stories from authors followed by the current user
+ * Method: GET
+ * Parameters: page
+ * Source : CoPilot, ChatGPT & Axel Antunes
+ *
+ * This file loads stories from authors followed by the current user with pagination.
+ * It returns the stories and comments in JSON format.
+ */
 session_start();
 include '../db_connexion.php'; // Database connection
 global $conn;
@@ -109,7 +118,7 @@ function formatComments($comments) {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!isset($_SESSION['user_id'])) {
         http_response_code(401); // Unauthorized
-        echo json_encode(['success' => false, 'message' => 'User not logged in.']);
+        echo json_encode(['success' => false, 'message' => 'Vous devez être connecté.']);
         exit;
     }
 
@@ -129,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($stories === false) {
         http_response_code(500); // Server error
-        echo json_encode(['success' => false, 'message' => 'Error fetching stories.']);
+        echo json_encode(['success' => false, 'message' => 'Erreur lors du chargement des histoires.']);
         exit;
     }
 
@@ -151,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 } else {
     http_response_code(405); // Method not allowed
-    echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
+    echo json_encode(['success' => false, 'message' => 'Methode non autorisée.']);
 }
 
 ?>

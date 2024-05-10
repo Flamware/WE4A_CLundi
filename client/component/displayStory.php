@@ -3,7 +3,6 @@ include 'parent_comment.php';
 include 'button/deleteButton.php';
 include 'form/replyForm.php';
 include 'button/likeButton.php'; // Corrected inclusion
-include 'button/renderCommentButton.php';
 require 'form/reportForm.php';
 function renderStory($story, $comments) {
     ?>
@@ -36,7 +35,9 @@ function renderStory($story, $comments) {
             <?php
             renderReplyForm($story->id, 0);
             renderLikeButton($story->id, true, $story->like_count);
-            renderDeleteButton($story->id, true);
+            if ((isset($_SESSION['username']) && $_SESSION['username'] === $story->author) || (isset($_SESSION['admin']) && $_SESSION['admin'] === true)) {
+                renderDeleteButton($story->id, true);
+            }
             ?>
         </div>
 

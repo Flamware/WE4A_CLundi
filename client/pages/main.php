@@ -1,16 +1,16 @@
 <?php
 session_start();
 session_write_close();
+require '../../conf.php';
 include '../obj/comment.php';
 include '../obj/story.php';
 include '../component/dm_thread.php';
-include '../../conf.php';
-include '../component/navbar.php';
+include '../component/bar/navBar.php';
 include '../component/form/messageForm.php';
 include '../component/form/storyForm.php';
 require '../component/displayStory.php';
-include '../component/userBar.php';
-include '../component/searchBar.php';
+include '../component/bar/userBar.php';
+include '../component/bar/searchBar.php';
 require '../js/conf_js.php';
 function getCommentsByStoryId($comments, $storyId) {
     $commentsByStoryId = [];

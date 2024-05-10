@@ -1,8 +1,12 @@
 <?php
-/*
- * This file is responsible for loading the profile picture of the currently logged in user.
- * The user must be logged in to access this information.
- * Source : https://github.com/Flamware/CLundi
+/**
+ * Load the user's profile picture
+ * Method: GET
+ * Parameters: author
+ * Source : Estouan Gachelin, Axel Antunes & https://github.com/Flamware/CLundi
+ *
+ * This file loads the user's profile picture from the database
+ * It returns the profile picture URL
  */
 session_start();
 include "../db_connexion.php";
@@ -29,7 +33,7 @@ if (isset($_GET['author'])) {
         // If the user does not have a profile picture, return an empty string
         sendJsonResponse(200, ['profile_picture' => '']);
     }
-} else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['username'])) {
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Fetch the current user's profile picture path
     $stmt = $conn->prepare("SELECT profile_picture FROM users WHERE username = :username");
     $stmt->bindParam(':username', $_SESSION['username']);

@@ -1,10 +1,19 @@
 <?php
+/**
+ * Load the user's profile picture
+ * Method: GET
+ * Parameters: username
+ * Source : Estouan Gachelin & Axel Antunes
+ *
+ * This file loads the user's banner picture from the database
+ * It returns the banner picture URL
+ */
 session_start();
 include "../db_connexion.php";
 global $conn;
 
 // Check if the user is logged in and if the request method is GET
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_SESSION['user_id'])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Get the user ID from the session
     $username = $_GET['username'] ?? $_SESSION['username'];
 
