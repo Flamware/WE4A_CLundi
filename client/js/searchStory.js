@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 suggestionButton.addEventListener("click", function () {
                                     window.location.href = `main.php?search=${story.content}`; // Redirect to story
                                 });
+                                // add next to fetch next page
 
                                 suggestionDiv.appendChild(suggestionButton); // Append the button to suggestionDiv
                                 suggestionsContainer.appendChild(suggestionDiv); // Add suggestionDiv to suggestionsContainer

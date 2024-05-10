@@ -65,18 +65,20 @@ if ($result === FALSE) {
 <?php displayNavBar(); ?>
 <body>
 <div id="error-message" class="error-message"></div>
+<h1>Direct Messages</h1>
 <div class="container">
-    <?php if (empty($threads)) : ?>
-        <p>No messages found.</p>
-    <?php else: ?>
+
+
         <?php
-        echo '<div class="thread">
-                <h1>Direct Messages</h1>';
+        echo '<div class="thread">';
+        if (empty($threads)) {
+            echo '<p>No messages found</p>';
+        }
         foreach ($threads as $thread) : ?>
             <div class="thread-container">
                 <button class="toggle-thread-button">
                     <img src=<?php echo API_PATH ?>"/profile_picture/default_profile_picture.jpg" alt="Profile Picture" class="profile-picture" data-author-name="<?php echo $thread['receiver'] ?>">
-                    Discussion with <?php echo $thread['receiver']; ?>
+                    Discussion avec <?php echo $thread['receiver']; ?>
                 </button>
                 <div class="message-thread hidden">
                     <?php displayDMThread($thread); ?>
@@ -85,7 +87,6 @@ if ($result === FALSE) {
         <?php endforeach;
         echo '</div>';
         ?>
-<?php endif; ?>
     <div class="third-section">
         <?php displayMessageForm(); ?>
     </div>

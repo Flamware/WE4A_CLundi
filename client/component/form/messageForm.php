@@ -2,11 +2,11 @@
 function displayMessageForm() {
     ?>
     <form id="message-form" action="<?php echo API_PATH?>/submit/submitMessage.php" method="post">
-        <h3>Send a message</h3>
-        <input type="text" name="receiver" class="fetched-user" placeholder="Receiver..." />
+        <h3>Envoyer un message</h3>
+        <input type="text" name="receiver" class="fetched-user" placeholder="Message a..." />
         <div class="suggestions-container"></div>
-        <textarea name="message" placeholder="Your message"></textarea>
-        <button type="submit">Send</button>
+        <textarea name="message" placeholder="Votre message"></textarea>
+        <button type="submit">Envoyer</button>
     </form>
 
 

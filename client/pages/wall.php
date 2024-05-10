@@ -57,7 +57,6 @@ function loadWall($wallName)
     $context = stream_context_create($options);
     // Make the request and get the response
     $result = file_get_contents($url, false, $context);
-
     return (json_decode($result));
 }
 
@@ -69,11 +68,7 @@ $wall = loadWall($wallName);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php if (isset($_SESSION['username']) && $wallName === $_SESSION['username']) : ?>
-        <title>Votre Mur</title>
-    <?php else : ?>
-        <title>Mur de <?php echo htmlspecialchars($wallName); ?></title>
-    <?php endif; ?>
+        <title>Mur</title>
     <script src="../js/error.js"></script>
     <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
@@ -119,7 +114,6 @@ $wall = loadWall($wallName);
     </div>
     <?php
     if ($wall->message == null) : ?>
-
         <p>Utilisateur Inexistant.</p>
     <?php else : ?>
     <div class="second-section">

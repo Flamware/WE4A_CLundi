@@ -73,7 +73,7 @@ $stories = $data['stories'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C Wall </title>
+    <title>Decouvrir</title>
     <script src="../js/error.js"></script>
     <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
@@ -109,7 +109,7 @@ $stories = $data['stories'];
 displayNavBar();
 displaySearchBar();
 ?>
-<h1>General</h1>
+<h1>Decouvrir</h1>
 <!-- show three different buttons for different types of stories -->
 <body>
 <div id="error-message" class="error-message">
@@ -126,13 +126,13 @@ displaySearchBar();
     </div>
     <div class="second-section">
         <div class="story-type-selector">
-            <a href="?type=most_liked&page=1">Most Liked</a>
-            <a href="?type=most_commented&page=1">Most Commented</a>
+            <a href="?type=most_liked&page=1">Plus de like</a>
+            <a href="?type=most_commented&page=1">Plus de commentaire</a>
 
             <!-- Tag search form -->
             <form action="" method="get"> <!-- Using GET method -->
-                <input type="text" name="tags" placeholder="Search by tags (comma-separated)">
-                <input type="submit" value="Search">
+                <input type="text" name="tags" placeholder="Tag e.g. vélo,voiture">
+                <input type="submit" value="Chercher">
             </form>
         </div>
 

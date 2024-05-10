@@ -63,6 +63,29 @@ html, body {
     /* Ensure it doesn't grow beyond 70% */
     margin: 20px;
 }
+.pagination {
+    display: flex;
+    justify-content: center;
+    /* Center pagination */
+    margin-top: 20px;
+    /* Add space between pagination and content */
+}
+
+/* Pagination link styles */
+.pagination a {
+    color: #aab8c2;
+    /* Set link color */
+    text-decoration: none;
+    /* Remove underline */
+    padding: 5px 10px;
+    /* Add padding around links */
+    border: 1px solid #aab8c2;
+    /* Add border around links */
+    border-radius: 5px;
+    /* Round the corners */
+    margin: 0 5px;
+    /* Add space between links */
+}
 
 .third-section {
     flex-basis: 15%;

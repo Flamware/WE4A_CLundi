@@ -6,7 +6,7 @@ function renderBanButton($username = null) {
     <!-- Toggle button to show/hide the ban form -->
     <button class="delete-button" onclick="toggleVisibility('ban-form')">Ban User</button>
     <!-- Unban button -->
-    <button class="delete-button" onclick="submitUnbanForm('<?= $usernameValue ?>')">Unban User</button>
+    <button class="delete-button" onclick="submitUnbanForm('<?= $usernameValue ?>')">Deban User</button>
 
     <!-- Form for banning a user with a ban duration -->
     <form id="ban-form" onsubmit="submitBanForm(event)" style="display : none" method="post">

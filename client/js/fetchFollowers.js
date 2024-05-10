@@ -5,6 +5,9 @@ function fetchFollowing() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                if (data.following.length === 0) {
+                    return;
+                }
                 displayFollowing(data.following);
             } else {
                 console.error('Fetch failed:', data.message);

@@ -25,6 +25,7 @@ function renderComments( $replies = [],$comments) {
         ?>
     </span>
                 <?php
+                displayReportForm('comment', $reply->id);
                 $toggleButtonId = 'replies-' . $reply->id;
                 ?>
                 <button id="toggle-comments-<?= $reply->id ?>" onclick="toggleVisibility('<?= $toggleButtonId ?>')">Voir les commentaires</button>

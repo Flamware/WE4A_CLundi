@@ -11,12 +11,12 @@ function displayNavBar() {
                 echo '<a class="link" href="admin.php">Admin</a>';
             ?>
             <a class="link" href="main.php">Accueil</a>
+            <a class="link" href="suggestion.php">Découvrir</a>
             <div class="dropdown">
                 <a class="link">Feed</a> <!-- The visible label for the submenu -->
                 <div class="dropdown-content"> <!-- Submenu -->
                     <a class="link" href="feed.php">Votre Feed</a>
                     <a class="link" href="wall.php">Votre Mur</a>
-                    <a class="link" href="suggestion.php">Découvrir</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -32,8 +32,6 @@ function displayNavBar() {
             <?php } else { ?>
                 <a class="link" href="login.php">Connexion</a>
             <?php } ?>
-
-            <a class="link" href="about.php">À propos</a>
         </div>
     </nav>
     <?php

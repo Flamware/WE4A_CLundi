@@ -20,11 +20,12 @@ function displayFollowBar() {
                     </div>
                     <?php
                 }
+            } else {
+                ?>
+                <p>No following found</p>
+                <?php
             }
-            else {
-                echo '<p>Error: Unable to fetch following users.</p>';
-            }
-            ?>
+                ?>
         </div>
     <?php
 }

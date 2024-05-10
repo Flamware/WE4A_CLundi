@@ -1,19 +1,20 @@
 <?php
 function displayUserBar($url) {
     ?>
+        <h1>Barre d'utilisateur</h1>
         <div id="search-container">
-            <input type="text" class="fetched-user" placeholder="Search user..." />
+            <input type="text" class="fetched-user" placeholder="Chercher utilisateur..." />
             <div class="suggestions-container"></div>
-            <button id="search-button">Search</button>
+            <button id="search-button">Rechercher</button>
         </div>
 
     <div id="user-container">
-        <h>Users of Clundi :</h>
+        <h>Utilisateur de Clundi :</h>
     </div>
 
     <div id="button-container">
-        <button id="show-more-button">Show More</button>
-        <button id="show-less-button" style="display: none;">Show Less</button> <!-- Initially hidden -->
+        <button id="show-more-button">Plus</button>
+        <button id="show-less-button" style="display: none;">Moins</button> <!-- Initially hidden -->
     </div>
 
     <script>
