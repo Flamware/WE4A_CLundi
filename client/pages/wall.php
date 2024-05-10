@@ -69,7 +69,11 @@ $wall = loadWall($wallName);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Votre Mur </title>
+    <?php if (isset($_SESSION['username']) && $wallName === $_SESSION['username']) : ?>
+        <title>Votre Mur</title>
+    <?php else : ?>
+        <title>Mur de <?php echo htmlspecialchars($wallName); ?></title>
+    <?php endif; ?>
     <script src="../js/error.js"></script>
     <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
@@ -224,6 +228,7 @@ $wall = loadWall($wallName);
                     followButton.classList.toggle('follow-button', !data.isFollowing);
                 } else {
                     console.error(data.message); // Handle error messages
+                    showError(data.message); // Show error message to the user
                 }
             })
             .catch(error => {
@@ -281,6 +286,7 @@ $wall = loadWall($wallName);
                     fetchBanner();
                 } else {
                     console.error('Banner upload failed:', data.message); // Handle errors
+                    showError(data.message); // Show error message to the user
                 }
             })
             .catch(error => {

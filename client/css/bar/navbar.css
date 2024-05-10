@@ -114,6 +114,7 @@
     list-style: none; /* Remove list styling */
     padding: 0;
     box-shadow: 3px 3px 3px #000000;
+    border-radius: 0 0 10px 10px;
 }
 
 /* Show submenu on hover */

@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         showError(data.message);
                         // Update the number of likes displayed
                         document.getElementById('num-likes-' + id).textContent = data.total_likes;
+                        // change the color of the like button
+
 
                     } else {
                         // Show error message if submission failed

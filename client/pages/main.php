@@ -56,7 +56,7 @@ $stories = $data['stories'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C Wall </title>
+    <title>Main Page </title>
     <script src="../js/error.js"></script>
     <script src="../js/fetchUsers.js"></script>
     <script src="../js/fetchProfilePicture.js"></script>
