@@ -1,7 +1,7 @@
 <?php
 function displayMessageForm() {
     ?>
-    <form id="message-form" action="http://localhost/api/submit/submitMessage.php" method="post">
+    <form id="message-form" action="<?php echo API_PATH?>/submit/submitMessage.php" method="post">
         <h3>Send a message</h3>
         <input type="text" name="receiver" class="fetched-user" placeholder="Receiver..." />
         <div class="suggestions-container"></div>
