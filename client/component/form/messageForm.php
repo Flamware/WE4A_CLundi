@@ -26,7 +26,7 @@ function displayMessageForm() {
                 const formData = new FormData(messageForm); // Create FormData from the form itself
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'http://localhost/api/submit/submitMessage.php', true); // Define POST request
+                xhr.open('POST', apiPath + '/submit/submitMessage.php', true); // Define POST request
 
                 xhr.onload = function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
